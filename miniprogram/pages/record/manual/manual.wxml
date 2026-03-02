@@ -1,0 +1,133 @@
+<!-- 手动录入页 -->
+<view class="container">
+  <!-- 股票信息 -->
+  <view class="section">
+    <view class="section-title">股票信息</view>
+    
+    <view class="form-item">
+      <text class="label">股票代码/名称</text>
+      <input 
+        class="input" 
+        placeholder="输入代码或名称，如 000001 或 平安银行"
+        value="{{stockCode}}"
+        bindinput="onStockCodeInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="label">操作方向</text>
+      <view class="radio-group">
+        <view 
+          class="radio {{action === 'buy' ? 'active' : ''}}" 
+          bindtap="selectAction" 
+          data-action="buy"
+        >
+          买入
+        </view>
+        <view 
+          class="radio {{action === 'sell' ? 'active' : ''}}" 
+          bindtap="selectAction" 
+          data-action="sell"
+        >
+          卖出
+        </view>
+      </view>
+    </view>
+
+    <view class="form-row">
+      <view class="form-item half">
+        <text class="label">价格</text>
+        <input 
+          class="input" 
+          type="digit"
+          placeholder="0.00"
+          value="{{price}}"
+          bindinput="onPriceInput"
+        />
+      </view>
+      
+      <view class="form-item half">
+        <text class="label">数量</text>
+        <input 
+          class="input" 
+          type="number"
+          placeholder="0"
+          value="{{quantity}}"
+          bindinput="onQuantityInput"
+        />
+      </view>
+    </view>
+
+    <view class="form-item">
+      <text class="label">交易日期</text>
+      <picker mode="date" value="{{tradeDate}}" bindchange="onDateChange">
+        <view class="picker">{{tradeDate}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 错误类型 -->
+  <view class="section">
+    <view class="section-title">犯了什么错？（可多选）</text>
+    
+    <view class="mistake-types">
+      <view 
+        wx:for="{{mistakeTypes}}" 
+        wx:key="code"
+        class="type-tag {{item.selected ? 'selected' : ''}}"
+        bindtap="toggleMistakeType"
+        data-index="{{index}}"
+      >
+        {{item.name}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 情绪记录 -->
+  <view class="section">
+    <view class="section-title">当时情绪</view>
+    
+    <view class="emotion-list">
+      <view 
+        wx:for="{{emotions}}" 
+        wx:key="*this"
+        class="emotion-item {{emotion === item ? 'selected' : ''}}"
+        bindtap="selectEmotion"
+        data-emotion="{{item}}"
+      >
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 反思 -->
+  <view class="section">
+    <view class="section-title">一句话反思</view>
+    
+    <textarea 
+      class="textarea"
+      placeholder="当时为什么这么做？现在回头看错在哪？"
+      value="{{reflection}}"
+      bindinput="onReflectionInput"
+      maxlength="200"
+    />
+    
+    <view class="char-count">{{reflection.length}}/200</view>
+  </view>
+
+  <!-- 分享设置 -->
+  <view class="section">
+    <view class="share-option">
+      <text>匿名分享到广场</text>
+      <switch checked="{{isPublic}}" bindchange="togglePublic" color="#e94560"/>
+    </view>
+    <view class="share-tip" wx:if="{{isPublic}}">
+      分享时会隐藏股票名称和具体金额，仅展示错误类型和反思
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="footer">
+    <button class="submit-btn" bindtap="submit">记录错题</button>
+  </view>
+</view>

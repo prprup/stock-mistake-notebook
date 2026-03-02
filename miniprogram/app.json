@@ -1,0 +1,60 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/record/record",
+    "pages/record/manual/manual",
+    "pages/record/ocr/ocr",
+    "pages/mistakes/mistakes",
+    "pages/mistakes/detail/detail",
+    "pages/analysis/analysis",
+    "pages/square/square",
+    "pages/square/detail/detail",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1a1a2e",
+    "navigationBarTitleText": "错题本",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#666",
+    "selectedColor": "#e94560",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png"
+      },
+      {
+        "pagePath": "pages/mistakes/mistakes",
+        "text": "错题",
+        "iconPath": "images/book.png",
+        "selectedIconPath": "images/book-active.png"
+      },
+      {
+        "pagePath": "pages/record/record",
+        "text": "记错",
+        "iconPath": "images/plus.png",
+        "selectedIconPath": "images/plus-active.png"
+      },
+      {
+        "pagePath": "pages/square/square",
+        "text": "广场",
+        "iconPath": "images/square.png",
+        "selectedIconPath": "images/square-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/profile.png",
+        "selectedIconPath": "images/profile-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

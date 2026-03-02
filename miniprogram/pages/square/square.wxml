@@ -1,0 +1,81 @@
+<!-- 错题广场页 -->
+<view class="container">
+  <!-- 筛选标签 -->
+  <view class="filter-bar">
+    <scroll-view scroll-x class="filter-scroll">
+      <view 
+        class="filter-item {{currentFilter === 'all' ? 'active' : ''}}"
+        bindtap="setFilter"
+        data-filter="all"
+      >
+        全部
+      </view>
+      <view 
+        wx:for="{{mistakeTypes}}"
+        wx:key="code"
+        class="filter-item {{currentFilter === item.code ? 'active' : ''}}"
+        bindtap="setFilter"
+        data-filter="{{item.code}}"
+      >
+        {{item.name}}
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 本周热错 -->
+  <view class="hot-section" wx:if="{{currentFilter === 'all'}}">
+    <view class="hot-title">🔥 本周最多人犯的错误</view>
+    <view class="hot-card">
+      <view class="hot-name">{{hotMistake.name}}</view>
+      <view class="hot-count">{{hotMistake.count}} 人犯过这个错</view>
+    </view>
+  </view>
+
+  <!-- 错题列表 -->
+  <view class="mistake-list">
+    <view 
+      class="mistake-card" 
+      wx:for="{{mistakes}}" 
+      wx:key="_id"
+      bindtap="goToDetail"
+      data-id="{{item._id}}"
+    >
+      <!-- 头部：错误类型 + 时间 -->
+      <view class="card-header">
+        <view class="type-tags">
+          <text class="tag" wx:for="{{item.mistakeTypes}}" wx:key="*this" wx:for-item="type">{{type}}</text>
+        </view>
+        <text class="time">{{item.timeAgo}}</text>
+      </view>
+
+      <!-- 反思内容 -->
+      <view class="reflection">{{item.reflection}}</view>
+
+      <!-- 情绪标签 -->
+      <view class="emotion-tag" wx:if="{{item.emotion}}">
+        当时情绪：{{item.emotion}}
+      </view>
+
+      <!-- 底部：互动 -->
+      <view class="card-footer">
+        <view class="action" bindtap="likeMistake" data-id="{{item._id}}">
+          <text class="icon">{{item.isLiked ? '❤️' : '🤍'}}</text>
+          <text class="count">{{item.likes || '我也犯过'}}</text>
+        </view>
+        
+        <view class="action">
+          <text class="icon">💬</text>
+          <text class="count">{{item.comments || '评论'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{hasMore}}">
+    <text bindtap="loadMore">加载更多</text>
+  </view>
+  <view class="no-more" wx:else>
+    <text>没有更多了</text>
+  </view>
+</view>

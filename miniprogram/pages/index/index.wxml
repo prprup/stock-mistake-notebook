@@ -1,0 +1,79 @@
+<!-- 首页 -->
+<view class="container">
+  <!-- 头部统计卡片 -->
+  <view class="header-card">
+    <view class="stat-row">
+      <view class="stat-item">
+        <text class="stat-num">{{monthMistakes}}</text>
+        <text class="stat-label">本月错题</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num">{{totalMistakes}}</text>
+        <text class="stat-label">累计错题</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num">{{streakDays}}</text>
+        <text class="stat-label">连续记录</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日提醒 -->
+  <view class="section" wx:if="{{todayTip}}">
+    <view class="tip-card">
+      <text class="tip-icon">💡</text>
+      <text class="tip-text">{{todayTip}}</text>
+    </view>
+  </view>
+
+  <!-- 最常犯的错误 -->
+  <view class="section">
+    <view class="section-title">你的头号敌人</view>
+    <view class="enemy-card" wx:if="{{topMistake}}">
+      <view class="enemy-rank">TOP 1</view>
+      <view class="enemy-name">{{topMistake.name}}</view>
+      <view class="enemy-count">本月犯了 {{topMistake.count}} 次</view>
+      <view class="enemy-desc">{{topMistake.description}}</view>
+    </view>
+    <view class="empty-card" wx:else>
+      <text>还没有记录，快去记一笔吧</text>
+    </view>
+  </view>
+
+  <!-- 快速入口 -->
+  <view class="section">
+    <view class="section-title">快速记录</view>
+    <view class="quick-actions">
+      <view class="action-btn" bindtap="goToManual">
+        <text class="action-icon">✏️</text>
+        <text class="action-text">手动录入</text>
+      </view>
+      <view class="action-btn" bindtap="goToOCR">
+        <text class="action-icon">📷</text>
+        <text class="action-text">截图识别</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近错题 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">最近错题</text>
+      <text class="more" bindtap="goToMistakes">查看全部 ></text>
+    </view>
+    <view class="mistake-list">
+      <view class="mistake-item" wx:for="{{recentMistakes}}" wx:key="_id" bindtap="goToDetail" data-id="{{item._id}}">
+        <view class="mistake-header">
+          <text class="stock-name">{{item.stockName}}</text>
+          <text class="mistake-date">{{item.formattedDate}}</text>
+        </view>
+        <view class="mistake-types">
+          <text class="type-tag" wx:for="{{item.mistakeTypes}}" wx:key="*this" wx:for-item="type">{{type}}</text>
+        </view>
+        <view class="mistake-reflection" wx:if="{{item.reflection}}">
+          {{item.reflection}}
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
