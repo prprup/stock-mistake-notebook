@@ -1,0 +1,17 @@
+{
+  "name": "stock-mistake-notebook",
+  "version": "1.0.0",
+  "description": "A股错题本小程序 - uni-app版本",
+  "main": "main.js",
+  "scripts": {
+    "dev:mp-weixin": "uni",
+    "build:mp-weixin": "uni build"
+  },
+  "dependencies": {
+    "@dcloudio/uni-app": "3.0.0",
+    "@dcloudio/uni-mp-weixin": "3.0.0"
+  },
+  "devDependencies": {
+    "@dcloudio/vite-plugin-uni": "3.0.0"
+  }
+}

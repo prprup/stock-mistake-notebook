@@ -1,0 +1,108 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "错题本"
+      }
+    },
+    {
+      "path": "pages/record/record",
+      "style": {
+        "navigationBarTitleText": "记录错题"
+      }
+    },
+    {
+      "path": "pages/record/manual",
+      "style": {
+        "navigationBarTitleText": "手动录入"
+      }
+    },
+    {
+      "path": "pages/record/ocr",
+      "style": {
+        "navigationBarTitleText": "截图识别"
+      }
+    },
+    {
+      "path": "pages/mistakes/mistakes",
+      "style": {
+        "navigationBarTitleText": "我的错题"
+      }
+    },
+    {
+      "path": "pages/mistakes/detail",
+      "style": {
+        "navigationBarTitleText": "错题详情"
+      }
+    },
+    {
+      "path": "pages/analysis/analysis",
+      "style": {
+        "navigationBarTitleText": "统计分析"
+      }
+    },
+    {
+      "path": "pages/square/square",
+      "style": {
+        "navigationBarTitleText": "错题广场"
+      }
+    },
+    {
+      "path": "pages/square/detail",
+      "style": {
+        "navigationBarTitleText": "错题详情"
+      }
+    },
+    {
+      "path": "pages/profile/profile",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "错题本",
+    "navigationBarBackgroundColor": "#1a1a2e",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#666",
+    "selectedColor": "#e94560",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/images/home.png",
+        "selectedIconPath": "static/images/home-active.png"
+      },
+      {
+        "pagePath": "pages/mistakes/mistakes",
+        "text": "错题",
+        "iconPath": "static/images/book.png",
+        "selectedIconPath": "static/images/book-active.png"
+      },
+      {
+        "pagePath": "pages/record/record",
+        "text": "记错",
+        "iconPath": "static/images/plus.png",
+        "selectedIconPath": "static/images/plus-active.png"
+      },
+      {
+        "pagePath": "pages/square/square",
+        "text": "广场",
+        "iconPath": "static/images/square.png",
+        "selectedIconPath": "static/images/square-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "static/images/profile.png",
+        "selectedIconPath": "static/images/profile-active.png"
+      }
+    ]
+  }
+}
