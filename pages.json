@@ -49,18 +49,6 @@
       }
     },
     {
-      "path": "pages/square/square",
-      "style": {
-        "navigationBarTitleText": "错题广场"
-      }
-    },
-    {
-      "path": "pages/square/detail",
-      "style": {
-        "navigationBarTitleText": "错题详情"
-      }
-    },
-    {
       "path": "pages/profile/profile",
       "style": {
         "navigationBarTitleText": "我的"
@@ -96,12 +84,6 @@
         "text": "记错",
         "iconPath": "static/images/plus.png",
         "selectedIconPath": "static/images/plus-active.png"
-      },
-      {
-        "pagePath": "pages/square/square",
-        "text": "广场",
-        "iconPath": "static/images/square.png",
-        "selectedIconPath": "static/images/square-active.png"
       },
       {
         "pagePath": "pages/profile/profile",
