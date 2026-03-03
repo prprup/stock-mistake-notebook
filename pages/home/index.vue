@@ -81,6 +81,7 @@
 
 <script>
 import { login, checkLogin, getUserInfo } from '@/utils/auth.js'
+import { getHomeStats } from '@/utils/homeApi.js'
 
 export default {
   data() {
@@ -116,32 +117,24 @@ export default {
         }
       }
     },
-    loadData() {
-      this.monthMistakes = 12
-      this.totalMistakes = 47
-      this.streakDays = 5
-      this.todayTip = '你本月追高错误比上月增加了3次，注意控制冲动'
-      this.topMistake = {
-        name: '追高买入',
-        count: 8,
-        description: '看到股价上涨就忍不住买入，结果买在短期高点'
+    async loadData() {
+      uni.showLoading({ title: '加载中' })
+      
+      const result = await getHomeStats()
+      
+      uni.hideLoading()
+      
+      if (result.success) {
+        const data = result.data
+        this.monthMistakes = data.monthMistakes
+        this.totalMistakes = data.totalMistakes
+        this.streakDays = data.streakDays
+        this.todayTip = data.todayTip
+        this.topMistake = data.topMistake
+        this.recentMistakes = data.recentMistakes
+      } else {
+        uni.showToast({ title: result.error || '加载失败', icon: 'none' })
       }
-      this.recentMistakes = [
-        {
-          _id: '1',
-          stockName: '某科技股',
-          formattedDate: '03-01',
-          mistakeTypes: ['追高买入', '仓位过重'],
-          reflection: '看到新闻说利好就冲进去了，没有等回调'
-        },
-        {
-          _id: '2',
-          stockName: '某新能源股',
-          formattedDate: '02-28',
-          mistakeTypes: ['恐慌割肉'],
-          reflection: '早盘低开就慌了，结果下午反弹了5%'
-        }
-      ]
     },
     goToManual() {
       uni.navigateTo({ url: '/pages/record/manual' })
