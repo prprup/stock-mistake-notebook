@@ -80,6 +80,8 @@
 </template>
 
 <script>
+import { login, checkLogin, getUserInfo } from '@/utils/auth.js'
+
 export default {
   data() {
     return {
@@ -88,16 +90,32 @@ export default {
       streakDays: 0,
       todayTip: '',
       topMistake: null,
-      recentMistakes: []
+      recentMistakes: [],
+      isLogin: false,
+      userInfo: null
     }
   },
   onLoad() {
+    this.checkLoginStatus()
     this.loadData()
   },
   onShow() {
     this.loadData()
   },
   methods: {
+    async checkLoginStatus() {
+      if (checkLogin()) {
+        this.isLogin = true
+        this.userInfo = getUserInfo()
+      } else {
+        // 未登录，自动调用登录
+        const result = await login()
+        if (result.success) {
+          this.isLogin = true
+          this.userInfo = result.data
+        }
+      }
+    },
     loadData() {
       this.monthMistakes = 12
       this.totalMistakes = 47

@@ -49,6 +49,12 @@
       }
     },
     {
+      "path": "pages/analysis/kline",
+      "style": {
+        "navigationBarTitleText": "K线分析"
+      }
+    },
+    {
       "path": "pages/profile/profile",
       "style": {
         "navigationBarTitleText": "我的"
