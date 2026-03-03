@@ -1,9 +1,3 @@
-// 云开发初始化
-const cloud = uniCloud.init({
-  provider: 'wx',
-  spaceId: '' // 后续填入云开发环境 ID
-})
-
 // 用户登录
 export const login = async () => {
   try {
