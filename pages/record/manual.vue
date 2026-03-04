@@ -5,7 +5,7 @@
       <view class="form-item stock-search">
         <text class="label">股票代码/名称</text>
         <view class="search-box">
-          <input class="input" placeholder="输入代码或名称搜索" v-model="stockSearchKey" @input="onStockSearch" @focus="onSearchFocus"/>
+          <input class="input" placeholder="输入代码或名称搜索" v-model="stockSearchKey" @input="onStockSearch" @focus="onSearchFocus" />
           <text class="clear-btn" v-if="stockSearchKey" @click="clearSearch">×</text>
         </view>
         <view class="search-results" v-if="showSearchResults && searchResults.length > 0">
@@ -21,7 +21,7 @@
           <text>未找到相关股票</text>
         </view>
       </view>
-      
+
       <view class="selected-stock" v-if="selectedStock.tsCode">
         <view class="selected-info">
           <text class="selected-name">{{selectedStock.name}}</text>
@@ -98,6 +98,7 @@ export default {
       price: '',
       quantity: '',
       tradeDate: '',
+      planId: '',
       mistakeTypes: [
         { code: 'chase_high', name: '追高买入', selected: false },
         { code: 'panic_sell', name: '恐慌割肉', selected: false },
@@ -113,7 +114,6 @@ export default {
       emotions: ['恐慌', '贪婪', '犹豫', '冲动', '自信', '后悔', '平静'],
       emotion: '',
       reflection: '',
-      planId: '',
       searchTimer: null
     }
   },
@@ -133,8 +133,6 @@ export default {
       this.action = options.action || 'buy'
       this.price = options.planPrice || ''
     }
-  },
-    this.tradeDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
   },
   methods: {
     onStockSearch(e) {
@@ -230,7 +228,6 @@ export default {
 .form-row .form-item { flex: 1; }
 .label { display: block; font-size: 26rpx; color: #666; margin-bottom: 12rpx; }
 
-/* 股票搜索 */
 .stock-search { position: relative; }
 .search-box { position: relative; }
 .input { height: 80rpx; background: #f8f8f8; border-radius: 12rpx; padding: 0 60rpx 0 24rpx; font-size: 28rpx; color: #333; width: 100%; box-sizing: border-box; }
@@ -244,7 +241,6 @@ export default {
 .stock-ts { font-size: 24rpx; color: #666; }
 .search-results.empty { padding: 40rpx; text-align: center; color: #999; font-size: 28rpx; }
 
-/* 已选股票 */
 .selected-stock { display: flex; justify-content: space-between; align-items: center; background: #f8f8f8; border-radius: 12rpx; padding: 20rpx 24rpx; margin-bottom: 24rpx; }
 .selected-info { display: flex; flex-direction: column; }
 .selected-name { font-size: 32rpx; color: #333; font-weight: 500; }
