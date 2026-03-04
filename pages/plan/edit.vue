@@ -77,7 +77,7 @@
     </view>
 
     <view class="section">
-      <view class="section-title">交易理由</text>
+      <view class="section-title">交易理由</view>
       <textarea class="textarea" placeholder="为什么计划这笔交易？基于什么分析？" v-model="reason" maxlength="300" />
       <view class="char-count">{{reason.length}}/300</view>
     </view>
