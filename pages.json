@@ -55,18 +55,6 @@
       }
     },
     {
-      "path": "pages/analysis/analysis",
-      "style": {
-        "navigationBarTitleText": "统计分析"
-      }
-    },
-    {
-      "path": "pages/analysis/kline",
-      "style": {
-        "navigationBarTitleText": "K线分析"
-      }
-    },
-    {
       "path": "pages/plan/plan",
       "style": {
         "navigationBarTitleText": "交易预案"
