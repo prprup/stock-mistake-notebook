@@ -52,6 +52,10 @@
           <text class="action-icon">📷</text>
           <text class="action-text">截图识别</text>
         </view>
+        <view class="action-btn" @click="goToPlan">
+          <text class="action-icon">📝</text>
+          <text class="action-text">交易预案</text>
+        </view>
       </view>
     </view>
 
@@ -142,6 +146,9 @@ export default {
     goToOCR() {
       uni.navigateTo({ url: '/pages/record/ocr' })
     },
+    goToPlan() {
+      uni.navigateTo({ url: '/pages/plan/plan' })
+    },
     goToMistakes() {
       uni.switchTab({ url: '/pages/mistakes/mistakes' })
     },
@@ -172,10 +179,10 @@ export default {
 .enemy-count { font-size: 28rpx; color: #e94560; margin-bottom: 20rpx; }
 .enemy-desc { font-size: 26rpx; color: #666; line-height: 1.6; }
 .empty-card { background: #fff; border-radius: 16rpx; padding: 60rpx; text-align: center; color: #999; font-size: 28rpx; }
-.quick-actions { display: flex; gap: 20rpx; }
-.action-btn { flex: 1; background: #fff; border-radius: 16rpx; padding: 40rpx; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05); }
-.action-icon { font-size: 60rpx; margin-bottom: 16rpx; }
-.action-text { font-size: 28rpx; color: #333; }
+.quick-actions { display: flex; gap: 16rpx; }
+.action-btn { flex: 1; background: #fff; border-radius: 16rpx; padding: 30rpx; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05); }
+.action-icon { font-size: 48rpx; margin-bottom: 12rpx; }
+.action-text { font-size: 26rpx; color: #333; }
 .mistake-list { background: #fff; border-radius: 16rpx; overflow: hidden; }
 .mistake-item { padding: 30rpx; border-bottom: 1rpx solid #f0f0f0; }
 .mistake-item:last-child { border-bottom: none; }
