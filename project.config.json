@@ -1,6 +1,6 @@
 {
   "cloudfunctionRoot": "cloudfunctions/",
-  "miniprogramRoot": "dist/dev/mp-weixin/",
+  "miniprogramRoot": "",
   "setting": {
     "urlCheck": false,
     "es6": true,
