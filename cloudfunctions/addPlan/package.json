@@ -1,0 +1,9 @@
+{
+  "name": "addPlan",
+  "version": "1.0.0",
+  "description": "添加交易预案",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

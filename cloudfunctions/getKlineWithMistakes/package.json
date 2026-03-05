@@ -1,0 +1,9 @@
+{
+  "name": "getKlineWithMistakes",
+  "version": "1.0.0",
+  "description": "获取带错题标记的K线数据",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}
