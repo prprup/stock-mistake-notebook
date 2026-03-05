@@ -1,0 +1,21 @@
+# 依赖目录
+node_modules/
+
+# 编译输出
+dist/
+unpackage/
+
+# 日志
+*.log
+
+# 本地环境配置
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
