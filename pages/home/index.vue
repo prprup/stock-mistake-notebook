@@ -4,15 +4,15 @@
     <view class="header-card">
       <view class="stat-row">
         <view class="stat-item">
-          <text class="stat-num">{{monthMistakes}}</text>
+          <text class="stat-num" :class="{ 'stat-empty': monthMistakes === 0 }">{{monthMistakes}}</text>
           <text class="stat-label">本月错题</text>
         </view>
         <view class="stat-item">
-          <text class="stat-num">{{totalMistakes}}</text>
+          <text class="stat-num" :class="{ 'stat-empty': totalMistakes === 0 }">{{totalMistakes}}</text>
           <text class="stat-label">累计错题</text>
         </view>
         <view class="stat-item">
-          <text class="stat-num">{{streakDays}}</text>
+          <text class="stat-num" :class="{ 'stat-empty': streakDays === 0 }">{{streakDays}}</text>
           <text class="stat-label">连续记录</text>
         </view>
       </view>
@@ -35,8 +35,19 @@
         <view class="enemy-count">本月犯了 {{topMistake.count}} 次</view>
         <view class="enemy-desc">{{topMistake.description}}</view>
       </view>
-      <view class="empty-card" v-else>
-        <text>还没有记录，快去记一笔吧</text>
+      <!-- 空状态 - 带插画和行动按钮 -->
+      <view class="enemy-empty-card" v-else>
+        <view class="empty-illustration">
+          <view class="monster-icon">👾</view>
+          <view class="shadow-line"></view>
+        </view>
+        <text class="empty-title">暂无头号敌人</text>
+        <text class="empty-desc">快去记一笔，揪出亏损元凶</text>
+        
+        <view class="empty-action-btn" @click="goToManual">
+          <text class="btn-icon">+</text>
+          <text class="btn-text">记录第一笔交易</text>
+        </view>
       </view>
     </view>
 
@@ -45,15 +56,21 @@
       <view class="section-title">快速记录</view>
       <view class="quick-actions">
         <view class="action-btn" @click="goToManual">
-          <text class="action-icon">✏️</text>
+          <view class="action-icon-wrap">
+            <text class="action-icon">✎</text>
+          </view>
           <text class="action-text">手动录入</text>
         </view>
         <view class="action-btn" @click="goToOCR">
-          <text class="action-icon">📷</text>
+          <view class="action-icon-wrap">
+            <text class="action-icon">📷</text>
+          </view>
           <text class="action-text">截图识别</text>
         </view>
         <view class="action-btn" @click="goToPlan">
-          <text class="action-icon">📝</text>
+          <view class="action-icon-wrap">
+            <text class="action-icon">📝</text>
+          </view>
           <text class="action-text">交易预案</text>
         </view>
       </view>
@@ -63,9 +80,11 @@
     <view class="section">
       <view class="section-header">
         <text class="section-title">最近错题</text>
-        <text class="more" @click="goToMistakes">查看全部 ></text>
+        <text class="more" @click="goToMistakes" v-if="recentMistakes.length > 0">查看全部 ></text>
       </view>
-      <view class="mistake-list">
+      
+      <!-- 有数据时显示列表 -->
+      <view class="mistake-list" v-if="recentMistakes.length > 0">
         <view class="mistake-item" v-for="item in recentMistakes" :key="item._id" @click="goToDetail(item._id)">
           <view class="mistake-header">
             <text class="stock-name">{{item.stockName}}</text>
@@ -77,6 +96,17 @@
           <view class="mistake-reflection" v-if="item.reflection">
             {{item.reflection}}
           </view>
+        </view>
+      </view>
+      
+      <!-- 空状态 - 占位卡片 -->
+      <view class="mistake-empty-placeholder" v-else @click="goToMistakes">
+        <view class="placeholder-card">
+          <view class="placeholder-lines">
+            <view class="placeholder-line short"></view>
+            <view class="placeholder-line long"></view>
+          </view>
+          <text class="placeholder-text">第一笔错题将显示在这里</text>
         </view>
       </view>
     </view>
@@ -160,9 +190,9 @@ export default {
 </script>
 
 <style scoped>
-.container { padding: 20rpx; background: #F5F7FA; min-height: 100vh; }
+.container { padding: 24rpx; background: #F5F7FA; min-height: 100vh; }
 
-/* 头部统计卡片 - 卡片式设计 */
+/* 头部统计卡片 */
 .header-card { 
   background: #FFFFFF; 
   border-radius: 24rpx; 
@@ -177,6 +207,12 @@ export default {
   font-weight: 700; 
   color: #1E3A8A; 
   font-family: "DIN Alternate", "Roboto Mono", monospace;
+  transition: color 0.3s;
+}
+/* 无数据时显示灰色 */
+.stat-num.stat-empty {
+  color: #9CA3AF;
+  opacity: 0.6;
 }
 .stat-label { font-size: 24rpx; color: #6B7280; margin-top: 12rpx; }
 
@@ -205,7 +241,7 @@ export default {
 }
 .more { font-size: 26rpx; color: #3B82F6; }
 
-/* 头号敌人卡片 */
+/* 头号敌人 - 有数据时 */
 .enemy-card { 
   background: #FFFFFF; 
   border-radius: 20rpx; 
@@ -229,14 +265,71 @@ export default {
 .enemy-name { font-size: 48rpx; font-weight: bold; color: #111827; margin: 20rpx 0; }
 .enemy-count { font-size: 28rpx; color: #DC2626; margin-bottom: 20rpx; font-weight: 600; }
 .enemy-desc { font-size: 26rpx; color: #6B7280; line-height: 1.6; }
-.empty-card { 
-  background: #FFFFFF; 
-  border-radius: 20rpx; 
-  padding: 80rpx; 
-  text-align: center; 
-  color: #9CA3AF; 
+
+/* 头号敌人 - 空状态（带渐变背景） */
+.enemy-empty-card { 
+  background: linear-gradient(135deg, #F0F4FF, #F5F7FA); 
+  border-radius: 24rpx; 
+  padding: 60rpx 48rpx; 
+  text-align: center;
+  border: 1rpx solid #E0E7FF;
+  position: relative;
+  overflow: hidden;
+}
+.empty-illustration {
+  position: relative;
+  margin-bottom: 32rpx;
+}
+.monster-icon {
+  font-size: 80rpx;
+  display: block;
+  margin-bottom: 16rpx;
+  opacity: 0.8;
+}
+.shadow-line {
+  width: 60rpx;
+  height: 8rpx;
+  background: linear-gradient(90deg, transparent, #CBD5E1, transparent);
+  border-radius: 4rpx;
+  margin: 0 auto;
+}
+.empty-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #1E3A8A;
+  display: block;
+  margin-bottom: 12rpx;
+}
+.empty-desc {
+  font-size: 26rpx;
+  color: #6B7280;
+  display: block;
+  margin-bottom: 32rpx;
+}
+/* 琥珀色行动按钮 */
+.empty-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  color: #fff;
+  padding: 24rpx 48rpx;
+  border-radius: 40rpx;
   font-size: 28rpx;
-  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+  font-weight: 600;
+  box-shadow: 0 4rpx 16rpx rgba(245, 158, 11, 0.3);
+  transition: transform 0.1s;
+}
+.empty-action-btn:active {
+  transform: scale(0.98);
+}
+.btn-icon {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+.btn-text {
+  font-size: 28rpx;
 }
 
 /* 快速记录 */
@@ -245,7 +338,7 @@ export default {
   flex: 1; 
   background: linear-gradient(135deg, #3B82F6, #1E3A8A); 
   border-radius: 16rpx; 
-  padding: 36rpx 24rpx; 
+  padding: 32rpx 20rpx; 
   display: flex; 
   flex-direction: column; 
   align-items: center;
@@ -253,10 +346,24 @@ export default {
   transition: transform 0.1s;
 }
 .action-btn:active { transform: scale(0.95); }
-.action-icon { font-size: 44rpx; margin-bottom: 12rpx; }
+/* 图标白色圆形背景 */
+.action-icon-wrap {
+  width: 64rpx;
+  height: 64rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+}
+.action-icon { 
+  font-size: 32rpx; 
+  color: #FFFFFF;
+}
 .action-text { font-size: 26rpx; color: #FFFFFF; font-weight: 500; }
 
-/* 最近错题列表 */
+/* 最近错题列表 - 有数据 */
 .mistake-list { 
   background: #FFFFFF; 
   border-radius: 20rpx; 
@@ -278,4 +385,42 @@ export default {
   font-weight: 500;
 }
 .mistake-reflection { font-size: 26rpx; color: #6B7280; line-height: 1.5; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+/* 最近错题 - 空状态占位卡片 */
+.mistake-empty-placeholder {
+  padding: 0;
+}
+.placeholder-card {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 48rpx;
+  border: 2rpx dashed #E5E7EB;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.placeholder-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+  width: 100%;
+  max-width: 300rpx;
+}
+.placeholder-line {
+  height: 16rpx;
+  background: #F3F4F6;
+  border-radius: 8rpx;
+}
+.placeholder-line.short {
+  width: 40%;
+}
+.placeholder-line.long {
+  width: 70%;
+}
+.placeholder-text {
+  font-size: 26rpx;
+  color: #9CA3AF;
+}
 </style>
