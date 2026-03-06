@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import { getMistakeDetail, deleteMistake } from '@/utils/mistakeApi.js'
+
 export default {
   data() {
     return {
@@ -61,35 +63,53 @@ export default {
     }
   },
   onLoad(options) {
+    this.mistakeId = options.id
     this.loadDetail(options.id)
   },
   methods: {
-    loadDetail(id) {
-      // 模拟数据
-      this.mistake = {
-        _id: id,
-        stockName: '平安银行',
-        stockCode: '000001',
-        tradeDate: '2024-03-01',
-        action: 'buy',
-        price: 12.50,
-        quantity: 1000,
-        mistakeTypes: ['追高买入', '仓位过重'],
-        emotion: '贪婪',
-        reflection: '看到新闻说利好就冲进去了，没有等回调。以后要先冷静分析，不要被消息带节奏。'
+    async loadDetail(id) {
+      uni.showLoading({ title: '加载中...' })
+      const res = await getMistakeDetail(id)
+      uni.hideLoading()
+      
+      if (res.success) {
+        const data = res.data
+        // 字段映射，适配页面显示
+        this.mistake = {
+          _id: data._id,
+          stockName: data.stockName,
+          stockCode: data.stockCode,
+          tradeDate: data.date || data.createTime,
+          action: data.action || 'buy',
+          price: data.price || 0,
+          quantity: data.quantity || 0,
+          mistakeTypes: data.mistakeTypes || [],
+          emotion: data.emotion || '',
+          reflection: data.reflection || ''
+        }
+      } else {
+        uni.showToast({ title: res.error || '加载失败', icon: 'none' })
       }
     },
     editMistake() {
       uni.showToast({ title: '编辑功能开发中', icon: 'none' })
     },
-    deleteMistake() {
+    async deleteMistake() {
       uni.showModal({
         title: '确认删除',
         content: '删除后无法恢复，是否继续？',
-        success: (res) => {
+        success: async (res) => {
           if (res.confirm) {
-            uni.showToast({ title: '已删除', icon: 'success' })
-            setTimeout(() => uni.navigateBack(), 1500)
+            uni.showLoading({ title: '删除中...' })
+            const result = await deleteMistake(this.mistakeId)
+            uni.hideLoading()
+            
+            if (result.success) {
+              uni.showToast({ title: '已删除', icon: 'success' })
+              setTimeout(() => uni.navigateBack(), 1500)
+            } else {
+              uni.showToast({ title: result.error || '删除失败', icon: 'none' })
+            }
           }
         }
       })
