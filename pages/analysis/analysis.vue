@@ -3,15 +3,15 @@
     <!-- 统计概览 -->
     <view class="stats-overview">
       <view class="stat-card">
-        <text class="stat-value">{{stats.totalMistakes}}</text>
+        <text class="stat-value" :class="{ 'stat-empty': stats.totalMistakes === 0 }">{{stats.totalMistakes}}</text>
         <text class="stat-label">总错题数</text>
       </view>
       <view class="stat-card">
-        <text class="stat-value">{{stats.thisMonth}}</text>
+        <text class="stat-value" :class="{ 'stat-empty': stats.thisMonth === 0 }">{{stats.thisMonth}}</text>
         <text class="stat-label">本月错题</text>
       </view>
       <view class="stat-card">
-        <text class="stat-value">{{stats.improvement}}%</text>
+        <text class="stat-value" :class="{ 'stat-empty': stats.totalMistakes === 0 }">{{stats.improvement}}%</text>
         <text class="stat-label">改进率</text>
       </view>
     </view>
@@ -19,10 +19,10 @@
     <!-- 错误类型分布 -->
     <view class="section">
       <view class="section-title">错误类型分布</view>
-      <view class="chart-placeholder">
-        <text>图表区域（需接入图表库）</text>
+      <view class="chart-placeholder" v-if="typeRank.length === 0">
+        <text>暂无数据</text>
       </view>
-      <view class="type-rank">
+      <view class="type-rank" v-else>
         <view class="rank-item" v-for="(item, index) in typeRank" :key="item.type">
           <view class="rank-num">{{index + 1}}</view>
           <view class="rank-info">
@@ -40,14 +40,18 @@
     <view class="section">
       <view class="section-title">错误趋势（近6个月）</view>
       <view class="chart-placeholder">
-        <text>折线图区域</text>
+        <text>图表区域（需接入图表库）</text>
       </view>
     </view>
 
     <!-- 情绪分析 -->
     <view class="section">
       <view class="section-title">情绪与错误关联</view>
-      <view class="emotion-list">
+      <view class="emotion-empty" v-if="emotionStats.length === 0">
+        <text class="empty-text">暂无情绪数据</text>
+        <text class="empty-tip">记录错题时添加情绪标签，查看分析</text>
+      </view>
+      <view class="emotion-list" v-else>
         <view class="emotion-item" v-for="item in emotionStats" :key="item.emotion">
           <text class="emotion-name">{{item.emotion}}</text>
           <text class="emotion-count">{{item.count}}次</text>
@@ -59,27 +63,42 @@
 </template>
 
 <script>
+import { getAnalysisStats } from '@/utils/analysisApi.js'
+
 export default {
   data() {
     return {
       stats: {
-        totalMistakes: 47,
-        thisMonth: 12,
-        improvement: 15
+        totalMistakes: 0,
+        thisMonth: 0,
+        improvement: 0
       },
-      typeRank: [
-        { type: '追高买入', count: 18, percent: 100 },
-        { type: '恐慌割肉', count: 12, percent: 67 },
-        { type: '该止损没止损', count: 8, percent: 44 },
-        { type: '仓位过重', count: 5, percent: 28 },
-        { type: '频繁交易', count: 4, percent: 22 }
-      ],
-      emotionStats: [
-        { emotion: '贪婪', count: 20, rate: 42 },
-        { emotion: '恐慌', count: 15, rate: 32 },
-        { emotion: '冲动', count: 8, rate: 17 },
-        { emotion: '犹豫', count: 4, rate: 9 }
-      ]
+      typeRank: [],
+      emotionStats: []
+    }
+  },
+  onLoad() {
+    this.loadAnalysisData()
+  },
+  onShow() {
+    this.loadAnalysisData()
+  },
+  methods: {
+    async loadAnalysisData() {
+      uni.showLoading({ title: '加载中' })
+      
+      const result = await getAnalysisStats()
+      
+      uni.hideLoading()
+      
+      if (result.success) {
+        const data = result.data
+        this.stats = data.stats || { totalMistakes: 0, thisMonth: 0, improvement: 0 }
+        this.typeRank = data.typeRank || []
+        this.emotionStats = data.emotionStats || []
+      } else {
+        uni.showToast({ title: result.error || '加载失败', icon: 'none' })
+      }
     }
   }
 }
@@ -102,6 +121,11 @@ export default {
   color: #1E3A8A; 
   display: block;
   font-family: "DIN Alternate", "Roboto Mono", monospace;
+  transition: color 0.3s;
+}
+.stat-value.stat-empty {
+  color: #9CA3AF;
+  opacity: 0.6;
 }
 .stat-label { font-size: 24rpx; color: #6B7280; margin-top: 12rpx; display: block; }
 .section { 
@@ -180,5 +204,19 @@ export default {
   display: block; 
   margin-top: 10rpx;
   font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
+.emotion-empty {
+  text-align: center;
+  padding: 60rpx 40rpx;
+}
+.empty-text {
+  font-size: 28rpx;
+  color: #9CA3AF;
+  display: block;
+  margin-bottom: 12rpx;
+}
+.empty-tip {
+  font-size: 24rpx;
+  color: #D1D5DB;
 }
 </style>
