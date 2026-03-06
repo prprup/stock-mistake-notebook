@@ -103,7 +103,7 @@
 
 <script>
 import { getUserStats } from '@/utils/userApi.js'
-import { checkLogin, login, getUserInfo } from '@/utils/auth.js'
+import { checkLogin, login, getUserInfo, updateUserInfo } from '@/utils/auth.js'
 
 export default {
   data() {
@@ -165,6 +165,46 @@ export default {
     handleAvatarClick() {
       if (!this.isLogin) {
         this.handleLogin()
+        return
+      }
+      this.chooseAndUploadAvatar()
+    },
+    chooseAndUploadAvatar() {
+      uni.chooseMedia({
+        count: 1,
+        mediaType: ['image'],
+        sourceType: ['album', 'camera'],
+        success: (res) => {
+          const tempFilePath = res.tempFiles[0].tempFilePath
+          this.uploadAvatar(tempFilePath)
+        }
+      })
+    },
+    async uploadAvatar(filePath) {
+      uni.showLoading({ title: '上传中...' })
+      
+      const cloudPath = `avatar/${Date.now()}_${Math.random().toString(36).slice(2)}.jpg`
+      
+      try {
+        const uploadRes = await uniCloud.uploadFile({
+          filePath: filePath,
+          cloudPath: cloudPath
+        })
+        
+        const avatarUrl = uploadRes.fileID
+        const updateRes = await updateUserInfo({ avatarUrl })
+        
+        if (updateRes.success) {
+          this.user.avatarUrl = avatarUrl
+          uni.showToast({ title: '头像更新成功', icon: 'success' })
+        } else {
+          uni.showToast({ title: '更新失败', icon: 'none' })
+        }
+      } catch (err) {
+        uni.showToast({ title: '上传失败', icon: 'none' })
+        console.error('头像上传失败:', err)
+      } finally {
+        uni.hideLoading()
       }
     },
     goToAnalysis() {
