@@ -125,21 +125,21 @@ export default {
 </script>
 
 <style scoped>
-.container { background: #f5f5f5; min-height: 100vh; padding-bottom: 40rpx; }
-.user-card { background: #fff; padding: 60rpx 40rpx; display: flex; align-items: center; gap: 30rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06); }
-.avatar { width: 120rpx; height: 120rpx; background: #f5f5f5; border-radius: 60rpx; display: flex; align-items: center; justify-content: center; font-size: 60rpx; }
+.container { background: #f8fafc; min-height: 100vh; padding-bottom: 40rpx; }
+.user-card { background: #1e293b; padding: 60rpx 40rpx; display: flex; align-items: center; gap: 30rpx; }
+.avatar { width: 120rpx; height: 120rpx; background: rgba(255,255,255,0.1); border-radius: 60rpx; display: flex; align-items: center; justify-content: center; font-size: 60rpx; }
 .user-info { flex: 1; }
-.nickname { font-size: 40rpx; font-weight: bold; color: #333; display: block; }
-.user-id { font-size: 26rpx; color: #999; margin-top: 10rpx; display: block; }
+.nickname { font-size: 40rpx; font-weight: bold; color: #fff; display: block; }
+.user-id { font-size: 26rpx; color: #94a3b8; margin-top: 10rpx; display: block; }
 .stats-card { background: #fff; border-radius: 20rpx; margin: 20rpx 30rpx 30rpx; padding: 40rpx; display: flex; box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.05); }
 .stat-item { flex: 1; text-align: center; }
-.stat-value { font-size: 40rpx; font-weight: bold; color: #e94560; display: block; }
-.stat-label { font-size: 24rpx; color: #666; margin-top: 10rpx; display: block; }
+.stat-value { font-size: 40rpx; font-weight: bold; color: #2563eb; display: block; }
+.stat-label { font-size: 24rpx; color: #64748b; margin-top: 10rpx; display: block; }
 .menu-list { background: #fff; border-radius: 20rpx; margin: 0 30rpx; overflow: hidden; }
-.menu-item { display: flex; align-items: center; padding: 30rpx; border-bottom: 1rpx solid #f5f5f5; }
+.menu-item { display: flex; align-items: center; padding: 30rpx; border-bottom: 1rpx solid #f1f5f9; }
 .menu-item:last-child { border-bottom: none; }
 .menu-icon { font-size: 40rpx; margin-right: 20rpx; }
-.menu-text { flex: 1; font-size: 30rpx; color: #333; }
-.arrow { font-size: 28rpx; color: #ccc; }
-.version { text-align: center; font-size: 24rpx; color: #999; margin-top: 60rpx; }
+.menu-text { flex: 1; font-size: 30rpx; color: #1e293b; }
+.arrow { font-size: 28rpx; color: #cbd5e1; }
+.version { text-align: center; font-size: 24rpx; color: #94a3b8; margin-top: 60rpx; }
 </style>

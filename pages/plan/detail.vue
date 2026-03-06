@@ -165,39 +165,39 @@ export default {
 </script>
 
 <style scoped>
-.container { background: #f5f5f5; min-height: 100vh; padding: 20rpx; padding-bottom: 140rpx; }
+.container { background: #f8fafc; min-height: 100vh; padding: 20rpx; padding-bottom: 140rpx; }
 .plan-card { background: #fff; border-radius: 16rpx; padding: 30rpx; }
 .card-header { display: flex; align-items: center; gap: 20rpx; margin-bottom: 30rpx; }
-.date-badge { background: #f8f8f8; border-radius: 12rpx; padding: 16rpx 20rpx; display: flex; flex-direction: column; align-items: center; min-width: 80rpx; border: 1rpx solid #eee; }
-.month { font-size: 20rpx; color: #999; }
-.day { font-size: 36rpx; font-weight: bold; color: #333; }
+.date-badge { background: #f8fafc; border-radius: 12rpx; padding: 16rpx 20rpx; display: flex; flex-direction: column; align-items: center; min-width: 80rpx; border: 1rpx solid #e2e8f0; }
+.month { font-size: 20rpx; color: #94a3b8; }
+.day { font-size: 36rpx; font-weight: bold; color: #1e293b; }
 .stock-info { flex: 1; }
-.stock-name { font-size: 32rpx; font-weight: bold; color: #333; display: block; }
-.stock-code { font-size: 24rpx; color: #999; margin-top: 6rpx; display: block; }
+.stock-name { font-size: 32rpx; font-weight: bold; color: #1e293b; display: block; }
+.stock-code { font-size: 24rpx; color: #94a3b8; margin-top: 6rpx; display: block; }
 .status-tag { padding: 8rpx 20rpx; border-radius: 30rpx; font-size: 22rpx; }
-.status-tag.pending { background: #fff3e5; color: #ff9500; }
-.status-tag.executed { background: #e5f5e5; color: #52c41a; }
-.status-tag.cancelled { background: #f5f5f5; color: #999; }
+.status-tag.pending { background: #fff7ed; color: #f97316; }
+.status-tag.executed { background: #f0fdf4; color: #22c55e; }
+.status-tag.cancelled { background: #f5f5f5; color: #94a3b8; }
 .plan-content { margin-bottom: 30rpx; }
-.content-row { display: flex; justify-content: space-between; align-items: center; padding: 20rpx 0; border-bottom: 1rpx solid #f5f5f5; }
+.content-row { display: flex; justify-content: space-between; align-items: center; padding: 20rpx 0; border-bottom: 1rpx solid #f1f5f9; }
 .content-row:last-child { border-bottom: none; }
-.row-label { font-size: 28rpx; color: #666; }
-.row-value { font-size: 30rpx; color: #333; font-weight: 500; }
-.row-value.action.buy { color: #e94560; }
-.row-value.action.sell { color: #52c41a; }
-.row-value.stop { color: #e94560; }
-.row-value.profit { color: #52c41a; }
-.reason-section { background: #f8f8f8; border-radius: 12rpx; padding: 24rpx; margin-bottom: 30rpx; }
-.section-title { font-size: 28rpx; font-weight: bold; color: #333; margin-bottom: 16rpx; }
-.reason-text { font-size: 28rpx; color: #666; line-height: 1.6; }
-.meta-section { padding-top: 20rpx; border-top: 1rpx solid #f0f0f0; }
+.row-label { font-size: 28rpx; color: #64748b; }
+.row-value { font-size: 30rpx; color: #1e293b; font-weight: 500; }
+.row-value.action.buy { color: #2563eb; }
+.row-value.action.sell { color: #64748b; }
+.row-value.stop { color: #dc2626; }
+.row-value.profit { color: #22c55e; }
+.reason-section { background: #f8fafc; border-radius: 12rpx; padding: 24rpx; margin-bottom: 30rpx; }
+.section-title { font-size: 28rpx; font-weight: bold; color: #1e293b; margin-bottom: 16rpx; }
+.reason-text { font-size: 28rpx; color: #64748b; line-height: 1.6; }
+.meta-section { padding-top: 20rpx; border-top: 1rpx solid #e2e8f0; }
 .meta-item { display: flex; justify-content: space-between; padding: 12rpx 0; }
-.meta-label { font-size: 26rpx; color: #999; }
-.meta-value { font-size: 26rpx; color: #666; }
-.action-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 20rpx 30rpx; background: #fff; border-top: 1rpx solid #eee; display: flex; gap: 20rpx; }
+.meta-label { font-size: 26rpx; color: #94a3b8; }
+.meta-value { font-size: 26rpx; color: #64748b; }
+.action-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 20rpx 30rpx; background: #fff; border-top: 1rpx solid #e2e8f0; display: flex; gap: 20rpx; }
 .action-btn { flex: 1; height: 80rpx; border-radius: 40rpx; display: flex; align-items: center; justify-content: center; font-size: 28rpx; }
-.action-btn.execute { background: #e94560; color: #fff; }
-.action-btn.edit { background: #f5f5f5; color: #333; }
-.action-btn.cancel { background: #fff; color: #999; border: 2rpx solid #ddd; }
-.action-btn.delete { background: #fff; color: #e94560; border: 2rpx solid #e94560; }
+.action-btn.execute { background: #2563eb; color: #fff; }
+.action-btn.edit { background: #f5f5f5; color: #1e293b; }
+.action-btn.cancel { background: #fff; color: #94a3b8; border: 2rpx solid #e2e8f0; }
+.action-btn.delete { background: #fff; color: #dc2626; border: 2rpx solid #dc2626; }
 </style>

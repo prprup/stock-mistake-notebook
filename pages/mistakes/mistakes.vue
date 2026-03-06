@@ -90,24 +90,24 @@ export default {
 </script>
 
 <style scoped>
-.container { background: #f5f5f5; min-height: 100vh; }
-.filter-bar { background: #fff; padding: 20rpx 0; position: sticky; top: 0; z-index: 10; border-bottom: 1rpx solid #eee; }
+.container { background: #f8fafc; min-height: 100vh; }
+.filter-bar { background: #fff; padding: 20rpx 0; position: sticky; top: 0; z-index: 10; border-bottom: 1rpx solid #e2e8f0; }
 .filter-scroll { white-space: nowrap; padding: 0 20rpx; }
-.filter-item { display: inline-block; padding: 16rpx 32rpx; margin-right: 16rpx; background: #f5f5f5; border-radius: 30rpx; font-size: 26rpx; color: #666; }
-.filter-item.active { background: #e94560; color: #fff; }
+.filter-item { display: inline-block; padding: 16rpx 32rpx; margin-right: 16rpx; background: #f5f5f5; border-radius: 30rpx; font-size: 26rpx; color: #64748b; }
+.filter-item.active { background: #2563eb; color: #fff; }
 .mistake-list { padding: 20rpx; }
 .mistake-card { background: #fff; border-radius: 16rpx; padding: 30rpx; margin-bottom: 20rpx; }
 .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20rpx; }
 .stock-info { display: flex; align-items: center; gap: 16rpx; }
-.stock-name { font-size: 32rpx; font-weight: bold; color: #333; }
-.stock-code { font-size: 24rpx; color: #999; }
-.trade-date { font-size: 24rpx; color: #999; }
+.stock-name { font-size: 32rpx; font-weight: bold; color: #1e293b; }
+.stock-code { font-size: 24rpx; color: #94a3b8; }
+.trade-date { font-size: 24rpx; color: #94a3b8; }
 .trade-info { display: flex; align-items: center; gap: 20rpx; margin-bottom: 20rpx; }
 .action { font-size: 26rpx; padding: 8rpx 20rpx; border-radius: 8rpx; }
-.action.buy { background: #ffe5e5; color: #e94560; }
-.action.sell { background: #e5f5e5; color: #52c41a; }
-.price { font-size: 28rpx; color: #666; }
+.action.buy { background: #eff6ff; color: #2563eb; }
+.action.sell { background: #f5f5f5; color: #64748b; }
+.price { font-size: 28rpx; color: #64748b; }
 .mistake-types { display: flex; flex-wrap: wrap; gap: 12rpx; margin-bottom: 20rpx; }
-.type-tag { background: #ffe5e5; color: #e94560; font-size: 22rpx; padding: 8rpx 16rpx; border-radius: 8rpx; }
-.reflection { font-size: 26rpx; color: #666; line-height: 1.5; }
+.type-tag { background: #eff6ff; color: #2563eb; font-size: 22rpx; padding: 8rpx 16rpx; border-radius: 8rpx; }
+.reflection { font-size: 26rpx; color: #64748b; line-height: 1.5; }
 </style>

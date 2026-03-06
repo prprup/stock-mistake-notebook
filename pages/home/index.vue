@@ -160,36 +160,36 @@ export default {
 </script>
 
 <style scoped>
-.container { padding: 20rpx; background: #f5f5f5; min-height: 100vh; }
-.header-card { background: #fff; border-radius: 20rpx; padding: 40rpx 30rpx; margin-bottom: 30rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06); }
+.container { padding: 20rpx; background: #f8fafc; min-height: 100vh; }
+.header-card { background: #1e293b; border-radius: 20rpx; padding: 40rpx 30rpx; margin-bottom: 30rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06); }
 .stat-row { display: flex; justify-content: space-around; }
 .stat-item { display: flex; flex-direction: column; align-items: center; }
-.stat-num { font-size: 56rpx; font-weight: bold; color: #e94560; }
-.stat-label { font-size: 24rpx; color: #666; margin-top: 10rpx; }
-.tip-card { background: #fff; border-radius: 16rpx; padding: 30rpx; display: flex; align-items: center; margin-bottom: 30rpx; border-left: 8rpx solid #e94560; }
+.stat-num { font-size: 56rpx; font-weight: bold; color: #2563eb; }
+.stat-label { font-size: 24rpx; color: #94a3b8; margin-top: 10rpx; }
+.tip-card { background: #fff; border-radius: 16rpx; padding: 30rpx; display: flex; align-items: center; margin-bottom: 30rpx; border-left: 8rpx solid #2563eb; }
 .tip-icon { font-size: 40rpx; margin-right: 20rpx; }
-.tip-text { font-size: 28rpx; color: #333; flex: 1; }
+.tip-text { font-size: 28rpx; color: #1e293b; flex: 1; }
 .section { margin-bottom: 30rpx; }
 .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20rpx; }
-.section-title { font-size: 32rpx; font-weight: bold; color: #333; margin-bottom: 20rpx; }
-.more { font-size: 26rpx; color: #e94560; }
+.section-title { font-size: 32rpx; font-weight: bold; color: #1e293b; margin-bottom: 20rpx; }
+.more { font-size: 26rpx; color: #2563eb; }
 .enemy-card { background: #fff; border-radius: 16rpx; padding: 40rpx; text-align: center; position: relative; overflow: hidden; }
-.enemy-rank { position: absolute; top: 20rpx; right: 20rpx; background: #e94560; color: #fff; font-size: 24rpx; padding: 8rpx 20rpx; border-radius: 30rpx; }
-.enemy-name { font-size: 48rpx; font-weight: bold; color: #333; margin: 20rpx 0; }
-.enemy-count { font-size: 28rpx; color: #e94560; margin-bottom: 20rpx; }
-.enemy-desc { font-size: 26rpx; color: #666; line-height: 1.6; }
-.empty-card { background: #fff; border-radius: 16rpx; padding: 60rpx; text-align: center; color: #999; font-size: 28rpx; }
+.enemy-rank { position: absolute; top: 20rpx; right: 20rpx; background: #2563eb; color: #fff; font-size: 24rpx; padding: 8rpx 20rpx; border-radius: 30rpx; }
+.enemy-name { font-size: 48rpx; font-weight: bold; color: #1e293b; margin: 20rpx 0; }
+.enemy-count { font-size: 28rpx; color: #2563eb; margin-bottom: 20rpx; }
+.enemy-desc { font-size: 26rpx; color: #64748b; line-height: 1.6; }
+.empty-card { background: #fff; border-radius: 16rpx; padding: 60rpx; text-align: center; color: #94a3b8; font-size: 28rpx; }
 .quick-actions { display: flex; gap: 16rpx; }
 .action-btn { flex: 1; background: #fff; border-radius: 16rpx; padding: 30rpx; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05); }
 .action-icon { font-size: 48rpx; margin-bottom: 12rpx; }
-.action-text { font-size: 26rpx; color: #333; }
+.action-text { font-size: 26rpx; color: #1e293b; }
 .mistake-list { background: #fff; border-radius: 16rpx; overflow: hidden; }
 .mistake-item { padding: 30rpx; border-bottom: 1rpx solid #f0f0f0; }
 .mistake-item:last-child { border-bottom: none; }
 .mistake-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16rpx; }
-.stock-name { font-size: 32rpx; font-weight: bold; color: #333; }
-.mistake-date { font-size: 24rpx; color: #999; }
+.stock-name { font-size: 32rpx; font-weight: bold; color: #1e293b; }
+.mistake-date { font-size: 24rpx; color: #94a3b8; }
 .mistake-types { display: flex; flex-wrap: wrap; gap: 12rpx; margin-bottom: 16rpx; }
-.type-tag { background: #ffe5e5; color: #e94560; font-size: 22rpx; padding: 8rpx 16rpx; border-radius: 8rpx; }
-.mistake-reflection { font-size: 26rpx; color: #666; line-height: 1.5; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.type-tag { background: #eff6ff; color: #2563eb; font-size: 22rpx; padding: 8rpx 16rpx; border-radius: 8rpx; }
+.mistake-reflection { font-size: 26rpx; color: #64748b; line-height: 1.5; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 </style>

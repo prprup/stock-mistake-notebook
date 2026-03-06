@@ -119,29 +119,29 @@ export default {
 </script>
 
 <style scoped>
-.container { padding: 20rpx; background: #f5f5f5; min-height: 100vh; }
+.container { padding: 20rpx; background: #f8fafc; min-height: 100vh; }
 .detail-card { background: #fff; border-radius: 20rpx; padding: 40rpx; }
-.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30rpx; padding-bottom: 30rpx; border-bottom: 1rpx solid #f0f0f0; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30rpx; padding-bottom: 30rpx; border-bottom: 1rpx solid #e2e8f0; }
 .stock-info { display: flex; align-items: center; gap: 16rpx; }
-.stock-name { font-size: 40rpx; font-weight: bold; color: #333; }
-.stock-code { font-size: 26rpx; color: #999; }
-.date { font-size: 26rpx; color: #999; }
+.stock-name { font-size: 40rpx; font-weight: bold; color: #1e293b; }
+.stock-code { font-size: 26rpx; color: #94a3b8; }
+.date { font-size: 26rpx; color: #94a3b8; }
 .trade-detail { margin-bottom: 30rpx; }
-.trade-row { display: flex; justify-content: space-between; align-items: center; padding: 20rpx 0; border-bottom: 1rpx solid #f5f5f5; }
+.trade-row { display: flex; justify-content: space-between; align-items: center; padding: 20rpx 0; border-bottom: 1rpx solid #f1f5f9; }
 .trade-row:last-child { border-bottom: none; }
-.label { font-size: 28rpx; color: #666; }
-.value { font-size: 32rpx; font-weight: bold; color: #333; }
-.value.buy { color: #e94560; }
-.value.sell { color: #52c41a; }
-.value.total { color: #e94560; font-size: 36rpx; }
-.section { margin-top: 30rpx; padding-top: 30rpx; border-top: 1rpx solid #f0f0f0; }
-.section-title { font-size: 28rpx; color: #999; margin-bottom: 20rpx; }
+.label { font-size: 28rpx; color: #64748b; }
+.value { font-size: 32rpx; font-weight: bold; color: #1e293b; }
+.value.buy { color: #2563eb; }
+.value.sell { color: #64748b; }
+.value.total { color: #2563eb; font-size: 36rpx; }
+.section { margin-top: 30rpx; padding-top: 30rpx; border-top: 1rpx solid #e2e8f0; }
+.section-title { font-size: 28rpx; color: #94a3b8; margin-bottom: 20rpx; }
 .type-list { display: flex; flex-wrap: wrap; gap: 16rpx; }
-.type-tag { background: #ffe5e5; color: #e94560; font-size: 26rpx; padding: 12rpx 24rpx; border-radius: 30rpx; }
-.emotion-tag { display: inline-block; background: #f0f0f0; color: #666; font-size: 28rpx; padding: 16rpx 32rpx; border-radius: 12rpx; }
-.reflection-text { font-size: 30rpx; color: #333; line-height: 1.8; }
+.type-tag { background: #eff6ff; color: #2563eb; font-size: 26rpx; padding: 12rpx 24rpx; border-radius: 30rpx; }
+.emotion-tag { display: inline-block; background: #f5f5f5; color: #64748b; font-size: 28rpx; padding: 16rpx 32rpx; border-radius: 12rpx; }
+.reflection-text { font-size: 30rpx; color: #1e293b; line-height: 1.8; }
 .actions { display: flex; gap: 20rpx; margin-top: 40rpx; }
 .btn-edit, .btn-delete { flex: 1; height: 90rpx; border-radius: 45rpx; font-size: 32rpx; display: flex; align-items: center; justify-content: center; }
-.btn-edit { background: #f5f5f5; color: #333; }
-.btn-delete { background: #ffe5e5; color: #e94560; }
+.btn-edit { background: #f5f5f5; color: #1e293b; }
+.btn-delete { background: #fee2e2; color: #dc2626; }
 </style>

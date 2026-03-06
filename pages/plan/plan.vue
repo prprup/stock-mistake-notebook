@@ -139,48 +139,48 @@ export default {
 </script>
 
 <style scoped>
-.container { background: #f5f5f5; min-height: 100vh; padding-bottom: 40rpx; }
-.date-filter { background: #fff; padding: 20rpx 30rpx; display: flex; align-items: center; justify-content: space-between; border-bottom: 1rpx solid #eee; }
+.container { background: #f8fafc; min-height: 100vh; padding-bottom: 40rpx; }
+.date-filter { background: #fff; padding: 20rpx 30rpx; display: flex; align-items: center; justify-content: space-between; border-bottom: 1rpx solid #e2e8f0; }
 .date-picker { display: flex; align-items: center; gap: 10rpx; }
-.date-text { font-size: 28rpx; color: #333; font-weight: 500; }
-.date-icon { font-size: 20rpx; color: #999; }
+.date-text { font-size: 28rpx; color: #1e293b; font-weight: 500; }
+.date-icon { font-size: 20rpx; color: #94a3b8; }
 .filter-tabs { display: flex; gap: 16rpx; }
-.tab { padding: 12rpx 24rpx; background: #f5f5f5; border-radius: 30rpx; font-size: 24rpx; color: #666; }
-.tab.active { background: #e94560; color: #fff; }
+.tab { padding: 12rpx 24rpx; background: #f5f5f5; border-radius: 30rpx; font-size: 24rpx; color: #64748b; }
+.tab.active { background: #2563eb; color: #fff; }
 .plan-list { padding: 20rpx; }
 .plan-card { background: #fff; border-radius: 16rpx; padding: 30rpx; margin-bottom: 20rpx; }
 .card-header { display: flex; align-items: center; gap: 20rpx; margin-bottom: 24rpx; }
-.date-badge { background: #f8f8f8; border-radius: 12rpx; padding: 16rpx 20rpx; display: flex; flex-direction: column; align-items: center; min-width: 80rpx; border: 1rpx solid #eee; }
-.month { font-size: 20rpx; color: #999; }
-.day { font-size: 36rpx; font-weight: bold; color: #333; }
+.date-badge { background: #f8fafc; border-radius: 12rpx; padding: 16rpx 20rpx; display: flex; flex-direction: column; align-items: center; min-width: 80rpx; border: 1rpx solid #e2e8f0; }
+.month { font-size: 20rpx; color: #94a3b8; }
+.day { font-size: 36rpx; font-weight: bold; color: #1e293b; }
 .stock-info { flex: 1; }
-.stock-name { font-size: 32rpx; font-weight: bold; color: #333; display: block; }
-.stock-code { font-size: 24rpx; color: #999; margin-top: 6rpx; display: block; }
+.stock-name { font-size: 32rpx; font-weight: bold; color: #1e293b; display: block; }
+.stock-code { font-size: 24rpx; color: #94a3b8; margin-top: 6rpx; display: block; }
 .status-tag { padding: 8rpx 20rpx; border-radius: 30rpx; font-size: 22rpx; }
-.status-tag.pending { background: #fff3e5; color: #ff9500; }
-.status-tag.executed { background: #e5f5e5; color: #52c41a; }
-.status-tag.cancelled { background: #f5f5f5; color: #999; }
+.status-tag.pending { background: #fff7ed; color: #f97316; }
+.status-tag.executed { background: #f0fdf4; color: #22c55e; }
+.status-tag.cancelled { background: #f5f5f5; color: #94a3b8; }
 .plan-content { margin-bottom: 20rpx; }
-.plan-row { display: flex; justify-content: space-between; align-items: center; padding: 12rpx 0; border-bottom: 1rpx solid #f5f5f5; }
+.plan-row { display: flex; justify-content: space-between; align-items: center; padding: 12rpx 0; border-bottom: 1rpx solid #f1f5f9; }
 .plan-row:last-child { border-bottom: none; }
-.label { font-size: 26rpx; color: #666; }
-.value { font-size: 28rpx; color: #333; font-weight: 500; }
-.value.action.buy { color: #e94560; }
-.value.action.sell { color: #52c41a; }
-.value.stop { color: #e94560; }
-.value.profit { color: #52c41a; }
-.reason-box { background: #f8f8f8; border-radius: 12rpx; padding: 20rpx; margin-bottom: 20rpx; }
-.reason-label { font-size: 24rpx; color: #999; margin-bottom: 8rpx; display: block; }
-.reason-text { font-size: 26rpx; color: #333; line-height: 1.5; }
+.label { font-size: 26rpx; color: #64748b; }
+.value { font-size: 28rpx; color: #1e293b; font-weight: 500; }
+.value.action.buy { color: #2563eb; }
+.value.action.sell { color: #64748b; }
+.value.stop { color: #dc2626; }
+.value.profit { color: #22c55e; }
+.reason-box { background: #f8fafc; border-radius: 12rpx; padding: 20rpx; margin-bottom: 20rpx; }
+.reason-label { font-size: 24rpx; color: #94a3b8; margin-bottom: 8rpx; display: block; }
+.reason-text { font-size: 26rpx; color: #1e293b; line-height: 1.5; }
 .card-footer { display: flex; gap: 20rpx; }
 .btn { flex: 1; height: 72rpx; border-radius: 36rpx; display: flex; align-items: center; justify-content: center; font-size: 28rpx; }
-.btn.execute { background: #e94560; color: #fff; }
-.btn.edit { background: #f5f5f5; color: #666; }
+.btn.execute { background: #2563eb; color: #fff; }
+.btn.edit { background: #f5f5f5; color: #64748b; }
 .empty-state { display: flex; flex-direction: column; align-items: center; padding: 200rpx 60rpx; }
 .empty-icon { font-size: 120rpx; margin-bottom: 30rpx; }
-.empty-text { font-size: 32rpx; color: #333; margin-bottom: 16rpx; }
-.empty-sub { font-size: 26rpx; color: #999; margin-bottom: 40rpx; }
-.create-btn { padding: 24rpx 60rpx; background: #e94560; color: #fff; border-radius: 40rpx; font-size: 28rpx; }
-.fab { position: fixed; right: 40rpx; bottom: 60rpx; width: 100rpx; height: 100rpx; background: #e94560; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4rpx 20rpx rgba(233, 69, 96, 0.4); }
+.empty-text { font-size: 32rpx; color: #1e293b; margin-bottom: 16rpx; }
+.empty-sub { font-size: 26rpx; color: #94a3b8; margin-bottom: 40rpx; }
+.create-btn { padding: 24rpx 60rpx; background: #2563eb; color: #fff; border-radius: 40rpx; font-size: 28rpx; }
+.fab { position: fixed; right: 40rpx; bottom: 60rpx; width: 100rpx; height: 100rpx; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4rpx 20rpx rgba(37, 99, 235, 0.4); }
 .fab-icon { font-size: 60rpx; color: #fff; font-weight: bold; }
 </style>

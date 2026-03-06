@@ -82,23 +82,23 @@ export default {
 </script>
 
 <style scoped>
-.container { padding: 40rpx; background: #f5f5f5; min-height: 100vh; }
-.upload-area { background: #fff; border-radius: 20rpx; padding: 100rpx 60rpx; text-align: center; border: 4rpx dashed #ddd; }
+.container { padding: 40rpx; background: #f8fafc; min-height: 100vh; }
+.upload-area { background: #fff; border-radius: 20rpx; padding: 100rpx 60rpx; text-align: center; border: 4rpx dashed #e2e8f0; }
 .upload-icon { font-size: 80rpx; margin-bottom: 30rpx; }
-.upload-text { font-size: 32rpx; color: #333; margin-bottom: 16rpx; }
-.upload-tip { font-size: 26rpx; color: #999; }
+.upload-text { font-size: 32rpx; color: #1e293b; margin-bottom: 16rpx; }
+.upload-tip { font-size: 26rpx; color: #94a3b8; }
 .preview-area { background: #fff; border-radius: 20rpx; padding: 30rpx; }
 .preview-image { width: 100%; border-radius: 12rpx; }
 .preview-actions { display: flex; gap: 20rpx; margin-top: 30rpx; }
 .btn-secondary, .btn-primary { flex: 1; height: 80rpx; border-radius: 40rpx; font-size: 28rpx; display: flex; align-items: center; justify-content: center; }
-.btn-secondary { background: #f5f5f5; color: #666; }
-.btn-primary { background: #e94560; color: #fff; }
+.btn-secondary { background: #f5f5f5; color: #64748b; }
+.btn-primary { background: #2563eb; color: #fff; }
 .result-section { background: #fff; border-radius: 20rpx; padding: 30rpx; margin-top: 30rpx; }
-.section-title { font-size: 32rpx; font-weight: bold; color: #333; margin-bottom: 30rpx; }
+.section-title { font-size: 32rpx; font-weight: bold; color: #1e293b; margin-bottom: 30rpx; }
 .result-item { margin-bottom: 24rpx; }
 .result-row { display: flex; gap: 20rpx; }
 .result-row .result-item { flex: 1; }
-.label { display: block; font-size: 26rpx; color: #666; margin-bottom: 12rpx; }
-.input { height: 80rpx; background: #f8f8f8; border-radius: 12rpx; padding: 0 24rpx; font-size: 28rpx; color: #333; }
-.btn-confirm { width: 100%; height: 90rpx; background: #e94560; color: #fff; font-size: 32rpx; border-radius: 45rpx; margin-top: 30rpx; }
+.label { display: block; font-size: 26rpx; color: #64748b; margin-bottom: 12rpx; }
+.input { height: 80rpx; background: #f5f5f5; border-radius: 12rpx; padding: 0 24rpx; font-size: 28rpx; color: #1e293b; }
+.btn-confirm { width: 100%; height: 90rpx; background: #2563eb; color: #fff; font-size: 32rpx; border-radius: 45rpx; margin-top: 30rpx; }
 </style>

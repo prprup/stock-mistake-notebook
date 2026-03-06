@@ -86,27 +86,27 @@ export default {
 </script>
 
 <style scoped>
-.container { padding: 20rpx; background: #f5f5f5; min-height: 100vh; }
+.container { padding: 20rpx; background: #f8fafc; min-height: 100vh; }
 .stats-overview { display: flex; gap: 20rpx; margin-bottom: 30rpx; }
 .stat-card { flex: 1; background: #fff; border-radius: 16rpx; padding: 30rpx; text-align: center; }
-.stat-value { font-size: 48rpx; font-weight: bold; color: #e94560; display: block; }
-.stat-label { font-size: 24rpx; color: #999; margin-top: 10rpx; display: block; }
+.stat-value { font-size: 48rpx; font-weight: bold; color: #2563eb; display: block; }
+.stat-label { font-size: 24rpx; color: #94a3b8; margin-top: 10rpx; display: block; }
 .section { background: #fff; border-radius: 16rpx; padding: 30rpx; margin-bottom: 20rpx; }
-.section-title { font-size: 32rpx; font-weight: bold; color: #333; margin-bottom: 30rpx; }
-.chart-placeholder { height: 300rpx; background: #f8f8f8; border-radius: 12rpx; display: flex; align-items: center; justify-content: center; margin-bottom: 30rpx; }
-.chart-placeholder text { color: #999; font-size: 28rpx; }
+.section-title { font-size: 32rpx; font-weight: bold; color: #1e293b; margin-bottom: 30rpx; }
+.chart-placeholder { height: 300rpx; background: #f8fafc; border-radius: 12rpx; display: flex; align-items: center; justify-content: center; margin-bottom: 30rpx; }
+.chart-placeholder text { color: #94a3b8; font-size: 28rpx; }
 .type-rank { display: flex; flex-direction: column; gap: 24rpx; }
 .rank-item { display: flex; align-items: center; gap: 20rpx; }
-.rank-num { width: 40rpx; height: 40rpx; background: #f5f5f5; border-radius: 20rpx; display: flex; align-items: center; justify-content: center; font-size: 24rpx; color: #666; }
-.rank-item:first-child .rank-num { background: #e94560; color: #fff; }
+.rank-num { width: 40rpx; height: 40rpx; background: #f1f5f9; border-radius: 20rpx; display: flex; align-items: center; justify-content: center; font-size: 24rpx; color: #64748b; }
+.rank-item:first-child .rank-num { background: #2563eb; color: #fff; }
 .rank-info { flex: 1; }
-.rank-type { font-size: 28rpx; color: #333; display: block; margin-bottom: 10rpx; }
-.rank-bar { height: 12rpx; background: #f0f0f0; border-radius: 6rpx; overflow: hidden; }
-.rank-fill { height: 100%; background: #e94560; border-radius: 6rpx; }
-.rank-count { font-size: 26rpx; color: #999; width: 80rpx; text-align: right; }
+.rank-type { font-size: 28rpx; color: #1e293b; display: block; margin-bottom: 10rpx; }
+.rank-bar { height: 12rpx; background: #f1f5f9; border-radius: 6rpx; overflow: hidden; }
+.rank-fill { height: 100%; background: #2563eb; border-radius: 6rpx; }
+.rank-count { font-size: 26rpx; color: #94a3b8; width: 80rpx; text-align: right; }
 .emotion-list { display: flex; flex-wrap: wrap; gap: 20rpx; }
-.emotion-item { flex: 1; min-width: 140rpx; background: #f8f8f8; border-radius: 12rpx; padding: 24rpx; text-align: center; }
-.emotion-name { font-size: 28rpx; color: #333; display: block; margin-bottom: 10rpx; }
-.emotion-count { font-size: 24rpx; color: #999; display: block; }
-.emotion-rate { font-size: 32rpx; font-weight: bold; color: #e94560; display: block; margin-top: 10rpx; }
+.emotion-item { flex: 1; min-width: 140rpx; background: #f8fafc; border-radius: 12rpx; padding: 24rpx; text-align: center; }
+.emotion-name { font-size: 28rpx; color: #1e293b; display: block; margin-bottom: 10rpx; }
+.emotion-count { font-size: 24rpx; color: #94a3b8; display: block; }
+.emotion-rate { font-size: 32rpx; font-weight: bold; color: #2563eb; display: block; margin-top: 10rpx; }
 </style>

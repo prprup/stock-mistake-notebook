@@ -50,7 +50,7 @@ export default {
       chartData: {},
       mistakeList: [],
       chartOpts: {
-        color: ['#e94560', '#37A2DA', '#32C5E9', '#67E0E3'],
+        color: ['#2563eb', '#37A2DA', '#32C5E9', '#67E0E3'],
         padding: [15, 15, 0, 15],
         enableScroll: true,
         legend: { show: false },
@@ -69,10 +69,10 @@ export default {
         extra: {
           candle: {
             color: {
-              upLine: '#e94560',
-              upFill: '#e94560',
-              downLine: '#2ecc71',
-              downFill: '#2ecc71'
+              upLine: '#2563eb',
+              upFill: '#2563eb',
+              downLine: '#64748b',
+              downFill: '#64748b'
             },
             average: {
               show: false
@@ -148,7 +148,7 @@ export default {
             show: true,
             color: '#fff',
             fontSize: 10,
-            bgColor: '#e94560',
+            bgColor: '#2563eb',
             padding: 4,
             borderRadius: 4
           }
@@ -183,11 +183,11 @@ export default {
 
 <style scoped>
 .container {
-  background: #f5f5f5;
+  background: #f8fafc;
   min-height: 100vh;
 }
 .stock-header {
-  background: #1a1a2e;
+  background: #1e293b;
   padding: 30rpx;
   display: flex;
   align-items: center;
@@ -200,7 +200,7 @@ export default {
 }
 .stock-code {
   font-size: 28rpx;
-  color: #888;
+  color: #94a3b8;
 }
 .chart-container {
   background: #fff;
@@ -215,7 +215,7 @@ export default {
 .section-title {
   font-size: 32rpx;
   font-weight: bold;
-  color: #333;
+  color: #1e293b;
   margin-bottom: 20rpx;
 }
 .mistake-item {
@@ -226,7 +226,7 @@ export default {
 }
 .mistake-date {
   font-size: 28rpx;
-  color: #666;
+  color: #64748b;
   margin-bottom: 16rpx;
 }
 .mistake-types {
@@ -236,21 +236,21 @@ export default {
   margin-bottom: 16rpx;
 }
 .type-tag {
-  background: #ffe5e5;
-  color: #e94560;
+  background: #eff6ff;
+  color: #2563eb;
   font-size: 22rpx;
   padding: 8rpx 16rpx;
   border-radius: 8rpx;
 }
 .mistake-reflection {
   font-size: 26rpx;
-  color: #333;
+  color: #1e293b;
   line-height: 1.5;
 }
 .empty-tip {
   text-align: center;
   padding: 100rpx;
-  color: #999;
+  color: #94a3b8;
   font-size: 28rpx;
 }
 </style>
