@@ -168,9 +168,9 @@ export default {
 .container { background: #f5f5f5; min-height: 100vh; padding: 20rpx; padding-bottom: 140rpx; }
 .plan-card { background: #fff; border-radius: 16rpx; padding: 30rpx; }
 .card-header { display: flex; align-items: center; gap: 20rpx; margin-bottom: 30rpx; }
-.date-badge { background: #1a1a2e; border-radius: 12rpx; padding: 16rpx 20rpx; display: flex; flex-direction: column; align-items: center; min-width: 80rpx; }
-.month { font-size: 20rpx; color: #888; }
-.day { font-size: 36rpx; font-weight: bold; color: #fff; }
+.date-badge { background: #f8f8f8; border-radius: 12rpx; padding: 16rpx 20rpx; display: flex; flex-direction: column; align-items: center; min-width: 80rpx; border: 1rpx solid #eee; }
+.month { font-size: 20rpx; color: #999; }
+.day { font-size: 36rpx; font-weight: bold; color: #333; }
 .stock-info { flex: 1; }
 .stock-name { font-size: 32rpx; font-weight: bold; color: #333; display: block; }
 .stock-code { font-size: 24rpx; color: #999; margin-top: 6rpx; display: block; }

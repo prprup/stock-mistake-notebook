@@ -161,11 +161,11 @@ export default {
 
 <style scoped>
 .container { padding: 20rpx; background: #f5f5f5; min-height: 100vh; }
-.header-card { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 20rpx; padding: 40rpx 30rpx; margin-bottom: 30rpx; }
+.header-card { background: #fff; border-radius: 20rpx; padding: 40rpx 30rpx; margin-bottom: 30rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06); }
 .stat-row { display: flex; justify-content: space-around; }
 .stat-item { display: flex; flex-direction: column; align-items: center; }
 .stat-num { font-size: 56rpx; font-weight: bold; color: #e94560; }
-.stat-label { font-size: 24rpx; color: #888; margin-top: 10rpx; }
+.stat-label { font-size: 24rpx; color: #666; margin-top: 10rpx; }
 .tip-card { background: #fff; border-radius: 16rpx; padding: 30rpx; display: flex; align-items: center; margin-bottom: 30rpx; border-left: 8rpx solid #e94560; }
 .tip-icon { font-size: 40rpx; margin-right: 20rpx; }
 .tip-text { font-size: 28rpx; color: #333; flex: 1; }
@@ -175,7 +175,7 @@ export default {
 .more { font-size: 26rpx; color: #e94560; }
 .enemy-card { background: #fff; border-radius: 16rpx; padding: 40rpx; text-align: center; position: relative; overflow: hidden; }
 .enemy-rank { position: absolute; top: 20rpx; right: 20rpx; background: #e94560; color: #fff; font-size: 24rpx; padding: 8rpx 20rpx; border-radius: 30rpx; }
-.enemy-name { font-size: 48rpx; font-weight: bold; color: #1a1a2e; margin: 20rpx 0; }
+.enemy-name { font-size: 48rpx; font-weight: bold; color: #333; margin: 20rpx 0; }
 .enemy-count { font-size: 28rpx; color: #e94560; margin-bottom: 20rpx; }
 .enemy-desc { font-size: 26rpx; color: #666; line-height: 1.6; }
 .empty-card { background: #fff; border-radius: 16rpx; padding: 60rpx; text-align: center; color: #999; font-size: 28rpx; }
