@@ -34,7 +34,7 @@ const collections = [
     description: 'K线数据缓存',
     indexes: [
       { name: 'stock_date_index', fields: [{ stockCode: 1 }, { tradeDate: -1 }] },
-      { name: 'expire_index', fields: [{ expireAt: 1 }], expireAfterSeconds: 0 }
+      { name: 'expire_index', fields: [{ expireAt: 1 }], expireAfterSeconds: 7200 }
     ]
   },
   {

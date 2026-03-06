@@ -22,12 +22,12 @@ exports.main = async (event, context) => {
       cacheKey
     }).get()
     
-    // 缓存有效（24小时内）直接返回
+    // 缓存有效（2小时内）直接返回
     if (cacheData.length > 0) {
       const cache = cacheData[0]
       const cacheTime = new Date(cache.updateTime).getTime()
       const now = Date.now()
-      if (now - cacheTime < 24 * 60 * 60 * 1000) {
+      if (now - cacheTime < 2 * 60 * 60 * 1000) {
         return {
           success: true,
           data: cache.klineData,
