@@ -1,10 +1,9 @@
-
 <template>
   <view class="container">
     <!-- 用户信息 -->
     <view class="user-card">
       <view class="avatar" :class="{ 'avatar-login': !isLogin }" @click="handleAvatarClick">
-        <text v-if="!user.avatarUrl">👤</text>
+        <text v-if="!user.avatarUrl" class="avatar-placeholder">{{isLogin ? '👤' : '📷'}}</text>
         <image v-else :src="user.avatarUrl" class="avatar-img" mode="aspectFill" />
       </view>
       <view class="user-info">
@@ -12,10 +11,14 @@
           <text class="nickname">{{user.nickname || '微信用户'}}</text>
           <text class="badge" v-if="isLogin">LV.1</text>
         </view>
-        <text class="user-id" v-if="isLogin">ID: {{user.id || '--'}}</text>
-        <view class="login-btn" v-else @click="handleLogin">
-          <text class="login-text">点击登录</text>
-          <text class="login-arrow">›</text>
+        <view v-if="isLogin">
+          <text class="user-id">ID: {{user.id || '--'}}</text>
+        </view>
+        <view v-else class="login-area">
+          <view class="login-btn-outline" @click="handleLogin">
+            <text class="login-text">点击登录</text>
+          </view>
+          <text class="login-hint">登录后同步数据，永不丢失</text>
         </view>
       </view>
     </view>
@@ -24,31 +27,35 @@
     <view class="stats-card">
       <view class="stat-item" @click="goToMistakes">
         <text class="stat-value" :class="{ 'stat-zero': stats.mistakes === 0 }">
-          {{stats.mistakes > 0 ? stats.mistakes : '--'}}
+          {{stats.mistakes}}
         </text>
+        <text class="stat-unit">条</text>
         <text class="stat-label">错题记录</text>
       </view>
       <view class="stat-item">
         <text class="stat-value" :class="{ 'stat-zero': stats.streak === 0 }">
-          {{stats.streak > 0 ? stats.streak : '--'}}
+          {{stats.streak}}
         </text>
-        <text class="stat-label">连续打卡</text>
         <text class="stat-unit">天</text>
+        <text class="stat-label">连续打卡</text>
       </view>
       <view class="stat-item">
-        <text class="stat-value stat-zero">--</text>
-        <text class="stat-label">胜率趋势</text>
+        <text class="stat-value stat-zero">0</text>
         <text class="stat-unit">%</text>
+        <text class="stat-label">胜率趋势</text>
       </view>
     </view>
 
     <!-- 功能列表 - 数据资产组 -->
     <view class="menu-section">
-      <text class="menu-section-title">数据资产</text>
+      <view class="section-title-wrap">
+        <view class="section-accent"></view>
+        <text class="menu-section-title">数据资产</text>
+      </view>
       <view class="menu-list">
-        <view class="menu-item primary" @click="goToAnalysis">
+        <view class="menu-item" @click="goToAnalysis">
           <view class="menu-icon-wrap">
-            <text class="menu-icon">📈</text>
+            <text class="menu-icon gray">⚡</text>
           </view>
           <text class="menu-text">统计分析</text>
           <text class="arrow">›</text>
@@ -56,7 +63,7 @@
         
         <view class="menu-item" @click="exportData">
           <view class="menu-icon-wrap">
-            <text class="menu-icon">☁️</text>
+            <text class="menu-icon gray">☁</text>
           </view>
           <text class="menu-text">导出数据</text>
           <text class="arrow">›</text>
@@ -66,11 +73,14 @@
 
     <!-- 功能列表 - 系统设置组 -->
     <view class="menu-section">
-      <text class="menu-section-title">系统设置</text>
+      <view class="section-title-wrap">
+        <view class="section-accent"></view>
+        <text class="menu-section-title">系统设置</text>
+      </view>
       <view class="menu-list">
         <view class="menu-item" @click="clearCache">
           <view class="menu-icon-wrap">
-            <text class="menu-icon">🧹</text>
+            <text class="menu-icon gray">✧</text>
           </view>
           <text class="menu-text">清除缓存</text>
           <text class="arrow">›</text>
@@ -78,7 +88,7 @@
         
         <view class="menu-item" @click="about">
           <view class="menu-icon-wrap">
-            <text class="menu-icon">❓</text>
+            <text class="menu-icon gray">?</text>
           </view>
           <text class="menu-text">关于</text>
           <text class="arrow">›</text>
@@ -137,7 +147,6 @@ export default {
         this.user = res.data.user || { nickname: '微信用户', id: '', avatarUrl: '' }
         this.stats = res.data.stats || { mistakes: 0, streak: 0 }
       } else {
-        // 加载失败使用默认值
         this.user = { nickname: '微信用户', id: '', avatarUrl: '' }
         this.stats = { mistakes: 0, streak: 0 }
       }
@@ -194,138 +203,169 @@ export default {
 
 /* 用户信息卡 - 渐变背景 */
 .user-card { 
-  background: linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 100%);
-  padding: 48rpx 40rpx; 
+  background: linear-gradient(135deg, #F0F7FF 0%, #FFFFFF 100%);
+  padding: 40rpx; 
   display: flex; 
   align-items: center; 
-  gap: 30rpx; 
-  margin: 24rpx 30rpx 24rpx; 
-  border-radius: 20rpx; 
-  box-shadow: 0 4rpx 24rpx rgba(30, 58, 138, 0.06);
-  border: 1rpx solid #E0E7FF;
+  gap: 24rpx; 
+  margin: 24rpx 30rpx 32rpx; 
+  border-radius: 24rpx; 
+  box-shadow: 0 8rpx 32rpx rgba(30, 58, 138, 0.08);
+  border: 1rpx solid #E8EFFF;
 }
 
 /* 头像 */
 .avatar { 
-  width: 120rpx; 
-  height: 120rpx; 
-  background: linear-gradient(135deg, #DBEAFE, #EFF6FF); 
-  border-radius: 60rpx; 
+  width: 100rpx; 
+  height: 100rpx; 
+  background: #FFFFFF; 
+  border-radius: 50rpx; 
   display: flex; 
   align-items: center; 
   justify-content: center; 
-  font-size: 60rpx;
-  border: 2rpx solid #DBEAFE;
+  border: 2rpx solid #E2E8F0;
   overflow: hidden;
+  flex-shrink: 0;
 }
 .avatar-login {
   border: 2rpx dashed #CBD5E1;
   background: #F8FAFC;
 }
+.avatar-placeholder {
+  font-size: 40rpx;
+  opacity: 0.5;
+}
 .avatar-img {
   width: 100%;
   height: 100%;
-  border-radius: 60rpx;
 }
 
-.user-info { flex: 1; }
+.user-info { 
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 /* 昵称和徽章 */
 .nickname-wrap {
   display: flex;
   align-items: center;
-  gap: 16rpx;
-  margin-bottom: 12rpx;
+  gap: 12rpx;
+  margin-bottom: 8rpx;
 }
 .nickname { 
-  font-size: 36rpx; 
-  font-weight: bold; 
-  color: #111827; 
+  font-size: 34rpx; 
+  font-weight: 600; 
+  color: #1F2937; 
 }
 .badge {
   background: linear-gradient(135deg, #F59E0B, #D97706);
   color: #fff;
-  font-size: 20rpx;
-  padding: 4rpx 12rpx;
-  border-radius: 20rpx;
+  font-size: 18rpx;
+  padding: 4rpx 10rpx;
+  border-radius: 12rpx;
   font-weight: 500;
 }
 
 /* 用户ID */
 .user-id { 
-  font-size: 26rpx; 
-  color: #6B7280; 
+  font-size: 24rpx; 
+  color: #9CA3AF; 
   font-family: "DIN Alternate", "Roboto Mono", monospace;
 }
 
-/* 登录按钮 */
-.login-btn {
+/* 登录区域 */
+.login-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+/* 登录按钮 - 描边样式 */
+.login-btn-outline {
   display: inline-flex;
   align-items: center;
-  gap: 8rpx;
-  background: linear-gradient(135deg, #F59E0B, #D97706);
-  color: #fff;
-  padding: 12rpx 24rpx;
-  border-radius: 30rpx;
-  margin-top: 8rpx;
+  justify-content: center;
+  border: 1rpx solid #F59E0B;
+  color: #F59E0B;
+  background: transparent;
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  align-self: flex-start;
 }
 .login-text {
   font-size: 24rpx;
   font-weight: 500;
 }
-.login-arrow {
-  font-size: 28rpx;
-  font-weight: bold;
+
+/* 登录提示 */
+.login-hint {
+  font-size: 22rpx;
+  color: #9CA3AF;
 }
 
 /* 统计数据卡 */
 .stats-card { 
   background: #FFFFFF; 
-  border-radius: 20rpx; 
-  margin: 0 30rpx 24rpx; 
-  padding: 40rpx 32rpx; 
+  border-radius: 24rpx; 
+  margin: 0 30rpx 32rpx; 
+  padding: 32rpx; 
   display: flex;
-  box-shadow: 0 4rpx 24rpx rgba(30, 58, 138, 0.06);
+  box-shadow: 0 8rpx 32rpx rgba(30, 58, 138, 0.06);
 }
 .stat-item { 
   flex: 1; 
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
 }
 .stat-value { 
   font-size: 40rpx; 
   font-weight: 700; 
   color: #1E3A8A; 
-  display: block;
   font-family: "DIN Alternate", "Roboto Mono", monospace;
-  margin-bottom: 8rpx;
+  line-height: 1.2;
 }
 .stat-value.stat-zero {
   color: #CBD5E1;
-  font-weight: 300;
-}
-.stat-label { 
-  font-size: 24rpx; 
-  color: #6B7280; 
-  display: block;
+  font-weight: 400;
 }
 .stat-unit {
   font-size: 20rpx;
   color: #9CA3AF;
-  position: absolute;
-  right: 20rpx;
-  top: 8rpx;
+  margin-top: 4rpx;
+  margin-bottom: 8rpx;
+}
+.stat-label { 
+  font-size: 24rpx; 
+  color: #6B7280; 
 }
 
 /* 功能分组 */
 .menu-section {
   margin: 0 30rpx 24rpx;
 }
-.menu-section-title {
-  font-size: 24rpx;
-  color: #9CA3AF;
+
+/* 分组标题 */
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
   margin-bottom: 16rpx;
-  padding-left: 16rpx;
+  margin-top: 8rpx;
+}
+.section-accent {
+  width: 4rpx;
+  height: 28rpx;
+  background: #1E3A8A;
+  border-radius: 2rpx;
+}
+.menu-section-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #374151;
 }
 
 /* 功能列表 */
@@ -333,18 +373,19 @@ export default {
   background: #FFFFFF; 
   border-radius: 20rpx; 
   overflow: hidden;
-  box-shadow: 0 4rpx 24rpx rgba(30, 58, 138, 0.06);
+  box-shadow: 0 4rpx 24rpx rgba(30, 58, 138, 0.05);
 }
 .menu-item { 
   display: flex; 
   align-items: center; 
-  padding: 32rpx; 
+  padding: 28rpx 32rpx;
   position: relative;
 }
+/* 分割线 - 左侧缩进 */
 .menu-item:not(:last-child)::after {
   content: '';
   position: absolute;
-  left: 96rpx;
+  left: 88rpx;
   right: 0;
   bottom: 0;
   height: 1rpx;
@@ -353,29 +394,27 @@ export default {
 
 /* 图标 */
 .menu-icon-wrap {
-  width: 48rpx;
-  height: 48rpx;
+  width: 40rpx;
+  height: 40rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 24rpx;
+  margin-right: 20rpx;
 }
 .menu-icon { 
-  font-size: 32rpx; 
-  opacity: 0.7;
+  font-size: 28rpx;
+  color: #1E3A8A;
 }
-.menu-item.primary .menu-icon {
-  opacity: 1;
+.menu-icon.gray {
+  color: #64748B;
+  opacity: 0.8;
 }
 
 .menu-text { 
   flex: 1; 
   font-size: 30rpx; 
-  color: #111827; 
-  font-weight: 500; 
-}
-.menu-item.primary .menu-text {
-  color: #1E3A8A;
+  color: #374151; 
+  font-weight: 400; 
 }
 
 .arrow { 
