@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { getMistakes } from '@/utils/mistakeApi.js'
+
 export default {
   data() {
     return {
@@ -51,32 +53,31 @@ export default {
   onLoad() {
     this.loadMistakes()
   },
+  onShow() {
+    this.loadMistakes()
+  },
   methods: {
-    loadMistakes() {
-      this.mistakes = [
-        {
-          _id: '1',
-          stockName: '平安银行',
-          stockCode: '000001',
-          tradeDate: '2024-03-01',
-          action: 'buy',
-          price: '12.50',
-          quantity: 1000,
-          mistakeTypes: ['追高买入', '仓位过重'],
-          reflection: '看到新闻就冲进去了'
-        },
-        {
-          _id: '2',
-          stockName: '宁德时代',
-          stockCode: '300750',
-          tradeDate: '2024-02-28',
-          action: 'sell',
-          price: '185.00',
-          quantity: 500,
-          mistakeTypes: ['恐慌割肉'],
-          reflection: '早盘低开就慌了'
-        }
-      ]
+    async loadMistakes() {
+      uni.showLoading({ title: '加载中...' })
+      const res = await getMistakes()
+      uni.hideLoading()
+      
+      if (res.success) {
+        // 字段映射适配
+        this.mistakes = res.data.map(item => ({
+          _id: item._id,
+          stockName: item.stockName,
+          stockCode: item.stockCode,
+          tradeDate: item.date || item.createTime,
+          action: item.action || 'buy',
+          price: item.price || 0,
+          quantity: item.quantity || 0,
+          mistakeTypes: item.mistakeTypes || [],
+          reflection: item.reflection || ''
+        }))
+      } else {
+        uni.showToast({ title: res.error || '加载失败', icon: 'none' })
+      }
     },
     setFilter(filter) {
       this.currentFilter = filter
