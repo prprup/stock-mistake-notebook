@@ -97,7 +97,7 @@ export default {
       }
     },
     goToAnalysis() {
-      uni.switchTab({ url: '/pages/analysis/analysis' })
+      uni.navigateTo({ url: '/pages/analysis/analysis' })
     },
     exportData() {
       uni.showToast({ title: '导出功能开发中', icon: 'none' })
