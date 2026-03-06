@@ -126,11 +126,11 @@ export default {
 
 <style scoped>
 .container { background: #f8fafc; min-height: 100vh; padding-bottom: 40rpx; }
-.user-card { background: #1e293b; padding: 60rpx 40rpx; display: flex; align-items: center; gap: 30rpx; }
-.avatar { width: 120rpx; height: 120rpx; background: rgba(255,255,255,0.1); border-radius: 60rpx; display: flex; align-items: center; justify-content: center; font-size: 60rpx; }
+.user-card { background: #fff; padding: 60rpx 40rpx; display: flex; align-items: center; gap: 30rpx; margin: 20rpx 30rpx 30rpx; border-radius: 20rpx; box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.05); }
+.avatar { width: 120rpx; height: 120rpx; background: #eff6ff; border-radius: 60rpx; display: flex; align-items: center; justify-content: center; font-size: 60rpx; }
 .user-info { flex: 1; }
-.nickname { font-size: 40rpx; font-weight: bold; color: #fff; display: block; }
-.user-id { font-size: 26rpx; color: #94a3b8; margin-top: 10rpx; display: block; }
+.nickname { font-size: 40rpx; font-weight: bold; color: #1e293b; display: block; }
+.user-id { font-size: 26rpx; color: #64748b; margin-top: 10rpx; display: block; }
 .stats-card { background: #fff; border-radius: 20rpx; margin: 20rpx 30rpx 30rpx; padding: 40rpx; display: flex; box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.05); }
 .stat-item { flex: 1; text-align: center; }
 .stat-value { font-size: 40rpx; font-weight: bold; color: #2563eb; display: block; }

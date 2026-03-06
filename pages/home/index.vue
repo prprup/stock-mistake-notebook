@@ -161,11 +161,11 @@ export default {
 
 <style scoped>
 .container { padding: 20rpx; background: #f8fafc; min-height: 100vh; }
-.header-card { background: #1e293b; border-radius: 20rpx; padding: 40rpx 30rpx; margin-bottom: 30rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06); }
+.header-card { background: #fff; border-radius: 20rpx; padding: 40rpx 30rpx; margin-bottom: 30rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06); }
 .stat-row { display: flex; justify-content: space-around; }
 .stat-item { display: flex; flex-direction: column; align-items: center; }
 .stat-num { font-size: 56rpx; font-weight: bold; color: #2563eb; }
-.stat-label { font-size: 24rpx; color: #94a3b8; margin-top: 10rpx; }
+.stat-label { font-size: 24rpx; color: #64748b; margin-top: 10rpx; }
 .tip-card { background: #fff; border-radius: 16rpx; padding: 30rpx; display: flex; align-items: center; margin-bottom: 30rpx; border-left: 8rpx solid #2563eb; }
 .tip-icon { font-size: 40rpx; margin-right: 20rpx; }
 .tip-text { font-size: 28rpx; color: #1e293b; flex: 1; }
