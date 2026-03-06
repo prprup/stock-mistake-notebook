@@ -1,3 +1,4 @@
+
 <template>
   <view class="container">
     <!-- 头部统计卡片 -->
@@ -6,14 +7,23 @@
         <view class="stat-item">
           <text class="stat-num" :class="{ 'stat-empty': monthMistakes === 0 }">{{monthMistakes}}</text>
           <text class="stat-label">本月错题</text>
+          <view class="stat-icon-wrap">
+            <text class="stat-icon">📅</text>
+          </view>
         </view>
         <view class="stat-item">
           <text class="stat-num" :class="{ 'stat-empty': totalMistakes === 0 }">{{totalMistakes}}</text>
           <text class="stat-label">累计错题</text>
+          <view class="stat-icon-wrap">
+            <text class="stat-icon">📊</text>
+          </view>
         </view>
         <view class="stat-item">
           <text class="stat-num" :class="{ 'stat-empty': streakDays === 0 }">{{streakDays}}</text>
           <text class="stat-label">连续记录</text>
+          <view class="stat-icon-wrap">
+            <text class="stat-icon" :class="{ 'stat-icon-active': streakDays > 0 }">🔥</text>
+          </view>
         </view>
       </view>
     </view>
@@ -68,14 +78,17 @@
         <view class="enemy-count">本月犯了 {{topMistake.count}} 次</view>
         <view class="enemy-desc">{{topMistake.description}}</view>
       </view>
-      <!-- 空状态 - 带插画和行动按钮 -->
+      <!-- 空状态 - 线条风格插画 -->
       <view class="enemy-empty-card" v-else>
         <view class="empty-illustration">
-          <view class="monster-icon">👾</view>
-          <view class="shadow-line"></view>
+          <!-- 下降趋势线条图 -->
+          <view class="trend-chart">
+            <view class="trend-line"></view>
+            <view class="trend-arrow">↘</view>
+          </view>
         </view>
-        <text class="empty-title">暂无头号敌人</text>
-        <text class="empty-desc">快去记一笔，揪出亏损元凶</text>
+        <text class="empty-title">暂无亏损记录</text>
+        <text class="empty-desc">保持警惕，让亏损无处可藏</text>
         
         <view class="empty-action-btn" @click="goToManual">
           <text class="btn-icon">+</text>
@@ -110,14 +123,13 @@
     </view>
 
     <!-- 最近错题 -->
-    <view class="section">
+    <view class="section" v-if="recentMistakes.length > 0">
       <view class="section-header">
         <text class="section-title">最近错题</text>
-        <text class="more" @click="goToMistakes" v-if="recentMistakes.length > 0">查看全部 ></text>
+        <text class="more" @click="goToMistakes">查看全部 ></text>
       </view>
       
-      <!-- 有数据时显示列表 -->
-      <view class="mistake-list" v-if="recentMistakes.length > 0">
+      <view class="mistake-list">
         <view class="mistake-item" v-for="item in recentMistakes" :key="item._id" @click="goToDetail(item._id)">
           <view class="mistake-header">
             <text class="stock-name">{{item.stockName}}</text>
@@ -131,16 +143,17 @@
           </view>
         </view>
       </view>
-      
-      <!-- 空状态 - 占位卡片 -->
-      <view class="mistake-empty-placeholder" v-else @click="goToMistakes">
-        <view class="placeholder-card">
-          <view class="placeholder-lines">
-            <view class="placeholder-line short"></view>
-            <view class="placeholder-line long"></view>
-          </view>
-          <text class="placeholder-text">第一笔错题将显示在这里</text>
-        </view>
+    </view>
+    
+    <!-- 无数据时显示引导 -->
+    <view class="section" v-else>
+      <view class="section-header">
+        <text class="section-title">最近错题</text>
+      </view>
+      <view class="mistake-guide-card" @click="goToMistakes">
+        <view class="guide-icon">📋</view>
+        <text class="guide-text">暂无记录，记录第一笔交易开始复盘</text>
+        <text class="guide-arrow">→</text>
       </view>
     </view>
   </view>
@@ -248,25 +261,52 @@ export default {
 .header-card { 
   background: #FFFFFF; 
   border-radius: 24rpx; 
-  padding: 48rpx 32rpx; 
+  padding: 40rpx 32rpx; 
   margin-bottom: 32rpx; 
   box-shadow: 0 4rpx 24rpx rgba(30, 58, 138, 0.06); 
 }
 .stat-row { display: flex; justify-content: space-around; }
-.stat-item { display: flex; flex-direction: column; align-items: center; }
+.stat-item { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  position: relative;
+}
 .stat-num { 
-  font-size: 56rpx; 
+  font-size: 48rpx; 
   font-weight: 700; 
   color: #1E3A8A; 
   font-family: "DIN Alternate", "Roboto Mono", monospace;
-  transition: color 0.3s;
+  transition: all 0.3s;
+  margin-bottom: 8rpx;
 }
 /* 无数据时显示灰色 */
 .stat-num.stat-empty {
   color: #9CA3AF;
   opacity: 0.6;
 }
-.stat-label { font-size: 24rpx; color: #6B7280; margin-top: 12rpx; }
+.stat-label { 
+  font-size: 24rpx; 
+  color: #6B7280; 
+  margin-bottom: 16rpx;
+}
+/* 统计图标 */
+.stat-icon-wrap {
+  width: 48rpx;
+  height: 48rpx;
+  background: #F3F4F6;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stat-icon {
+  font-size: 24rpx;
+  opacity: 0.5;
+}
+.stat-icon-active {
+  opacity: 1;
+}
 
 /* 今日提醒 */
 .tip-card { 
@@ -370,7 +410,7 @@ export default {
 
 /* 头号敌人 - 有数据时 */
 .enemy-card { 
-  background: #FFFFFF; 
+  background: #F8FAFC; 
   border-radius: 20rpx; 
   padding: 48rpx; 
   text-align: center; 
@@ -393,9 +433,9 @@ export default {
 .enemy-count { font-size: 28rpx; color: #DC2626; margin-bottom: 20rpx; font-weight: 600; }
 .enemy-desc { font-size: 26rpx; color: #6B7280; line-height: 1.6; }
 
-/* 头号敌人 - 空状态（带渐变背景） */
+/* 头号敌人 - 空状态（线条风格插画） */
 .enemy-empty-card { 
-  background: linear-gradient(135deg, #F0F4FF, #F5F7FA); 
+  background: linear-gradient(145deg, #F0F4FF 0%, #F8FAFC 100%); 
   border-radius: 24rpx; 
   padding: 60rpx 48rpx; 
   text-align: center;
@@ -406,19 +446,45 @@ export default {
 .empty-illustration {
   position: relative;
   margin-bottom: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.monster-icon {
-  font-size: 80rpx;
-  display: block;
-  margin-bottom: 16rpx;
-  opacity: 0.8;
+/* 下降趋势线条图 */
+.trend-chart {
+  position: relative;
+  width: 120rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.shadow-line {
-  width: 60rpx;
-  height: 8rpx;
-  background: linear-gradient(90deg, transparent, #CBD5E1, transparent);
-  border-radius: 4rpx;
-  margin: 0 auto;
+.trend-line {
+  position: absolute;
+  width: 80rpx;
+  height: 4rpx;
+  background: linear-gradient(135deg, #64748B, #94A3B8);
+  transform: rotate(25deg);
+  border-radius: 2rpx;
+}
+.trend-line::before {
+  content: '';
+  position: absolute;
+  left: -20rpx;
+  top: -10rpx;
+  width: 30rpx;
+  height: 4rpx;
+  background: linear-gradient(135deg, #94A3B8, #CBD5E1);
+  transform: rotate(-15deg);
+  border-radius: 2rpx;
+}
+.trend-arrow {
+  position: absolute;
+  right: 0;
+  bottom: 10rpx;
+  font-size: 36rpx;
+  color: #64748B;
+  font-weight: bold;
 }
 .empty-title {
   font-size: 32rpx;
@@ -433,19 +499,21 @@ export default {
   display: block;
   margin-bottom: 32rpx;
 }
-/* 琥珀色行动按钮 */
+/* 琥珀色行动按钮 - 带内外阴影 */
 .empty-action-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 12rpx;
-  background: linear-gradient(135deg, #F59E0B, #D97706);
+  background: linear-gradient(145deg, #F59E0B 0%, #D97706 100%);
   color: #fff;
   padding: 24rpx 48rpx;
   border-radius: 40rpx;
   font-size: 28rpx;
   font-weight: 600;
-  box-shadow: 0 4rpx 16rpx rgba(245, 158, 11, 0.3);
+  box-shadow: 
+    inset 0 1rpx 0 rgba(255,255,255,0.3),
+    0 4rpx 16rpx rgba(245, 158, 11, 0.35);
   transition: transform 0.1s;
 }
 .empty-action-btn:active {
@@ -459,30 +527,45 @@ export default {
   font-size: 28rpx;
 }
 
-/* 快速记录 */
+/* 快速记录 - 质感升级 */
 .quick-actions { display: flex; gap: 20rpx; }
 .action-btn { 
   flex: 1; 
-  background: linear-gradient(135deg, #3B82F6, #1E3A8A); 
+  background: linear-gradient(145deg, #3B82F6 0%, #1D4ED8 100%);
   border-radius: 16rpx; 
   padding: 32rpx 20rpx; 
   display: flex; 
   flex-direction: column; 
   align-items: center;
-  box-shadow: 0 4rpx 16rpx rgba(30, 58, 138, 0.15);
+  box-shadow: 
+    inset 0 1rpx 0 rgba(255,255,255,0.2),
+    0 4rpx 12rpx rgba(59, 130, 246, 0.25);
   transition: transform 0.1s;
+  position: relative;
+  overflow: hidden;
+}
+/* 高光效果 */
+.action-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1rpx;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
 }
 .action-btn:active { transform: scale(0.95); }
 /* 图标白色圆形背景 */
 .action-icon-wrap {
   width: 64rpx;
   height: 64rpx;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 32rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 16rpx;
+  border: 1rpx solid rgba(255,255,255,0.1);
 }
 .action-icon { 
   font-size: 32rpx; 
@@ -513,41 +596,29 @@ export default {
 }
 .mistake-reflection { font-size: 26rpx; color: #6B7280; line-height: 1.5; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 
-/* 最近错题 - 空状态占位卡片 */
-.mistake-empty-placeholder {
-  padding: 0;
-}
-.placeholder-card {
+/* 最近错题 - 引导卡片 */
+.mistake-guide-card {
   background: #FFFFFF;
   border-radius: 20rpx;
-  padding: 48rpx;
-  border: 2rpx dashed #E5E7EB;
+  padding: 40rpx;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+  border: 1rpx solid #F3F4F6;
 }
-.placeholder-lines {
-  display: flex;
-  flex-direction: column;
-  gap: 16rpx;
-  margin-bottom: 24rpx;
-  width: 100%;
-  max-width: 300rpx;
+.guide-icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
 }
-.placeholder-line {
-  height: 16rpx;
-  background: #F3F4F6;
-  border-radius: 8rpx;
+.guide-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #6B7280;
 }
-.placeholder-line.short {
-  width: 40%;
-}
-.placeholder-line.long {
-  width: 70%;
-}
-.placeholder-text {
-  font-size: 26rpx;
-  color: #9CA3AF;
+.guide-arrow {
+  font-size: 32rpx;
+  color: #3B82F6;
+  font-weight: bold;
 }
 </style>
