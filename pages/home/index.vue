@@ -26,6 +26,39 @@
       </view>
     </view>
 
+    <!-- 最新预案 -->
+    <view class="section" v-if="latestPlan">
+      <view class="section-header">
+        <text class="section-title">最新预案</text>
+        <text class="more" @click="goToPlans">查看全部 ></text>
+      </view>
+      <view class="plan-card" @click="goToPlanDetail(latestPlan._id)">
+        <view class="plan-header">
+          <view class="plan-stock">
+            <text class="stock-name">{{latestPlan.stockName}}</text>
+            <text class="stock-code">{{latestPlan.stockCode}}</text>
+          </view>
+          <view class="plan-status" :class="latestPlan.status">
+            {{latestPlan.status === 'pending' ? '待执行' : latestPlan.status === 'executed' ? '已执行' : '已取消'}}
+          </view>
+        </view>
+        <view class="plan-info">
+          <view class="plan-row">
+            <text class="plan-label">{{latestPlan.action === 'buy' ? '买入' : '卖出'}}目标价</text>
+            <text class="plan-value">¥{{latestPlan.targetPrice}}</text>
+          </view>
+          <view class="plan-row" v-if="latestPlan.stopLoss">
+            <text class="plan-label">止损</text>
+            <text class="plan-value stop">¥{{latestPlan.stopLoss}}</text>
+          </view>
+          <view class="plan-row" v-if="latestPlan.takeProfit">
+            <text class="plan-label">止盈</text>
+            <text class="plan-value profit">¥{{latestPlan.takeProfit}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
     <!-- 最常犯的错误 -->
     <view class="section">
       <view class="section-title">你的头号敌人</view>
@@ -116,6 +149,7 @@
 <script>
 import { login, checkLogin, getUserInfo } from '@/utils/auth.js'
 import { getHomeStats } from '@/utils/homeApi.js'
+import { getPlans } from '@/utils/planApi.js'
 
 export default {
   data() {
@@ -126,6 +160,7 @@ export default {
       todayTip: '',
       topMistake: null,
       recentMistakes: [],
+      latestPlan: null,
       isLogin: false,
       userInfo: null
     }
@@ -154,12 +189,16 @@ export default {
     async loadData() {
       uni.showLoading({ title: '加载中' })
       
-      const result = await getHomeStats()
+      // 并行获取首页数据和最新预案
+      const [homeResult, planResult] = await Promise.all([
+        getHomeStats(),
+        getPlans({ limit: 1 })
+      ])
       
       uni.hideLoading()
       
-      if (result.success) {
-        const data = result.data
+      if (homeResult.success) {
+        const data = homeResult.data
         this.monthMistakes = data.monthMistakes
         this.totalMistakes = data.totalMistakes
         this.streakDays = data.streakDays
@@ -167,7 +206,14 @@ export default {
         this.topMistake = data.topMistake
         this.recentMistakes = data.recentMistakes
       } else {
-        uni.showToast({ title: result.error || '加载失败', icon: 'none' })
+        uni.showToast({ title: homeResult.error || '加载失败', icon: 'none' })
+      }
+      
+      // 设置最新预案
+      if (planResult.success && planResult.data && planResult.data.length > 0) {
+        this.latestPlan = planResult.data[0]
+      } else {
+        this.latestPlan = null
       }
     },
     goToManual() {
@@ -178,6 +224,12 @@ export default {
     },
     goToPlan() {
       uni.navigateTo({ url: '/pages/plan/plan' })
+    },
+    goToPlans() {
+      uni.switchTab({ url: '/pages/plan/plan' })
+    },
+    goToPlanDetail(id) {
+      uni.navigateTo({ url: `/pages/plan/detail?id=${id}` })
     },
     goToMistakes() {
       uni.switchTab({ url: '/pages/mistakes/mistakes' })
@@ -240,6 +292,81 @@ export default {
   margin-bottom: 20rpx; 
 }
 .more { font-size: 26rpx; color: #3B82F6; }
+
+/* 最新预案卡片 */
+.plan-card { 
+  background: #FFFFFF; 
+  border-radius: 20rpx; 
+  padding: 32rpx;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+}
+.plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+  padding-bottom: 24rpx;
+  border-bottom: 1rpx solid #F3F4F6;
+}
+.plan-stock {
+  display: flex;
+  flex-direction: column;
+}
+.plan-stock .stock-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #111827;
+}
+.plan-stock .stock-code {
+  font-size: 24rpx;
+  color: #9CA3AF;
+  margin-top: 6rpx;
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
+.plan-status {
+  padding: 8rpx 20rpx;
+  border-radius: 30rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+.plan-status.pending {
+  background: #FEF3C7;
+  color: #D97706;
+}
+.plan-status.executed {
+  background: #D1FAE5;
+  color: #059669;
+}
+.plan-status.cancelled {
+  background: #F3F4F6;
+  color: #9CA3AF;
+}
+.plan-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+.plan-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.plan-label {
+  font-size: 26rpx;
+  color: #6B7280;
+}
+.plan-value {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #111827;
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
+.plan-value.stop {
+  color: #DC2626;
+}
+.plan-value.profit {
+  color: #059669;
+}
 
 /* 头号敌人 - 有数据时 */
 .enemy-card { 
