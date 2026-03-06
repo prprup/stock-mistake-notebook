@@ -107,12 +107,6 @@
           </view>
           <text class="action-text">手动录入</text>
         </view>
-        <view class="action-btn" @click="goToOCR">
-          <view class="action-icon-wrap">
-            <text class="action-icon">📷</text>
-          </view>
-          <text class="action-text">截图识别</text>
-        </view>
         <view class="action-btn" @click="goToPlan">
           <view class="action-icon-wrap">
             <text class="action-icon">📝</text>
@@ -231,9 +225,6 @@ export default {
     },
     goToManual() {
       uni.navigateTo({ url: '/pages/record/manual' })
-    },
-    goToOCR() {
-      uni.navigateTo({ url: '/pages/record/ocr' })
     },
     goToPlan() {
       uni.navigateTo({ url: '/pages/plan/plan' })

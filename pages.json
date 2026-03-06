@@ -25,12 +25,6 @@
       }
     },
     {
-      "path": "pages/record/ocr",
-      "style": {
-        "navigationBarTitleText": "截图识别"
-      }
-    },
-    {
       "path": "pages/mistakes/mistakes",
       "style": {
         "navigationBarTitleText": "我的错题"
