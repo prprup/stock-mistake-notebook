@@ -86,7 +86,7 @@ export default {
       uni.showLoading({ title: '加载中...' })
       const res = await getUserStats()
       uni.hideLoading()
-      
+
       if (res.success) {
         this.user = res.data.user || { nickname: '微信用户', id: '' }
         this.stats = res.data.stats || { mistakes: 0, public: 0, likes: 0 }
@@ -125,21 +125,75 @@ export default {
 </script>
 
 <style scoped>
-.container { background: #f8fafc; min-height: 100vh; padding-bottom: 40rpx; }
-.user-card { background: #fff; padding: 60rpx 40rpx; display: flex; align-items: center; gap: 30rpx; margin: 20rpx 30rpx 30rpx; border-radius: 20rpx; box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.05); }
-.avatar { width: 120rpx; height: 120rpx; background: #eff6ff; border-radius: 60rpx; display: flex; align-items: center; justify-content: center; font-size: 60rpx; }
+.container { background: #F5F7FA; min-height: 100vh; padding-bottom: 40rpx; }
+.user-card { 
+  background: #FFFFFF; 
+  padding: 60rpx 40rpx; 
+  display: flex; 
+  align-items: center; 
+  gap: 30rpx; 
+  margin: 24rpx 30rpx 30rpx; 
+  border-radius: 24rpx; 
+  box-shadow: 0 4rpx 24rpx rgba(30, 58, 138, 0.06);
+}
+.avatar { 
+  width: 120rpx; 
+  height: 120rpx; 
+  background: linear-gradient(135deg, #EFF6FF, #DBEAFE); 
+  border-radius: 60rpx; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 60rpx;
+  border: 2rpx solid #DBEAFE;
+}
 .user-info { flex: 1; }
-.nickname { font-size: 40rpx; font-weight: bold; color: #1e293b; display: block; }
-.user-id { font-size: 26rpx; color: #64748b; margin-top: 10rpx; display: block; }
-.stats-card { background: #fff; border-radius: 20rpx; margin: 20rpx 30rpx 30rpx; padding: 40rpx; display: flex; box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.05); }
+.nickname { 
+  font-size: 40rpx; 
+  font-weight: bold; 
+  color: #111827; 
+  display: block; 
+}
+.user-id { 
+  font-size: 26rpx; 
+  color: #6B7280; 
+  margin-top: 10rpx; 
+  display: block;
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
+.stats-card { 
+  background: #FFFFFF; 
+  border-radius: 24rpx; 
+  margin: 0 30rpx 30rpx; 
+  padding: 40rpx; 
+  display: flex;
+  box-shadow: 0 4rpx 24rpx rgba(30, 58, 138, 0.06);
+}
 .stat-item { flex: 1; text-align: center; }
-.stat-value { font-size: 40rpx; font-weight: bold; color: #2563eb; display: block; }
-.stat-label { font-size: 24rpx; color: #64748b; margin-top: 10rpx; display: block; }
-.menu-list { background: #fff; border-radius: 20rpx; margin: 0 30rpx; overflow: hidden; }
-.menu-item { display: flex; align-items: center; padding: 30rpx; border-bottom: 1rpx solid #f1f5f9; }
+.stat-value { 
+  font-size: 40rpx; 
+  font-weight: 700; 
+  color: #1E3A8A; 
+  display: block;
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
+.stat-label { font-size: 24rpx; color: #6B7280; margin-top: 10rpx; display: block; }
+.menu-list { 
+  background: #FFFFFF; 
+  border-radius: 24rpx; 
+  margin: 0 30rpx; 
+  overflow: hidden;
+  box-shadow: 0 4rpx 24rpx rgba(30, 58, 138, 0.06);
+}
+.menu-item { 
+  display: flex; 
+  align-items: center; 
+  padding: 32rpx; 
+  border-bottom: 1rpx solid #F3F4F6; 
+}
 .menu-item:last-child { border-bottom: none; }
 .menu-icon { font-size: 40rpx; margin-right: 20rpx; }
-.menu-text { flex: 1; font-size: 30rpx; color: #1e293b; }
-.arrow { font-size: 28rpx; color: #cbd5e1; }
-.version { text-align: center; font-size: 24rpx; color: #94a3b8; margin-top: 60rpx; }
+.menu-text { flex: 1; font-size: 30rpx; color: #111827; font-weight: 500; }
+.arrow { font-size: 28rpx; color: #D1D5DB; }
+.version { text-align: center; font-size: 24rpx; color: #9CA3AF; margin-top: 60rpx; }
 </style>

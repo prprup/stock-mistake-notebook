@@ -13,8 +13,14 @@ export default {
 </script>
 
 <style>
-/* 全局样式 */
+/* 全局样式 - 专业金融蓝配色 */
 page {
-  background: #f5f5f5;
+  background: #F5F7FA;
+  font-family: -apple-system, "PingFang SC", "DIN Alternate", "Roboto Mono", sans-serif;
+}
+
+/* 等宽字体用于数字显示 */
+.font-mono {
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
 }
 </style>

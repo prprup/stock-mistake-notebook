@@ -1,28 +1,32 @@
-/**
- * 这里是uni-app内置的常用样式变量
- */
+/* 专业金融蓝配色方案 */
 
 /* 行为相关颜色 */
-$uni-color-primary: #2563eb;
-$uni-color-success: #4cd964;
-$uni-color-warning: #f0ad4e;
-$uni-color-error: #dc2626;
+$uni-color-primary: #1E3A8A;      /* 深海蓝 - 主色调 */
+$uni-color-primary-light: #3B82F6; /* 亮蓝 - 用于强调数字 */
+$uni-color-success: #059669;       /* 翠绿 - 正确/无错误 */
+$uni-color-warning: #D97706;       /* 琥珀金 - 预警 */
+$uni-color-error: #DC2626;         /* 红色 - 错误/下跌 */
+
+/* 股市语义化颜色 */
+$uni-color-up: #DC2626;            /* 涨 - 红 */
+$uni-color-down: #059669;          /* 跌 - 绿 */
 
 /* 文字基本颜色 */
-$uni-text-color: #1e293b;
+$uni-text-color: #111827;          /* 深灰黑 - 主要文字 */
 $uni-text-color-inverse: #fff;
-$uni-text-color-grey: #64748b;
-$uni-text-color-placeholder: #94a3b8;
-$uni-text-color-disable: #94a3b8;
+$uni-text-color-grey: #6B7280;     /* 次级灰 */
+$uni-text-color-placeholder: #9CA3AF;
+$uni-text-color-disable: #9CA3AF;
 
 /* 背景颜色 */
-$uni-bg-color: #f8fafc;
-$uni-bg-color-grey: #f5f5f5;
-$uni-bg-color-hover: #f1f5f9;
+$uni-bg-color: #F5F7FA;            /* 极浅灰蓝 - 主背景 */
+$uni-bg-color-card: #FFFFFF;       /* 卡片纯白 */
+$uni-bg-color-grey: #F3F4F6;
+$uni-bg-color-hover: #E5E7EB;
 $uni-bg-color-mask: rgba(0, 0, 0, 0.4);
 
 /* 边框颜色 */
-$uni-border-color: #c8c7cc;
+$uni-border-color: #E5E7EB;
 
 /* 尺寸变量 */
 $uni-font-size-sm: 24rpx;
@@ -54,9 +58,9 @@ $uni-spacing-col-lg: 24rpx;
 $uni-opacity-disabled: 0.3;
 
 /* 文章场景相关 */
-$uni-color-title: #2c405a;
+$uni-color-title: #1E3A8A;
 $uni-font-size-title: 40rpx;
-$uni-color-subtitle: #555;
+$uni-color-subtitle: #374151;
 $uni-font-size-subtitle: 36rpx;
-$uni-color-paragraph: #3f536e;
+$uni-color-paragraph: #4B5563;
 $uni-font-size-paragraph: 30rpx;

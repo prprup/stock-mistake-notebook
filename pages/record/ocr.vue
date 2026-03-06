@@ -82,23 +82,77 @@ export default {
 </script>
 
 <style scoped>
-.container { padding: 40rpx; background: #f8fafc; min-height: 100vh; }
-.upload-area { background: #fff; border-radius: 20rpx; padding: 100rpx 60rpx; text-align: center; border: 4rpx dashed #e2e8f0; }
+.container { padding: 40rpx; background: #F5F7FA; min-height: 100vh; }
+.upload-area { 
+  background: #FFFFFF; 
+  border-radius: 20rpx; 
+  padding: 100rpx 60rpx; 
+  text-align: center; 
+  border: 4rpx dashed #E5E7EB;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+}
 .upload-icon { font-size: 80rpx; margin-bottom: 30rpx; }
-.upload-text { font-size: 32rpx; color: #1e293b; margin-bottom: 16rpx; }
-.upload-tip { font-size: 26rpx; color: #94a3b8; }
-.preview-area { background: #fff; border-radius: 20rpx; padding: 30rpx; }
+.upload-text { font-size: 32rpx; color: #111827; margin-bottom: 16rpx; font-weight: 500; }
+.upload-tip { font-size: 26rpx; color: #9CA3AF; }
+.preview-area { 
+  background: #FFFFFF; 
+  border-radius: 20rpx; 
+  padding: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+}
 .preview-image { width: 100%; border-radius: 12rpx; }
 .preview-actions { display: flex; gap: 20rpx; margin-top: 30rpx; }
-.btn-secondary, .btn-primary { flex: 1; height: 80rpx; border-radius: 40rpx; font-size: 28rpx; display: flex; align-items: center; justify-content: center; }
-.btn-secondary { background: #f5f5f5; color: #64748b; }
-.btn-primary { background: #2563eb; color: #fff; }
-.result-section { background: #fff; border-radius: 20rpx; padding: 30rpx; margin-top: 30rpx; }
-.section-title { font-size: 32rpx; font-weight: bold; color: #1e293b; margin-bottom: 30rpx; }
+.btn-secondary, .btn-primary { 
+  flex: 1; 
+  height: 88rpx; 
+  border-radius: 44rpx; 
+  font-size: 28rpx; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  font-weight: 500;
+}
+.btn-secondary { background: #F3F4F6; color: #6B7280; }
+.btn-primary { 
+  background: linear-gradient(135deg, #3B82F6, #1E3A8A); 
+  color: #fff;
+  box-shadow: 0 4rpx 16rpx rgba(30, 58, 138, 0.2);
+}
+.result-section { 
+  background: #FFFFFF; 
+  border-radius: 20rpx; 
+  padding: 32rpx; 
+  margin-top: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+}
+.section-title { 
+  font-size: 32rpx; 
+  font-weight: bold; 
+  color: #1E3A8A; 
+  margin-bottom: 30rpx; 
+}
 .result-item { margin-bottom: 24rpx; }
 .result-row { display: flex; gap: 20rpx; }
 .result-row .result-item { flex: 1; }
-.label { display: block; font-size: 26rpx; color: #64748b; margin-bottom: 12rpx; }
-.input { height: 80rpx; background: #f5f5f5; border-radius: 12rpx; padding: 0 24rpx; font-size: 28rpx; color: #1e293b; }
-.btn-confirm { width: 100%; height: 90rpx; background: #2563eb; color: #fff; font-size: 32rpx; border-radius: 45rpx; margin-top: 30rpx; }
+.label { display: block; font-size: 26rpx; color: #6B7280; margin-bottom: 12rpx; }
+.input { 
+  height: 88rpx; 
+  background: #F5F7FA; 
+  border-radius: 12rpx; 
+  padding: 0 24rpx; 
+  font-size: 28rpx; 
+  color: #111827;
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
+.btn-confirm { 
+  width: 100%; 
+  height: 96rpx; 
+  background: linear-gradient(135deg, #3B82F6, #1E3A8A); 
+  color: #fff; 
+  font-size: 32rpx; 
+  border-radius: 48rpx; 
+  margin-top: 30rpx;
+  font-weight: 500;
+  box-shadow: 0 4rpx 16rpx rgba(30, 58, 138, 0.2);
+}
 </style>

@@ -71,7 +71,7 @@ export default {
       uni.showLoading({ title: '加载中...' })
       const res = await getMistakeDetail(id)
       uni.hideLoading()
-      
+
       if (res.success) {
         const data = res.data
         // 字段映射，适配页面显示
@@ -103,7 +103,7 @@ export default {
             uni.showLoading({ title: '删除中...' })
             const result = await deleteMistake(this.mistakeId)
             uni.hideLoading()
-            
+
             if (result.success) {
               uni.showToast({ title: '已删除', icon: 'success' })
               setTimeout(() => uni.navigateBack(), 1500)
@@ -119,29 +119,74 @@ export default {
 </script>
 
 <style scoped>
-.container { padding: 20rpx; background: #f8fafc; min-height: 100vh; }
-.detail-card { background: #fff; border-radius: 20rpx; padding: 40rpx; }
-.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30rpx; padding-bottom: 30rpx; border-bottom: 1rpx solid #e2e8f0; }
+.container { padding: 24rpx; background: #F5F7FA; min-height: 100vh; }
+.detail-card { 
+  background: #FFFFFF; 
+  border-radius: 24rpx; 
+  padding: 40rpx;
+  box-shadow: 0 4rpx 24rpx rgba(30, 58, 138, 0.06);
+}
+.header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 32rpx; 
+  padding-bottom: 32rpx; 
+  border-bottom: 1rpx solid #E5E7EB; 
+}
 .stock-info { display: flex; align-items: center; gap: 16rpx; }
-.stock-name { font-size: 40rpx; font-weight: bold; color: #1e293b; }
-.stock-code { font-size: 26rpx; color: #94a3b8; }
-.date { font-size: 26rpx; color: #94a3b8; }
-.trade-detail { margin-bottom: 30rpx; }
-.trade-row { display: flex; justify-content: space-between; align-items: center; padding: 20rpx 0; border-bottom: 1rpx solid #f1f5f9; }
+.stock-name { font-size: 40rpx; font-weight: bold; color: #111827; }
+.stock-code { font-size: 26rpx; color: #9CA3AF; }
+.date { font-size: 26rpx; color: #9CA3AF; }
+.trade-detail { margin-bottom: 32rpx; }
+.trade-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 24rpx 0; 
+  border-bottom: 1rpx solid #F3F4F6; 
+}
 .trade-row:last-child { border-bottom: none; }
-.label { font-size: 28rpx; color: #64748b; }
-.value { font-size: 32rpx; font-weight: bold; color: #1e293b; }
-.value.buy { color: #2563eb; }
-.value.sell { color: #64748b; }
-.value.total { color: #2563eb; font-size: 36rpx; }
-.section { margin-top: 30rpx; padding-top: 30rpx; border-top: 1rpx solid #e2e8f0; }
-.section-title { font-size: 28rpx; color: #94a3b8; margin-bottom: 20rpx; }
+.label { font-size: 28rpx; color: #6B7280; }
+.value { font-size: 32rpx; font-weight: bold; color: #111827; }
+.value.buy { color: #1E3A8A; }
+.value.sell { color: #6B7280; }
+.value.total { 
+  color: #1E3A8A; 
+  font-size: 36rpx; 
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
+.section { margin-top: 32rpx; padding-top: 32rpx; border-top: 1rpx solid #E5E7EB; }
+.section-title { font-size: 28rpx; color: #6B7280; margin-bottom: 20rpx; font-weight: 500; }
 .type-list { display: flex; flex-wrap: wrap; gap: 16rpx; }
-.type-tag { background: #eff6ff; color: #2563eb; font-size: 26rpx; padding: 12rpx 24rpx; border-radius: 30rpx; }
-.emotion-tag { display: inline-block; background: #f5f5f5; color: #64748b; font-size: 28rpx; padding: 16rpx 32rpx; border-radius: 12rpx; }
-.reflection-text { font-size: 30rpx; color: #1e293b; line-height: 1.8; }
-.actions { display: flex; gap: 20rpx; margin-top: 40rpx; }
-.btn-edit, .btn-delete { flex: 1; height: 90rpx; border-radius: 45rpx; font-size: 32rpx; display: flex; align-items: center; justify-content: center; }
-.btn-edit { background: #f5f5f5; color: #1e293b; }
-.btn-delete { background: #fee2e2; color: #dc2626; }
+.type-tag { 
+  background: #EFF6FF; 
+  color: #1E3A8A; 
+  font-size: 26rpx; 
+  padding: 12rpx 24rpx; 
+  border-radius: 30rpx;
+  font-weight: 500;
+}
+.emotion-tag { 
+  display: inline-block; 
+  background: #F3F4F6; 
+  color: #6B7280; 
+  font-size: 28rpx; 
+  padding: 16rpx 32rpx; 
+  border-radius: 12rpx; 
+}
+.reflection-text { font-size: 30rpx; color: #374151; line-height: 1.8; }
+.actions { display: flex; gap: 24rpx; margin-top: 40rpx; }
+.btn-edit, .btn-delete { 
+  flex: 1; 
+  height: 96rpx; 
+  border-radius: 48rpx; 
+  font-size: 32rpx; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  font-weight: 500;
+}
+.btn-edit { background: #F3F4F6; color: #374151; }
+.btn-delete { background: #FEE2E2; color: #DC2626; }
 </style>

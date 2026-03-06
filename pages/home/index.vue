@@ -160,36 +160,122 @@ export default {
 </script>
 
 <style scoped>
-.container { padding: 20rpx; background: #f8fafc; min-height: 100vh; }
-.header-card { background: #fff; border-radius: 20rpx; padding: 40rpx 30rpx; margin-bottom: 30rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06); }
+.container { padding: 20rpx; background: #F5F7FA; min-height: 100vh; }
+
+/* 头部统计卡片 - 卡片式设计 */
+.header-card { 
+  background: #FFFFFF; 
+  border-radius: 24rpx; 
+  padding: 48rpx 32rpx; 
+  margin-bottom: 32rpx; 
+  box-shadow: 0 4rpx 24rpx rgba(30, 58, 138, 0.06); 
+}
 .stat-row { display: flex; justify-content: space-around; }
 .stat-item { display: flex; flex-direction: column; align-items: center; }
-.stat-num { font-size: 56rpx; font-weight: bold; color: #2563eb; }
-.stat-label { font-size: 24rpx; color: #64748b; margin-top: 10rpx; }
-.tip-card { background: #fff; border-radius: 16rpx; padding: 30rpx; display: flex; align-items: center; margin-bottom: 30rpx; border-left: 8rpx solid #2563eb; }
+.stat-num { 
+  font-size: 56rpx; 
+  font-weight: 700; 
+  color: #1E3A8A; 
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
+.stat-label { font-size: 24rpx; color: #6B7280; margin-top: 12rpx; }
+
+/* 今日提醒 */
+.tip-card { 
+  background: #FFFFFF; 
+  border-radius: 16rpx; 
+  padding: 30rpx; 
+  display: flex; 
+  align-items: center; 
+  margin-bottom: 32rpx; 
+  box-shadow: 0 2rpx 16rpx rgba(30, 58, 138, 0.04);
+  border-left: 8rpx solid #3B82F6; 
+}
 .tip-icon { font-size: 40rpx; margin-right: 20rpx; }
-.tip-text { font-size: 28rpx; color: #1e293b; flex: 1; }
-.section { margin-bottom: 30rpx; }
+.tip-text { font-size: 28rpx; color: #374151; flex: 1; }
+
+/* 区块样式 */
+.section { margin-bottom: 32rpx; }
 .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20rpx; }
-.section-title { font-size: 32rpx; font-weight: bold; color: #1e293b; margin-bottom: 20rpx; }
-.more { font-size: 26rpx; color: #2563eb; }
-.enemy-card { background: #fff; border-radius: 16rpx; padding: 40rpx; text-align: center; position: relative; overflow: hidden; }
-.enemy-rank { position: absolute; top: 20rpx; right: 20rpx; background: #2563eb; color: #fff; font-size: 24rpx; padding: 8rpx 20rpx; border-radius: 30rpx; }
-.enemy-name { font-size: 48rpx; font-weight: bold; color: #1e293b; margin: 20rpx 0; }
-.enemy-count { font-size: 28rpx; color: #2563eb; margin-bottom: 20rpx; }
-.enemy-desc { font-size: 26rpx; color: #64748b; line-height: 1.6; }
-.empty-card { background: #fff; border-radius: 16rpx; padding: 60rpx; text-align: center; color: #94a3b8; font-size: 28rpx; }
-.quick-actions { display: flex; gap: 16rpx; }
-.action-btn { flex: 1; background: #fff; border-radius: 16rpx; padding: 30rpx; display: flex; flex-direction: column; align-items: center; box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05); }
-.action-icon { font-size: 48rpx; margin-bottom: 12rpx; }
-.action-text { font-size: 26rpx; color: #1e293b; }
-.mistake-list { background: #fff; border-radius: 16rpx; overflow: hidden; }
-.mistake-item { padding: 30rpx; border-bottom: 1rpx solid #f0f0f0; }
+.section-title { 
+  font-size: 32rpx; 
+  font-weight: bold; 
+  color: #1E3A8A; 
+  margin-bottom: 20rpx; 
+}
+.more { font-size: 26rpx; color: #3B82F6; }
+
+/* 头号敌人卡片 */
+.enemy-card { 
+  background: #FFFFFF; 
+  border-radius: 20rpx; 
+  padding: 48rpx; 
+  text-align: center; 
+  position: relative; 
+  overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+}
+.enemy-rank { 
+  position: absolute; 
+  top: 24rpx; 
+  right: 24rpx; 
+  background: linear-gradient(135deg, #1E3A8A, #3B82F6); 
+  color: #fff; 
+  font-size: 22rpx; 
+  padding: 8rpx 20rpx; 
+  border-radius: 30rpx; 
+  font-weight: 600;
+}
+.enemy-name { font-size: 48rpx; font-weight: bold; color: #111827; margin: 20rpx 0; }
+.enemy-count { font-size: 28rpx; color: #DC2626; margin-bottom: 20rpx; font-weight: 600; }
+.enemy-desc { font-size: 26rpx; color: #6B7280; line-height: 1.6; }
+.empty-card { 
+  background: #FFFFFF; 
+  border-radius: 20rpx; 
+  padding: 80rpx; 
+  text-align: center; 
+  color: #9CA3AF; 
+  font-size: 28rpx;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+}
+
+/* 快速记录 */
+.quick-actions { display: flex; gap: 20rpx; }
+.action-btn { 
+  flex: 1; 
+  background: linear-gradient(135deg, #3B82F6, #1E3A8A); 
+  border-radius: 16rpx; 
+  padding: 36rpx 24rpx; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  box-shadow: 0 4rpx 16rpx rgba(30, 58, 138, 0.15);
+  transition: transform 0.1s;
+}
+.action-btn:active { transform: scale(0.95); }
+.action-icon { font-size: 44rpx; margin-bottom: 12rpx; }
+.action-text { font-size: 26rpx; color: #FFFFFF; font-weight: 500; }
+
+/* 最近错题列表 */
+.mistake-list { 
+  background: #FFFFFF; 
+  border-radius: 20rpx; 
+  overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+}
+.mistake-item { padding: 32rpx; border-bottom: 1rpx solid #F3F4F6; }
 .mistake-item:last-child { border-bottom: none; }
 .mistake-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16rpx; }
-.stock-name { font-size: 32rpx; font-weight: bold; color: #1e293b; }
-.mistake-date { font-size: 24rpx; color: #94a3b8; }
+.stock-name { font-size: 32rpx; font-weight: bold; color: #111827; }
+.mistake-date { font-size: 24rpx; color: #9CA3AF; }
 .mistake-types { display: flex; flex-wrap: wrap; gap: 12rpx; margin-bottom: 16rpx; }
-.type-tag { background: #eff6ff; color: #2563eb; font-size: 22rpx; padding: 8rpx 16rpx; border-radius: 8rpx; }
-.mistake-reflection { font-size: 26rpx; color: #64748b; line-height: 1.5; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.type-tag { 
+  background: #EFF6FF; 
+  color: #1E3A8A; 
+  font-size: 22rpx; 
+  padding: 8rpx 16rpx; 
+  border-radius: 8rpx;
+  font-weight: 500;
+}
+.mistake-reflection { font-size: 26rpx; color: #6B7280; line-height: 1.5; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 </style>

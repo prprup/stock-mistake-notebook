@@ -139,48 +139,135 @@ export default {
 </script>
 
 <style scoped>
-.container { background: #f8fafc; min-height: 100vh; padding-bottom: 40rpx; }
-.date-filter { background: #fff; padding: 20rpx 30rpx; display: flex; align-items: center; justify-content: space-between; border-bottom: 1rpx solid #e2e8f0; }
+.container { background: #F5F7FA; min-height: 100vh; padding-bottom: 40rpx; }
+.date-filter { 
+  background: #FFFFFF; 
+  padding: 24rpx 30rpx; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  box-shadow: 0 2rpx 12rpx rgba(30, 58, 138, 0.04);
+}
 .date-picker { display: flex; align-items: center; gap: 10rpx; }
-.date-text { font-size: 28rpx; color: #1e293b; font-weight: 500; }
-.date-icon { font-size: 20rpx; color: #94a3b8; }
+.date-text { font-size: 28rpx; color: #111827; font-weight: 500; }
+.date-icon { font-size: 20rpx; color: #9CA3AF; }
 .filter-tabs { display: flex; gap: 16rpx; }
-.tab { padding: 12rpx 24rpx; background: #f5f5f5; border-radius: 30rpx; font-size: 24rpx; color: #64748b; }
-.tab.active { background: #2563eb; color: #fff; }
-.plan-list { padding: 20rpx; }
-.plan-card { background: #fff; border-radius: 16rpx; padding: 30rpx; margin-bottom: 20rpx; }
-.card-header { display: flex; align-items: center; gap: 20rpx; margin-bottom: 24rpx; }
-.date-badge { background: #f8fafc; border-radius: 12rpx; padding: 16rpx 20rpx; display: flex; flex-direction: column; align-items: center; min-width: 80rpx; border: 1rpx solid #e2e8f0; }
-.month { font-size: 20rpx; color: #94a3b8; }
-.day { font-size: 36rpx; font-weight: bold; color: #1e293b; }
+.tab { 
+  padding: 12rpx 24rpx; 
+  background: #F3F4F6; 
+  border-radius: 30rpx; 
+  font-size: 24rpx; 
+  color: #6B7280; 
+  transition: all 0.2s;
+}
+.tab.active { 
+  background: #1E3A8A; 
+  color: #fff;
+  font-weight: 500;
+}
+.plan-list { padding: 24rpx; }
+.plan-card { 
+  background: #FFFFFF; 
+  border-radius: 20rpx; 
+  padding: 32rpx; 
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+}
+.card-header { display: flex; align-items: center; gap: 20rpx; margin-bottom: 28rpx; }
+.date-badge { 
+  background: #F5F7FA; 
+  border-radius: 12rpx; 
+  padding: 16rpx 20rpx; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  min-width: 80rpx; 
+  border: 1rpx solid #E5E7EB; 
+}
+.month { font-size: 20rpx; color: #6B7280; }
+.day { 
+  font-size: 36rpx; 
+  font-weight: bold; 
+  color: #1E3A8A;
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
 .stock-info { flex: 1; }
-.stock-name { font-size: 32rpx; font-weight: bold; color: #1e293b; display: block; }
-.stock-code { font-size: 24rpx; color: #94a3b8; margin-top: 6rpx; display: block; }
-.status-tag { padding: 8rpx 20rpx; border-radius: 30rpx; font-size: 22rpx; }
-.status-tag.pending { background: #fff7ed; color: #f97316; }
-.status-tag.executed { background: #f0fdf4; color: #22c55e; }
-.status-tag.cancelled { background: #f5f5f5; color: #94a3b8; }
-.plan-content { margin-bottom: 20rpx; }
-.plan-row { display: flex; justify-content: space-between; align-items: center; padding: 12rpx 0; border-bottom: 1rpx solid #f1f5f9; }
+.stock-name { font-size: 32rpx; font-weight: bold; color: #111827; display: block; }
+.stock-code { font-size: 24rpx; color: #9CA3AF; margin-top: 6rpx; display: block; }
+.status-tag { padding: 8rpx 20rpx; border-radius: 30rpx; font-size: 22rpx; font-weight: 500; }
+.status-tag.pending { background: #FEF3C7; color: #D97706; }
+.status-tag.executed { background: #D1FAE5; color: #059669; }
+.status-tag.cancelled { background: #F3F4F6; color: #9CA3AF; }
+.plan-content { margin-bottom: 24rpx; }
+.plan-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 16rpx 0; 
+  border-bottom: 1rpx solid #F3F4F6; 
+}
 .plan-row:last-child { border-bottom: none; }
-.label { font-size: 26rpx; color: #64748b; }
-.value { font-size: 28rpx; color: #1e293b; font-weight: 500; }
-.value.action.buy { color: #2563eb; }
-.value.action.sell { color: #64748b; }
-.value.stop { color: #dc2626; }
-.value.profit { color: #22c55e; }
-.reason-box { background: #f8fafc; border-radius: 12rpx; padding: 20rpx; margin-bottom: 20rpx; }
-.reason-label { font-size: 24rpx; color: #94a3b8; margin-bottom: 8rpx; display: block; }
-.reason-text { font-size: 26rpx; color: #1e293b; line-height: 1.5; }
+.label { font-size: 26rpx; color: #6B7280; }
+.value { 
+  font-size: 28rpx; 
+  color: #111827; 
+  font-weight: 500;
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
+.value.action.buy { color: #1E3A8A; }
+.value.action.sell { color: #6B7280; }
+.value.stop { color: #DC2626; }
+.value.profit { color: #059669; }
+.reason-box { 
+  background: #F5F7FA; 
+  border-radius: 12rpx; 
+  padding: 24rpx; 
+  margin-bottom: 24rpx; 
+}
+.reason-label { font-size: 24rpx; color: #9CA3AF; margin-bottom: 8rpx; display: block; }
+.reason-text { font-size: 26rpx; color: #374151; line-height: 1.5; }
 .card-footer { display: flex; gap: 20rpx; }
-.btn { flex: 1; height: 72rpx; border-radius: 36rpx; display: flex; align-items: center; justify-content: center; font-size: 28rpx; }
-.btn.execute { background: #2563eb; color: #fff; }
-.btn.edit { background: #f5f5f5; color: #64748b; }
+.btn { 
+  flex: 1; 
+  height: 76rpx; 
+  border-radius: 38rpx; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 28rpx;
+  font-weight: 500;
+}
+.btn.execute { 
+  background: linear-gradient(135deg, #3B82F6, #1E3A8A); 
+  color: #fff;
+  box-shadow: 0 4rpx 16rpx rgba(30, 58, 138, 0.2);
+}
+.btn.edit { background: #F3F4F6; color: #374151; }
 .empty-state { display: flex; flex-direction: column; align-items: center; padding: 200rpx 60rpx; }
 .empty-icon { font-size: 120rpx; margin-bottom: 30rpx; }
-.empty-text { font-size: 32rpx; color: #1e293b; margin-bottom: 16rpx; }
-.empty-sub { font-size: 26rpx; color: #94a3b8; margin-bottom: 40rpx; }
-.create-btn { padding: 24rpx 60rpx; background: #2563eb; color: #fff; border-radius: 40rpx; font-size: 28rpx; }
-.fab { position: fixed; right: 40rpx; bottom: 60rpx; width: 100rpx; height: 100rpx; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4rpx 20rpx rgba(37, 99, 235, 0.4); }
+.empty-text { font-size: 32rpx; color: #111827; margin-bottom: 16rpx; }
+.empty-sub { font-size: 26rpx; color: #9CA3AF; margin-bottom: 40rpx; }
+.create-btn { 
+  padding: 24rpx 60rpx; 
+  background: linear-gradient(135deg, #3B82F6, #1E3A8A); 
+  color: #fff; 
+  border-radius: 40rpx; 
+  font-size: 28rpx;
+  font-weight: 500;
+  box-shadow: 0 4rpx 16rpx rgba(30, 58, 138, 0.2);
+}
+.fab { 
+  position: fixed; 
+  right: 40rpx; 
+  bottom: 60rpx; 
+  width: 100rpx; 
+  height: 100rpx; 
+  background: linear-gradient(135deg, #3B82F6, #1E3A8A); 
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.3); 
+}
 .fab-icon { font-size: 60rpx; color: #fff; font-weight: bold; }
 </style>

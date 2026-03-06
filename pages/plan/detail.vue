@@ -90,7 +90,7 @@ export default {
       uni.showLoading({ title: '加载中' })
       const result = await getPlanDetail(this.planId)
       uni.hideLoading()
-      
+
       if (result.success) {
         this.plan = result.data
       } else {
@@ -165,39 +165,108 @@ export default {
 </script>
 
 <style scoped>
-.container { background: #f8fafc; min-height: 100vh; padding: 20rpx; padding-bottom: 140rpx; }
-.plan-card { background: #fff; border-radius: 16rpx; padding: 30rpx; }
-.card-header { display: flex; align-items: center; gap: 20rpx; margin-bottom: 30rpx; }
-.date-badge { background: #f8fafc; border-radius: 12rpx; padding: 16rpx 20rpx; display: flex; flex-direction: column; align-items: center; min-width: 80rpx; border: 1rpx solid #e2e8f0; }
-.month { font-size: 20rpx; color: #94a3b8; }
-.day { font-size: 36rpx; font-weight: bold; color: #1e293b; }
+.container { 
+  background: #F5F7FA; 
+  min-height: 100vh; 
+  padding: 24rpx; 
+  padding-bottom: 160rpx; 
+}
+.plan-card { 
+  background: #FFFFFF; 
+  border-radius: 24rpx; 
+  padding: 32rpx;
+  box-shadow: 0 4rpx 24rpx rgba(30, 58, 138, 0.06);
+}
+.card-header { display: flex; align-items: center; gap: 20rpx; margin-bottom: 32rpx; }
+.date-badge { 
+  background: #F5F7FA; 
+  border-radius: 12rpx; 
+  padding: 16rpx 20rpx; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  min-width: 80rpx; 
+  border: 1rpx solid #E5E7EB; 
+}
+.month { font-size: 20rpx; color: #6B7280; }
+.day { 
+  font-size: 36rpx; 
+  font-weight: bold; 
+  color: #1E3A8A;
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
 .stock-info { flex: 1; }
-.stock-name { font-size: 32rpx; font-weight: bold; color: #1e293b; display: block; }
-.stock-code { font-size: 24rpx; color: #94a3b8; margin-top: 6rpx; display: block; }
-.status-tag { padding: 8rpx 20rpx; border-radius: 30rpx; font-size: 22rpx; }
-.status-tag.pending { background: #fff7ed; color: #f97316; }
-.status-tag.executed { background: #f0fdf4; color: #22c55e; }
-.status-tag.cancelled { background: #f5f5f5; color: #94a3b8; }
-.plan-content { margin-bottom: 30rpx; }
-.content-row { display: flex; justify-content: space-between; align-items: center; padding: 20rpx 0; border-bottom: 1rpx solid #f1f5f9; }
+.stock-name { font-size: 32rpx; font-weight: bold; color: #111827; display: block; }
+.stock-code { font-size: 24rpx; color: #9CA3AF; margin-top: 6rpx; display: block; }
+.status-tag { padding: 8rpx 20rpx; border-radius: 30rpx; font-size: 22rpx; font-weight: 500; }
+.status-tag.pending { background: #FEF3C7; color: #D97706; }
+.status-tag.executed { background: #D1FAE5; color: #059669; }
+.status-tag.cancelled { background: #F3F4F6; color: #9CA3AF; }
+.plan-content { margin-bottom: 32rpx; }
+.content-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 24rpx 0; 
+  border-bottom: 1rpx solid #F3F4F6; 
+}
 .content-row:last-child { border-bottom: none; }
-.row-label { font-size: 28rpx; color: #64748b; }
-.row-value { font-size: 30rpx; color: #1e293b; font-weight: 500; }
-.row-value.action.buy { color: #2563eb; }
-.row-value.action.sell { color: #64748b; }
-.row-value.stop { color: #dc2626; }
-.row-value.profit { color: #22c55e; }
-.reason-section { background: #f8fafc; border-radius: 12rpx; padding: 24rpx; margin-bottom: 30rpx; }
-.section-title { font-size: 28rpx; font-weight: bold; color: #1e293b; margin-bottom: 16rpx; }
-.reason-text { font-size: 28rpx; color: #64748b; line-height: 1.6; }
-.meta-section { padding-top: 20rpx; border-top: 1rpx solid #e2e8f0; }
+.row-label { font-size: 28rpx; color: #6B7280; }
+.row-value { 
+  font-size: 30rpx; 
+  color: #111827; 
+  font-weight: 500;
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
+.row-value.action.buy { color: #1E3A8A; }
+.row-value.action.sell { color: #6B7280; }
+.row-value.stop { color: #DC2626; }
+.row-value.profit { color: #059669; }
+.reason-section { 
+  background: #F5F7FA; 
+  border-radius: 16rpx; 
+  padding: 28rpx; 
+  margin-bottom: 32rpx; 
+}
+.section-title { 
+  font-size: 28rpx; 
+  font-weight: bold; 
+  color: #1E3A8A; 
+  margin-bottom: 16rpx; 
+}
+.reason-text { font-size: 28rpx; color: #374151; line-height: 1.6; }
+.meta-section { padding-top: 24rpx; border-top: 1rpx solid #E5E7EB; }
 .meta-item { display: flex; justify-content: space-between; padding: 12rpx 0; }
-.meta-label { font-size: 26rpx; color: #94a3b8; }
-.meta-value { font-size: 26rpx; color: #64748b; }
-.action-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 20rpx 30rpx; background: #fff; border-top: 1rpx solid #e2e8f0; display: flex; gap: 20rpx; }
-.action-btn { flex: 1; height: 80rpx; border-radius: 40rpx; display: flex; align-items: center; justify-content: center; font-size: 28rpx; }
-.action-btn.execute { background: #2563eb; color: #fff; }
-.action-btn.edit { background: #f5f5f5; color: #1e293b; }
-.action-btn.cancel { background: #fff; color: #94a3b8; border: 2rpx solid #e2e8f0; }
-.action-btn.delete { background: #fff; color: #dc2626; border: 2rpx solid #dc2626; }
+.meta-label { font-size: 26rpx; color: #9CA3AF; }
+.meta-value { font-size: 26rpx; color: #6B7280; }
+.action-bar { 
+  position: fixed; 
+  bottom: 0; 
+  left: 0; 
+  right: 0; 
+  padding: 24rpx 30rpx; 
+  background: #FFFFFF; 
+  border-top: 1rpx solid #E5E7EB; 
+  display: flex; 
+  gap: 20rpx;
+  box-shadow: 0 -4rpx 20rpx rgba(0,0,0,0.04);
+}
+.action-btn { 
+  flex: 1; 
+  height: 88rpx; 
+  border-radius: 44rpx; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 28rpx;
+  font-weight: 500;
+}
+.action-btn.execute { 
+  background: linear-gradient(135deg, #3B82F6, #1E3A8A); 
+  color: #fff;
+  box-shadow: 0 4rpx 16rpx rgba(30, 58, 138, 0.2);
+}
+.action-btn.edit { background: #F3F4F6; color: #374151; }
+.action-btn.cancel { background: #FFFFFF; color: #6B7280; border: 2rpx solid #E5E7EB; }
+.action-btn.delete { background: #FFFFFF; color: #DC2626; border: 2rpx solid #DC2626; }
 </style>

@@ -86,27 +86,99 @@ export default {
 </script>
 
 <style scoped>
-.container { padding: 20rpx; background: #f8fafc; min-height: 100vh; }
-.stats-overview { display: flex; gap: 20rpx; margin-bottom: 30rpx; }
-.stat-card { flex: 1; background: #fff; border-radius: 16rpx; padding: 30rpx; text-align: center; }
-.stat-value { font-size: 48rpx; font-weight: bold; color: #2563eb; display: block; }
-.stat-label { font-size: 24rpx; color: #94a3b8; margin-top: 10rpx; display: block; }
-.section { background: #fff; border-radius: 16rpx; padding: 30rpx; margin-bottom: 20rpx; }
-.section-title { font-size: 32rpx; font-weight: bold; color: #1e293b; margin-bottom: 30rpx; }
-.chart-placeholder { height: 300rpx; background: #f8fafc; border-radius: 12rpx; display: flex; align-items: center; justify-content: center; margin-bottom: 30rpx; }
-.chart-placeholder text { color: #94a3b8; font-size: 28rpx; }
+.container { padding: 24rpx; background: #F5F7FA; min-height: 100vh; }
+.stats-overview { display: flex; gap: 20rpx; margin-bottom: 32rpx; }
+.stat-card { 
+  flex: 1; 
+  background: #FFFFFF; 
+  border-radius: 20rpx; 
+  padding: 32rpx; 
+  text-align: center;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+}
+.stat-value { 
+  font-size: 48rpx; 
+  font-weight: 700; 
+  color: #1E3A8A; 
+  display: block;
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
+.stat-label { font-size: 24rpx; color: #6B7280; margin-top: 12rpx; display: block; }
+.section { 
+  background: #FFFFFF; 
+  border-radius: 20rpx; 
+  padding: 32rpx; 
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+}
+.section-title { 
+  font-size: 32rpx; 
+  font-weight: bold; 
+  color: #1E3A8A; 
+  margin-bottom: 30rpx; 
+}
+.chart-placeholder { 
+  height: 300rpx; 
+  background: #F5F7FA; 
+  border-radius: 12rpx; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  margin-bottom: 30rpx;
+  border: 1rpx dashed #E5E7EB;
+}
+.chart-placeholder text { color: #9CA3AF; font-size: 28rpx; }
 .type-rank { display: flex; flex-direction: column; gap: 24rpx; }
 .rank-item { display: flex; align-items: center; gap: 20rpx; }
-.rank-num { width: 40rpx; height: 40rpx; background: #f1f5f9; border-radius: 20rpx; display: flex; align-items: center; justify-content: center; font-size: 24rpx; color: #64748b; }
-.rank-item:first-child .rank-num { background: #2563eb; color: #fff; }
+.rank-num { 
+  width: 44rpx; 
+  height: 44rpx; 
+  background: #F3F4F6; 
+  border-radius: 22rpx; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 24rpx; 
+  color: #6B7280;
+  font-weight: 500;
+}
+.rank-item:first-child .rank-num { 
+  background: linear-gradient(135deg, #3B82F6, #1E3A8A); 
+  color: #fff; 
+}
 .rank-info { flex: 1; }
-.rank-type { font-size: 28rpx; color: #1e293b; display: block; margin-bottom: 10rpx; }
-.rank-bar { height: 12rpx; background: #f1f5f9; border-radius: 6rpx; overflow: hidden; }
-.rank-fill { height: 100%; background: #2563eb; border-radius: 6rpx; }
-.rank-count { font-size: 26rpx; color: #94a3b8; width: 80rpx; text-align: right; }
+.rank-type { font-size: 28rpx; color: #111827; display: block; margin-bottom: 10rpx; font-weight: 500; }
+.rank-bar { height: 12rpx; background: #F3F4F6; border-radius: 6rpx; overflow: hidden; }
+.rank-fill { 
+  height: 100%; 
+  background: linear-gradient(90deg, #3B82F6, #1E3A8A); 
+  border-radius: 6rpx; 
+}
+.rank-count { 
+  font-size: 26rpx; 
+  color: #6B7280; 
+  width: 80rpx; 
+  text-align: right;
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
 .emotion-list { display: flex; flex-wrap: wrap; gap: 20rpx; }
-.emotion-item { flex: 1; min-width: 140rpx; background: #f8fafc; border-radius: 12rpx; padding: 24rpx; text-align: center; }
-.emotion-name { font-size: 28rpx; color: #1e293b; display: block; margin-bottom: 10rpx; }
-.emotion-count { font-size: 24rpx; color: #94a3b8; display: block; }
-.emotion-rate { font-size: 32rpx; font-weight: bold; color: #2563eb; display: block; margin-top: 10rpx; }
+.emotion-item { 
+  flex: 1; 
+  min-width: 140rpx; 
+  background: #F5F7FA; 
+  border-radius: 16rpx; 
+  padding: 28rpx; 
+  text-align: center;
+  border: 1rpx solid #E5E7EB;
+}
+.emotion-name { font-size: 28rpx; color: #111827; display: block; margin-bottom: 10rpx; font-weight: 500; }
+.emotion-count { font-size: 24rpx; color: #9CA3AF; display: block; }
+.emotion-rate { 
+  font-size: 32rpx; 
+  font-weight: 700; 
+  color: #1E3A8A; 
+  display: block; 
+  margin-top: 10rpx;
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
+}
 </style>

@@ -50,7 +50,7 @@ export default {
       chartData: {},
       mistakeList: [],
       chartOpts: {
-        color: ['#2563eb', '#37A2DA', '#32C5E9', '#67E0E3'],
+        color: ['#1E3A8A', '#3B82F6', '#60A5FA', '#93C5FD'],
         padding: [15, 15, 0, 15],
         enableScroll: true,
         legend: { show: false },
@@ -69,10 +69,10 @@ export default {
         extra: {
           candle: {
             color: {
-              upLine: '#2563eb',
-              upFill: '#2563eb',
-              downLine: '#64748b',
-              downFill: '#64748b'
+              upLine: '#DC2626',
+              upFill: '#DC2626',
+              downLine: '#059669',
+              downFill: '#059669'
             },
             average: {
               show: false
@@ -148,7 +148,7 @@ export default {
             show: true,
             color: '#fff',
             fontSize: 10,
-            bgColor: '#2563eb',
+            bgColor: '#1E3A8A',
             padding: 4,
             borderRadius: 4
           }
@@ -183,12 +183,12 @@ export default {
 
 <style scoped>
 .container {
-  background: #f8fafc;
+  background: #F5F7FA;
   min-height: 100vh;
 }
 .stock-header {
-  background: #1e293b;
-  padding: 30rpx;
+  background: #1E3A8A;
+  padding: 32rpx;
   display: flex;
   align-items: center;
   gap: 20rpx;
@@ -200,33 +200,36 @@ export default {
 }
 .stock-code {
   font-size: 28rpx;
-  color: #94a3b8;
+  color: rgba(255,255,255,0.7);
+  font-family: "DIN Alternate", "Roboto Mono", monospace;
 }
 .chart-container {
-  background: #fff;
+  background: #FFFFFF;
   padding: 20rpx;
-  margin: 20rpx;
-  border-radius: 16rpx;
+  margin: 24rpx;
+  border-radius: 20rpx;
   height: 600rpx;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
 }
 .mistake-list {
-  padding: 20rpx;
+  padding: 24rpx;
 }
 .section-title {
   font-size: 32rpx;
   font-weight: bold;
-  color: #1e293b;
-  margin-bottom: 20rpx;
+  color: #1E3A8A;
+  margin-bottom: 24rpx;
 }
 .mistake-item {
-  background: #fff;
-  border-radius: 16rpx;
-  padding: 30rpx;
-  margin-bottom: 20rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
 }
 .mistake-date {
   font-size: 28rpx;
-  color: #64748b;
+  color: #6B7280;
   margin-bottom: 16rpx;
 }
 .mistake-types {
@@ -236,21 +239,22 @@ export default {
   margin-bottom: 16rpx;
 }
 .type-tag {
-  background: #eff6ff;
-  color: #2563eb;
+  background: #EFF6FF;
+  color: #1E3A8A;
   font-size: 22rpx;
   padding: 8rpx 16rpx;
   border-radius: 8rpx;
+  font-weight: 500;
 }
 .mistake-reflection {
   font-size: 26rpx;
-  color: #1e293b;
+  color: #374151;
   line-height: 1.5;
 }
 .empty-tip {
   text-align: center;
   padding: 100rpx;
-  color: #94a3b8;
+  color: #9CA3AF;
   font-size: 28rpx;
 }
 </style>

@@ -61,7 +61,7 @@ export default {
       uni.showLoading({ title: '加载中...' })
       const res = await getMistakes()
       uni.hideLoading()
-      
+
       if (res.success) {
         // 字段映射适配
         this.mistakes = res.data.map(item => ({
@@ -90,24 +90,57 @@ export default {
 </script>
 
 <style scoped>
-.container { background: #f8fafc; min-height: 100vh; }
-.filter-bar { background: #fff; padding: 20rpx 0; position: sticky; top: 0; z-index: 10; border-bottom: 1rpx solid #e2e8f0; }
-.filter-scroll { white-space: nowrap; padding: 0 20rpx; }
-.filter-item { display: inline-block; padding: 16rpx 32rpx; margin-right: 16rpx; background: #f5f5f5; border-radius: 30rpx; font-size: 26rpx; color: #64748b; }
-.filter-item.active { background: #2563eb; color: #fff; }
-.mistake-list { padding: 20rpx; }
-.mistake-card { background: #fff; border-radius: 16rpx; padding: 30rpx; margin-bottom: 20rpx; }
-.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20rpx; }
+.container { background: #F5F7FA; min-height: 100vh; }
+.filter-bar { 
+  background: #FFFFFF; 
+  padding: 24rpx 0; 
+  position: sticky; 
+  top: 0; 
+  z-index: 10; 
+  box-shadow: 0 2rpx 12rpx rgba(30, 58, 138, 0.04);
+}
+.filter-scroll { white-space: nowrap; padding: 0 24rpx; }
+.filter-item { 
+  display: inline-block; 
+  padding: 16rpx 32rpx; 
+  margin-right: 16rpx; 
+  background: #F3F4F6; 
+  border-radius: 30rpx; 
+  font-size: 26rpx; 
+  color: #6B7280; 
+  transition: all 0.2s;
+}
+.filter-item.active { 
+  background: #1E3A8A; 
+  color: #fff; 
+  font-weight: 500;
+}
+.mistake-list { padding: 24rpx; }
+.mistake-card { 
+  background: #FFFFFF; 
+  border-radius: 20rpx; 
+  padding: 32rpx; 
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+}
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24rpx; }
 .stock-info { display: flex; align-items: center; gap: 16rpx; }
-.stock-name { font-size: 32rpx; font-weight: bold; color: #1e293b; }
-.stock-code { font-size: 24rpx; color: #94a3b8; }
-.trade-date { font-size: 24rpx; color: #94a3b8; }
-.trade-info { display: flex; align-items: center; gap: 20rpx; margin-bottom: 20rpx; }
-.action { font-size: 26rpx; padding: 8rpx 20rpx; border-radius: 8rpx; }
-.action.buy { background: #eff6ff; color: #2563eb; }
-.action.sell { background: #f5f5f5; color: #64748b; }
-.price { font-size: 28rpx; color: #64748b; }
+.stock-name { font-size: 32rpx; font-weight: bold; color: #111827; }
+.stock-code { font-size: 24rpx; color: #9CA3AF; }
+.trade-date { font-size: 24rpx; color: #9CA3AF; }
+.trade-info { display: flex; align-items: center; gap: 20rpx; margin-bottom: 24rpx; }
+.action { font-size: 26rpx; padding: 10rpx 24rpx; border-radius: 8rpx; font-weight: 500; }
+.action.buy { background: #EFF6FF; color: #1E3A8A; }
+.action.sell { background: #F3F4F6; color: #6B7280; }
+.price { font-size: 28rpx; color: #6B7280; }
 .mistake-types { display: flex; flex-wrap: wrap; gap: 12rpx; margin-bottom: 20rpx; }
-.type-tag { background: #eff6ff; color: #2563eb; font-size: 22rpx; padding: 8rpx 16rpx; border-radius: 8rpx; }
-.reflection { font-size: 26rpx; color: #64748b; line-height: 1.5; }
+.type-tag { 
+  background: #EFF6FF; 
+  color: #1E3A8A; 
+  font-size: 22rpx; 
+  padding: 8rpx 16rpx; 
+  border-radius: 8rpx;
+  font-weight: 500;
+}
+.reflection { font-size: 26rpx; color: #6B7280; line-height: 1.5; }
 </style>
