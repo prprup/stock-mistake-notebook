@@ -3,9 +3,10 @@
     <view class="filter-bar">
       <scroll-view scroll-x class="filter-scroll">
         <view class="filter-item" :class="{ active: currentFilter === 'all' }" @click="setFilter('all')">全部</view>
-        <view v-for="item in mistakeTypes" :key="item.code"
-          class="filter-item" :class="{ active: currentFilter === item.code }"
-          @click="setFilter(item.code)">{{item.name}}</view>
+        <view class="filter-item" :class="{ active: currentFilter === '7days' }" @click="setFilter('7days')">最近7天</view>
+        <view class="filter-item" :class="{ active: currentFilter === '30days' }" @click="setFilter('30days')">最近30天</view>
+        <view class="filter-item" :class="{ active: currentFilter === 'thisMonth' }" @click="setFilter('thisMonth')">本月</view>
+        <view class="filter-item" :class="{ active: currentFilter === 'lastMonth' }" @click="setFilter('lastMonth')">上月</view>
       </scroll-view>
     </view>
 
@@ -41,18 +42,6 @@ export default {
   data() {
     return {
       currentFilter: 'all',
-      mistakeTypes: [
-        { code: '追高买入', name: '追高' },
-        { code: '恐慌割肉', name: '割肉' },
-        { code: '该止损没止损', name: '不止损' },
-        { code: '该止盈没止盈', name: '不止盈' },
-        { code: '单票过重', name: '重仓' },
-        { code: '满仓梭哈', name: '满仓' },
-        { code: '频繁交易', name: '频繁' },
-        { code: '报复性交易', name: '报复' },
-        { code: '听信消息', name: '听消息' },
-        { code: '跟风买入', name: '跟风' }
-      ],
       mistakes: []
     }
   },
@@ -69,9 +58,7 @@ export default {
       uni.hideLoading()
 
       if (res.success) {
-        // 适配后端返回的分页数据结构
         const list = res.data.list || res.data || []
-        // 字段映射适配
         this.mistakes = list.map(item => ({
           _id: item._id,
           stockName: item.stockName,
@@ -87,12 +74,36 @@ export default {
         uni.showToast({ title: res.error || '加载失败', icon: 'none' })
       }
     },
-    // setFilter方法调用loadMistakes并传入筛选参数
     setFilter(filter) {
       this.currentFilter = filter
-      // 直接传中文名称，与数据库存储一致
-      const params = filter !== 'all' ? { mistakeType: filter } : {}
+      const params = this.getDateParams(filter)
       this.loadMistakes(params)
+    },
+    getDateParams(filter) {
+      const now = new Date()
+      const format = (date) => {
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+      }
+      
+      switch (filter) {
+        case '7days':
+          const sevenDaysAgo = new Date(now)
+          sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+          return { startDate: format(sevenDaysAgo), endDate: format(now) }
+        case '30days':
+          const thirtyDaysAgo = new Date(now)
+          thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+          return { startDate: format(thirtyDaysAgo), endDate: format(now) }
+        case 'thisMonth':
+          const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1)
+          return { startDate: format(thisMonthStart), endDate: format(now) }
+        case 'lastMonth':
+          const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+          const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0)
+          return { startDate: format(lastMonthStart), endDate: format(lastMonthEnd) }
+        default:
+          return {}
+      }
     },
     goToDetail(id) {
       uni.navigateTo({ url: `/pages/mistakes/detail?id=${id}` })
