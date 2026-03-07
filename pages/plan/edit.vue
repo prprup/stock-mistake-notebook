@@ -123,6 +123,13 @@ export default {
       this.loadPlanDetail()
     }
   },
+  onUnload() {
+    // 清除搜索定时器，防止内存泄漏
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer)
+      this.searchTimer = null
+    }
+  },
   methods: {
     async loadPlanDetail() {
       uni.showLoading({ title: '加载中' })

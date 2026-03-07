@@ -57,9 +57,10 @@ export default {
     this.loadMistakes()
   },
   methods: {
-    async loadMistakes() {
+    async loadMistakes(filter = 'all') {
       uni.showLoading({ title: '加载中...' })
-      const res = await getMistakes()
+      const params = filter !== 'all' ? { mistakeType: filter } : {}
+      const res = await getMistakes(params)
       uni.hideLoading()
 
       if (res.success) {

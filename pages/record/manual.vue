@@ -120,7 +120,7 @@ export default {
   onLoad(options) {
     const today = new Date()
     this.tradeDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
-    
+
     // 从预案跳转过来的预填充
     if (options.planId) {
       this.planId = options.planId
@@ -132,6 +132,13 @@ export default {
       this.stockSearchKey = options.stockName || ''
       this.action = options.action || 'buy'
       this.price = options.planPrice || ''
+    }
+  },
+  onUnload() {
+    // 清除搜索定时器，防止内存泄漏
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer)
+      this.searchTimer = null
     }
   },
   methods: {
@@ -187,13 +194,17 @@ export default {
       }
       
       uni.showLoading({ title: '保存中' })
+      const priceVal = parseFloat(this.price)
+      const quantityVal = parseInt(this.quantity)
+      const lossAmount = (!isNaN(priceVal) && !isNaN(quantityVal)) ? priceVal * quantityVal : 0
+      
       const result = await addMistake({
         stockName: this.selectedStock.name,
         stockCode: this.selectedStock.tsCode,
         mistakeTypes: selectedTypes.map(t => t.name),
         emotion: this.emotion,
         reflection: this.reflection,
-        lossAmount: parseFloat(this.price) * parseInt(this.quantity),
+        lossAmount: lossAmount,
         date: new Date(this.tradeDate),
         planId: this.planId || undefined
       })
