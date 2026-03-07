@@ -69,6 +69,11 @@
       </view>
     </view>
 
+    <!-- 错题共鸣排行榜 -->
+    <view class="section">
+      <RankingCard :rankingData="rankingData" />
+    </view>
+
     <!-- 最常犯的错误 -->
     <view class="section">
       <view class="section-title">你的头号敌人</view>
@@ -157,8 +162,13 @@
 import { login, checkLogin, getUserInfo } from '@/utils/auth.js'
 import { getHomeStats } from '@/utils/homeApi.js'
 import { getPlans } from '@/utils/planApi.js'
+import { getRankingStats } from '@/utils/rankingApi.js'
+import RankingCard from '@/components/RankingCard/RankingCard.vue'
 
 export default {
+  components: {
+    RankingCard
+  },
   data() {
     return {
       monthMistakes: 0,
@@ -169,7 +179,12 @@ export default {
       recentMistakes: [],
       latestPlan: null,
       isLogin: false,
-      userInfo: null
+      userInfo: null,
+      rankingData: {
+        top3: [],
+        participantCount: 0,
+        weekRange: null
+      }
     }
   },
   onLoad() {
@@ -196,10 +211,11 @@ export default {
     async loadData() {
       uni.showLoading({ title: '加载中' })
       
-      // 并行获取首页数据和最新预案
-      const [homeResult, planResult] = await Promise.all([
+      // 并行获取首页数据、最新预案和排行榜数据
+      const [homeResult, planResult, rankingResult] = await Promise.all([
         getHomeStats(),
-        getPlans({ limit: 1 })
+        getPlans({ limit: 1 }),
+        getRankingStats()
       ])
       
       uni.hideLoading()
@@ -221,6 +237,17 @@ export default {
         this.latestPlan = planResult.data[0]
       } else {
         this.latestPlan = null
+      }
+      
+      // 设置排行榜数据
+      if (rankingResult.success && rankingResult.data) {
+        this.rankingData = rankingResult.data
+      } else {
+        this.rankingData = {
+          top3: [],
+          participantCount: 0,
+          weekRange: null
+        }
       }
     },
     goToManual() {
