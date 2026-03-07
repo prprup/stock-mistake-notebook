@@ -92,7 +92,7 @@ export default {
       }
     },
     editMistake() {
-      uni.showToast({ title: '编辑功能开发中', icon: 'none' })
+      uni.navigateTo({ url: `/pages/mistakes/edit?id=${this.mistakeId}` })
     },
     async deleteMistake() {
       uni.showModal({

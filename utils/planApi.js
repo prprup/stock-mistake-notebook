@@ -80,18 +80,10 @@ export const deletePlan = async (id) => {
   }
 }
 
-// 执行预案（标记为已执行并关联错题）
+// 执行预案（标记为已执行并关联错题）- 使用 updatePlan 实现
 export const executePlan = async (id, mistakeId) => {
-  try {
-    const { result } = await uniCloud.callFunction({
-      name: 'executePlan',
-      data: { id, mistakeId }
-    })
-    return result
-  } catch (err) {
-    return {
-      success: false,
-      error: err.message
-    }
-  }
+  return updatePlan(id, {
+    status: 'executed',
+    mistakeId
+  })
 }

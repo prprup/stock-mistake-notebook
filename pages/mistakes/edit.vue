@@ -78,18 +78,19 @@
     </view>
 
     <view class="footer">
-      <button class="submit-btn" @click="submit">记录错题</button>
+      <button class="submit-btn" @click="submit">保存修改</button>
     </view>
   </view>
 </template>
 
 <script>
 import { searchStock } from '@/utils/klineApi.js'
-import { addMistake } from '@/utils/mistakeApi.js'
+import { getMistakeDetail, updateMistake } from '@/utils/mistakeApi.js'
 
 export default {
   data() {
     return {
+      mistakeId: '',
       stockSearchKey: '',
       searchResults: [],
       showSearchResults: false,
@@ -98,7 +99,6 @@ export default {
       price: '',
       quantity: '',
       tradeDate: '',
-      planId: '',
       mistakeTypes: [
         { code: 'chase_high', name: '追高买入', selected: false },
         { code: 'panic_sell', name: '恐慌割肉', selected: false },
@@ -121,17 +121,12 @@ export default {
     const today = new Date()
     this.tradeDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
 
-    // 从预案跳转过来的预填充
-    if (options.planId) {
-      this.planId = options.planId
-      this.selectedStock = {
-        name: options.stockName || '',
-        tsCode: options.stockCode || '',
-        symbol: ''
-      }
-      this.stockSearchKey = options.stockName || ''
-      this.action = options.action || 'buy'
-      this.price = options.planPrice || ''
+    if (options.id) {
+      this.mistakeId = options.id
+      this.loadMistakeDetail()
+    } else {
+      uni.showToast({ title: '缺少记录ID', icon: 'none' })
+      setTimeout(() => uni.navigateBack(), 1500)
     }
   },
   onUnload() {
@@ -142,6 +137,42 @@ export default {
     }
   },
   methods: {
+    async loadMistakeDetail() {
+      uni.showLoading({ title: '加载中' })
+      const result = await getMistakeDetail(this.mistakeId)
+      uni.hideLoading()
+
+      if (result.success) {
+        const data = result.data
+        // 填充数据
+        this.selectedStock = { 
+          name: data.stockName, 
+          tsCode: data.stockCode, 
+          symbol: '' 
+        }
+        this.stockSearchKey = data.stockName
+        this.action = data.action || 'buy'
+        this.price = data.price ? String(data.price) : ''
+        this.quantity = data.quantity ? String(data.quantity) : ''
+        this.tradeDate = this.formatDate(data.date || data.createTime)
+        this.emotion = data.emotion || ''
+        this.reflection = data.reflection || ''
+        
+        // 设置错误类型选中状态
+        const types = data.mistakeTypes || []
+        this.mistakeTypes.forEach(item => {
+          item.selected = types.includes(item.name)
+        })
+      } else {
+        uni.showToast({ title: result.error || '加载失败', icon: 'none' })
+      }
+    },
+    formatDate(dateValue) {
+      if (!dateValue) return ''
+      const date = new Date(dateValue)
+      if (isNaN(date.getTime())) return ''
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+    },
     onStockSearch(e) {
       const keyword = e.detail.value.trim()
       this.stockSearchKey = keyword
@@ -176,8 +207,12 @@ export default {
       this.selectedStock = { name: '', tsCode: '', symbol: '' }
       this.stockSearchKey = ''
     },
-    onDateChange(e) { this.tradeDate = e.detail.value },
-    toggleMistakeType(index) { this.mistakeTypes[index].selected = !this.mistakeTypes[index].selected },
+    onDateChange(e) { 
+      this.tradeDate = e.detail.value 
+    },
+    toggleMistakeType(index) { 
+      this.mistakeTypes[index].selected = !this.mistakeTypes[index].selected 
+    },
     async submit() {
       // 校验股票选择 - 如果修改了搜索框但没有选择，提示用户
       if (!this.selectedStock.tsCode) {
@@ -189,46 +224,30 @@ export default {
         uni.showToast({ title: '请从搜索结果中选择股票', icon: 'none' })
         return
       }
-      if (!this.price || !this.quantity) {
-        uni.showToast({ title: '请输入价格和数量', icon: 'none' })
-        return
-      }
       const selectedTypes = this.mistakeTypes.filter(t => t.selected)
       if (selectedTypes.length === 0) {
         uni.showToast({ title: '请选择错误类型', icon: 'none' })
         return
       }
       
-      uni.showLoading({ title: '保存中' })
-      const priceVal = parseFloat(this.price)
-      const quantityVal = parseInt(this.quantity)
-      const lossAmount = (!isNaN(priceVal) && !isNaN(quantityVal)) ? priceVal * quantityVal : 0
-      
-      const result = await addMistake({
+      const data = {
         stockName: this.selectedStock.name,
         stockCode: this.selectedStock.tsCode,
         action: this.action,
-        price: priceVal,
-        quantity: quantityVal,
+        price: this.price ? parseFloat(this.price) : undefined,
+        quantity: this.quantity ? parseInt(this.quantity) : undefined,
+        date: new Date(this.tradeDate),
         mistakeTypes: selectedTypes.map(t => t.name),
         emotion: this.emotion,
-        reflection: this.reflection,
-        lossAmount: lossAmount,
-        date: new Date(this.tradeDate),
-        planId: this.planId || undefined
-      })
+        reflection: this.reflection
+      }
+      
+      uni.showLoading({ title: '保存中' })
+      const result = await updateMistake(this.mistakeId, data)
       uni.hideLoading()
       
       if (result.success) {
-        // 如果来自预案，更新预案状态为已执行
-        if (this.planId) {
-          const { updatePlan } = require('@/utils/planApi.js')
-          await updatePlan(this.planId, { 
-            status: 'executed',
-            mistakeId: result.data._id
-          })
-        }
-        uni.showToast({ title: '记录成功', icon: 'success' })
+        uni.showToast({ title: '保存成功', icon: 'success' })
         setTimeout(() => uni.navigateBack(), 1500)
       } else {
         uni.showToast({ title: result.error || '保存失败', icon: 'none' })

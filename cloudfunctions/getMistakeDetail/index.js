@@ -5,6 +5,14 @@ exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext()
   const { id } = event
   
+  // 参数校验
+  if (!id) {
+    return {
+      success: false,
+      error: '记录ID不能为空'
+    }
+  }
+  
   try {
     const db = cloud.database()
     
@@ -18,7 +26,7 @@ exports.main = async (event, context) => {
     if (data.length === 0) {
       return {
         success: false,
-        error: '记录不存在'
+        error: '记录不存在或无权访问'
       }
     }
     

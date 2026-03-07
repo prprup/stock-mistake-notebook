@@ -20,8 +20,16 @@ exports.main = async (event, context) => {
     
     let where = { _openid: OPENID }
     
+    // 日期筛选 - 支持字符串日期或Date对象
     if (date) {
-      where.date = date
+      // 如果是字符串格式 YYYY-MM-DD，转换为日期范围查询
+      if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        const startOfDay = new Date(date + 'T00:00:00.000Z')
+        const endOfDay = new Date(date + 'T23:59:59.999Z')
+        where.date = _.gte(startOfDay).and(_.lte(endOfDay))
+      } else {
+        where.date = date
+      }
     }
     
     if (status) {

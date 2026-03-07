@@ -8,15 +8,15 @@ const collections = [
     name: 'users',
     description: '用户信息',
     indexes: [
-      { name: 'openid_index', fields: [{ openid: 1 }], unique: true }
+      { name: 'openid_index', fields: [{ _openid: 1 }], unique: true }
     ]
   },
   {
     name: 'mistakes',
     description: '错题记录',
     indexes: [
-      { name: 'userId_time_index', fields: [{ userId: 1 }, { createTime: -1 }] },
-      { name: 'userId_stock_index', fields: [{ userId: 1 }, { stockCode: 1 }] },
+      { name: 'openid_time_index', fields: [{ _openid: 1 }, { createTime: -1 }] },
+      { name: 'openid_stock_index', fields: [{ _openid: 1 }, { stockCode: 1 }] },
       { name: 'planId_index', fields: [{ planId: 1 }] }
     ]
   },
@@ -24,17 +24,25 @@ const collections = [
     name: 'plans',
     description: '交易预案',
     indexes: [
-      { name: 'userId_date_index', fields: [{ userId: 1 }, { date: -1 }] },
-      { name: 'userId_status_index', fields: [{ userId: 1 }, { status: 1 }] },
-      { name: 'userId_stock_index', fields: [{ userId: 1 }, { stockCode: 1 }] }
+      { name: 'openid_date_index', fields: [{ _openid: 1 }, { date: -1 }] },
+      { name: 'openid_status_index', fields: [{ _openid: 1 }, { status: 1 }] },
+      { name: 'openid_stock_index', fields: [{ _openid: 1 }, { stockCode: 1 }] }
     ]
   },
   {
     name: 'kline_cache',
     description: 'K线数据缓存',
     indexes: [
-      { name: 'stock_date_index', fields: [{ stockCode: 1 }, { tradeDate: -1 }] },
+      { name: 'cacheKey_index', fields: [{ cacheKey: 1 }], unique: true },
+      { name: 'tsCode_index', fields: [{ tsCode: 1 }] },
       { name: 'expire_index', fields: [{ expireAt: 1 }], expireAfterSeconds: 7200 }
+    ]
+  },
+  {
+    name: 'stock_cache',
+    description: '股票基础数据缓存',
+    indexes: [
+      { name: 'updateTime_index', fields: [{ updateTime: -1 }] }
     ]
   },
   {
@@ -55,11 +63,11 @@ const collections = [
   }
 ]
 
-// 集合权限配置
-const permissions = {
-  read: true,
-  write: 'doc._openid == auth.openid || doc.userId == auth.openid'
-}
+// 集合权限配置（微信云开发默认权限，如需自定义可在控制台设置）
+// const permissions = {
+//   read: true,
+//   write: 'doc._openid == auth.openid'
+// }
 
 exports.main = async (event, context) => {
   const results = []

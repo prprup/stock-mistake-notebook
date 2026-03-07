@@ -37,6 +37,12 @@
       }
     },
     {
+      "path": "pages/mistakes/edit",
+      "style": {
+        "navigationBarTitleText": "编辑错题"
+      }
+    },
+    {
       "path": "pages/analysis/analysis",
       "style": {
         "navigationBarTitleText": "统计分析"

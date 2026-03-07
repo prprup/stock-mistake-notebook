@@ -141,7 +141,15 @@ export default {
         this.selectedStock = { name: data.stockName, tsCode: data.stockCode, symbol: '' }
         this.stockSearchKey = data.stockName
         this.action = data.action
-        this.planDate = data.date
+        // 处理日期格式 - 支持 Date 对象或字符串
+        if (data.date) {
+          const dateObj = new Date(data.date)
+          if (!isNaN(dateObj.getTime())) {
+            this.planDate = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`
+          } else {
+            this.planDate = data.date
+          }
+        }
         this.targetPrice = String(data.targetPrice || '')
         this.stopLoss = String(data.stopLoss || '')
         this.takeProfit = String(data.takeProfit || '')
@@ -193,8 +201,14 @@ export default {
       this.position = e.detail.value
     },
     async submit() {
+      // 校验股票选择 - 如果修改了搜索框但没有选择，提示用户
       if (!this.selectedStock.tsCode) {
         uni.showToast({ title: '请选择股票', icon: 'none' })
+        return
+      }
+      // 如果搜索框内容和已选股票名称不一致，提示用户重新选择
+      if (this.stockSearchKey !== this.selectedStock.name) {
+        uni.showToast({ title: '请从搜索结果中选择股票', icon: 'none' })
         return
       }
       if (!this.targetPrice) {

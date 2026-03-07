@@ -145,13 +145,22 @@ exports.main = async (event, context) => {
     const db = cloud.database()
     const now = new Date()
     
+    // 处理日期字段 - 确保是 Date 类型
+    let planDate = now
+    if (date) {
+      const dateObj = new Date(date)
+      if (!isNaN(dateObj.getTime())) {
+        planDate = dateObj
+      }
+    }
+    
     const result = await db.collection('plans').add({
       data: {
         _openid: OPENID,
         stockName: String(stockName).trim(),
         stockCode: String(stockCode).trim(),
         action: action === 'sell' ? 'sell' : 'buy',
-        date: date || now,
+        date: planDate,
         targetPrice: validatedNumbers.targetPrice,
         stopLoss: validatedNumbers.stopLoss,
         takeProfit: validatedNumbers.takeProfit,

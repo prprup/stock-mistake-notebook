@@ -45,6 +45,14 @@ exports.main = async (event, context) => {
       }
     }
     
+    // 如果更新了 date 字段，确保是 Date 类型
+    if (filteredData.date && !(filteredData.date instanceof Date)) {
+      const dateObj = new Date(filteredData.date)
+      if (!isNaN(dateObj.getTime())) {
+        filteredData.date = dateObj
+      }
+    }
+    
     const dataToUpdate = {
       ...filteredData,
       updateTime: new Date()

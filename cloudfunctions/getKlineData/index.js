@@ -13,6 +13,17 @@ const TUSHARE_API = 'http://api.tushare.pro'
 exports.main = async (event, context) => {
   const { tsCode, startDate, endDate } = event
   
+  // 参数校验
+  if (!tsCode) {
+    return { success: false, error: '股票代码不能为空' }
+  }
+  if (!startDate || !endDate) {
+    return { success: false, error: '开始日期和结束日期不能为空' }
+  }
+  if (!/^\d{8}$/.test(startDate) || !/^\d{8}$/.test(endDate)) {
+    return { success: false, error: '日期格式应为YYYYMMDD' }
+  }
+  
   try {
     const db = cloud.database()
     

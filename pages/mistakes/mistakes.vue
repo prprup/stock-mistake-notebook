@@ -42,10 +42,16 @@ export default {
     return {
       currentFilter: 'all',
       mistakeTypes: [
-        { code: 'chase_high', name: '追高' },
-        { code: 'panic_sell', name: '割肉' },
-        { code: 'no_stop_loss', name: '不止损' },
-        { code: 'heavy_position', name: '重仓' }
+        { code: '追高买入', name: '追高' },
+        { code: '恐慌割肉', name: '割肉' },
+        { code: '该止损没止损', name: '不止损' },
+        { code: '该止盈没止盈', name: '不止盈' },
+        { code: '单票过重', name: '重仓' },
+        { code: '满仓梭哈', name: '满仓' },
+        { code: '频繁交易', name: '频繁' },
+        { code: '报复性交易', name: '报复' },
+        { code: '听信消息', name: '听消息' },
+        { code: '跟风买入', name: '跟风' }
       ],
       mistakes: []
     }
@@ -57,15 +63,16 @@ export default {
     this.loadMistakes()
   },
   methods: {
-    async loadMistakes(filter = 'all') {
+    async loadMistakes(params = {}) {
       uni.showLoading({ title: '加载中...' })
-      const params = filter !== 'all' ? { mistakeType: filter } : {}
       const res = await getMistakes(params)
       uni.hideLoading()
 
       if (res.success) {
+        // 适配后端返回的分页数据结构
+        const list = res.data.list || res.data || []
         // 字段映射适配
-        this.mistakes = res.data.map(item => ({
+        this.mistakes = list.map(item => ({
           _id: item._id,
           stockName: item.stockName,
           stockCode: item.stockCode,
@@ -83,7 +90,9 @@ export default {
     // setFilter方法调用loadMistakes并传入筛选参数
     setFilter(filter) {
       this.currentFilter = filter
-      this.loadMistakes(filter)
+      // 直接传中文名称，与数据库存储一致
+      const params = filter !== 'all' ? { mistakeType: filter } : {}
+      this.loadMistakes(params)
     },
     goToDetail(id) {
       uni.navigateTo({ url: `/pages/mistakes/detail?id=${id}` })

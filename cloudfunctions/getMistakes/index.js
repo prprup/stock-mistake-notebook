@@ -12,7 +12,7 @@ const isValidDate = (dateStr) => {
 
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext()
-  let { page = 1, pageSize = 20, startDate, endDate } = event
+  let { page = 1, pageSize = 20, startDate, endDate, mistakeType } = event
   
   // 参数校验：page和pageSize参数校验（防止负数或过大值）
   page = parseInt(page) || 1
@@ -52,6 +52,14 @@ exports.main = async (event, context) => {
     }
   }
   
+  // 错误类型校验
+  if (mistakeType && typeof mistakeType !== 'string') {
+    return {
+      success: false,
+      error: '错误类型格式不正确'
+    }
+  }
+  
   try {
     const db = cloud.database()
     const _ = db.command
@@ -65,6 +73,11 @@ exports.main = async (event, context) => {
       whereCondition.date = {}
       if (startDate) whereCondition.date.gte = new Date(startDate)
       if (endDate) whereCondition.date.lte = new Date(endDate)
+    }
+    
+    // 错误类型筛选 - 使用数组包含查询
+    if (mistakeType && mistakeType.trim()) {
+      whereCondition.mistakeTypes = _.all([mistakeType.trim()])
     }
     
     const { data } = await db.collection('mistakes')
