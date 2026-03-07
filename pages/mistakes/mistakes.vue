@@ -25,7 +25,7 @@
         </view>
 
         <view class="mistake-types">
-          <text class="type-tag" v-for="(type, idx) in item.mistakeTypes" :key="idx">{{type}}</text>
+          <text class="type-tag" v-for="(type, idx) in item.mistakeTypes" :key="type">{{type}}</text>
         </view>
 
         <view class="reflection" v-if="item.reflection">{{item.reflection}}</view>
@@ -79,8 +79,10 @@ export default {
         uni.showToast({ title: res.error || '加载失败', icon: 'none' })
       }
     },
+    // setFilter方法调用loadMistakes并传入筛选参数
     setFilter(filter) {
       this.currentFilter = filter
+      this.loadMistakes(filter)
     },
     goToDetail(id) {
       uni.navigateTo({ url: `/pages/mistakes/detail?id=${id}` })

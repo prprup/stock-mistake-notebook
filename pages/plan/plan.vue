@@ -108,12 +108,18 @@ export default {
       this.statusFilter = status
       this.loadPlans()
     },
+    // formatMonth添加空值校验
     formatMonth(dateStr) {
+      if (!dateStr) return ''
       const date = new Date(dateStr)
+      if (isNaN(date.getTime())) return ''
       return `${date.getMonth() + 1}月`
     },
+    // formatDay添加空值校验
     formatDay(dateStr) {
+      if (!dateStr) return ''
       const date = new Date(dateStr)
+      if (isNaN(date.getTime())) return ''
       return String(date.getDate()).padStart(2, '0')
     },
     statusText(status) {
@@ -129,9 +135,17 @@ export default {
     editPlan(id) {
       uni.navigateTo({ url: `/pages/plan/edit?id=${id}` })
     },
+    // executePlan方法使用URLSearchParams编码参数
     executePlan(item) {
+      const params = new URLSearchParams()
+      params.append('planId', item._id)
+      params.append('stockName', item.stockName)
+      params.append('stockCode', item.stockCode)
+      params.append('action', item.action)
+      params.append('planPrice', item.targetPrice)
+      
       uni.navigateTo({
-        url: `/pages/record/manual?planId=${item._id}&stockName=${item.stockName}&stockCode=${item.stockCode}&action=${item.action}&planPrice=${item.targetPrice}`
+        url: `/pages/record/manual?${params.toString()}`
       })
     }
   }

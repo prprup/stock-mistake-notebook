@@ -211,11 +211,20 @@ export default {
     async loadData() {
       uni.showLoading({ title: '加载中' })
       
-      // 并行获取首页数据、最新预案和排行榜数据
+      // Promise.all添加错误边界，使用.catch处理单个请求失败
       const [homeResult, planResult, rankingResult] = await Promise.all([
-        getHomeStats(),
-        getPlans({ limit: 1 }),
-        getRankingStats()
+        getHomeStats().catch(err => ({
+          success: false,
+          error: err.message || '获取首页数据失败'
+        })),
+        getPlans({ limit: 1 }).catch(err => ({
+          success: false,
+          error: err.message || '获取预案失败'
+        })),
+        getRankingStats().catch(err => ({
+          success: false,
+          error: err.message || '获取排行榜失败'
+        }))
       ])
       
       uni.hideLoading()
@@ -232,14 +241,17 @@ export default {
         uni.showToast({ title: homeResult.error || '加载失败', icon: 'none' })
       }
       
-      // 设置最新预案
+      // 设置最新预案，添加planResult的错误提示
       if (planResult.success && planResult.data && planResult.data.length > 0) {
         this.latestPlan = planResult.data[0]
       } else {
         this.latestPlan = null
+        if (!planResult.success) {
+          console.error('获取预案失败:', planResult.error)
+        }
       }
       
-      // 设置排行榜数据
+      // 设置排行榜数据，添加rankingResult的错误提示
       if (rankingResult.success && rankingResult.data) {
         this.rankingData = rankingResult.data
       } else {
@@ -247,6 +259,9 @@ export default {
           top3: [],
           participantCount: 0,
           weekRange: null
+        }
+        if (!rankingResult.success) {
+          console.error('获取排行榜失败:', rankingResult.error)
         }
       }
     },

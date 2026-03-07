@@ -3,7 +3,16 @@ cloud.init()
 
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext()
-  const { date, status, limit = 50 } = event
+  let { date, status, limit = 50 } = event
+  
+  // 添加limit参数上限限制（最大100）
+  limit = parseInt(limit) || 50
+  if (limit < 1) {
+    limit = 1
+  }
+  if (limit > 100) {
+    limit = 100
+  }
   
   try {
     const db = cloud.database()
