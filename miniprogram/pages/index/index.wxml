@@ -16,6 +16,13 @@
         <text class="stat-label">连续记录</text>
       </view>
     </view>
+    <!-- 积分入口 -->
+    <view class="points-entry" bindtap="goToPoints">
+      <text class="points-icon">💎</text>
+      <text class="points-value">{{points}}</text>
+      <text class="points-label">积分</text>
+      <text class="arrow">></text>
+    </view>
   </view>
 
   <!-- 今日提醒 -->

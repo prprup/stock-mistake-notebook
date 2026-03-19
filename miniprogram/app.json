@@ -9,7 +9,8 @@
     "pages/analysis/analysis",
     "pages/square/square",
     "pages/square/detail/detail",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/points/points"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -65,11 +65,12 @@ miniprogram/
 
 ### 数据库集合
 
-- `users` - 用户信息
+- `users` - 用户信息（含积分字段）
 - `mistakes` - 错题记录
 - `mistake_types` - 错误类型配置
 - `square_posts` - 广场帖子
 - `likes` - 点赞记录
+- `points_records` - 积分变动记录
 
 ### 云函数
 
@@ -79,8 +80,19 @@ miniprogram/
 - `getMistakeStats` - 获取统计数据
 - `getSquarePosts` - 获取广场帖子
 - `likePost` - 点赞/取消点赞
+- `checkIn` - 每日签到
+- `addPoints` - 增加积分
+- `getPointsRecords` - 获取积分记录
 
-## 配色方案
+## 积分系统
+
+### 获取途径
+- **录入错题**：+10积分/条
+- **观看广告**：+20积分/次
+- **每日签到**：+5积分/天，连续7天额外+10积分
+
+### 页面路径
+- 积分中心：`/pages/points/points`
 
 - 主色：#e94560（红色，警示感）
 - 背景：#1a1a2e（深蓝黑）

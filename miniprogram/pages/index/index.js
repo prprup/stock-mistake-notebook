@@ -4,6 +4,7 @@ Page({
     monthMistakes: 0,
     totalMistakes: 0,
     streakDays: 0,
+    points: 0,
     todayTip: '',
     topMistake: null,
     recentMistakes: []
@@ -23,6 +24,7 @@ Page({
       monthMistakes: 12,
       totalMistakes: 47,
       streakDays: 5,
+      points: 1250,
       todayTip: '你本月追高错误比上月增加了3次，注意控制冲动',
       topMistake: {
         name: '追高买入',
@@ -45,6 +47,12 @@ Page({
           reflection: '早盘低开就慌了，结果下午反弹了5%'
         }
       ]
+    })
+  },
+
+  goToPoints() {
+    wx.navigateTo({
+      url: '/pages/points/points'
     })
   },
 

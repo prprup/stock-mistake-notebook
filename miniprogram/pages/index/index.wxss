@@ -16,6 +16,7 @@
 .stat-row {
   display: flex;
   justify-content: space-around;
+  margin-bottom: 30rpx;
 }
 
 .stat-item {
@@ -34,6 +35,40 @@
   font-size: 24rpx;
   color: #888;
   margin-top: 10rpx;
+}
+
+/* 积分入口 */
+.points-entry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(233, 69, 96, 0.15);
+  border-radius: 40rpx;
+  padding: 16rpx 40rpx;
+  margin-top: 20rpx;
+}
+
+.points-icon {
+  font-size: 32rpx;
+  margin-right: 10rpx;
+}
+
+.points-value {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #e94560;
+  margin-right: 8rpx;
+}
+
+.points-label {
+  font-size: 24rpx;
+  color: #e94560;
+  margin-right: 10rpx;
+}
+
+.arrow {
+  font-size: 24rpx;
+  color: #e94560;
 }
 
 /* 今日提醒 */

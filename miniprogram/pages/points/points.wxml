@@ -1,0 +1,80 @@
+<!-- 积分中心页面 -->
+<view class="container">
+  <!-- 积分卡片 -->
+  <view class="points-card">
+    <view class="points-header">
+      <text class="points-label">我的积分</text>
+      <view class="points-detail" bindtap="goToRecords">
+        <text>明细</text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+    <view class="points-value">{{points}}</view>
+    <view class="points-total">累计获得 {{totalPoints}} 积分</view>
+    
+    <!-- 签到区域 -->
+    <view class="checkin-section">
+      <view class="checkin-info">
+        <text class="streak">连续签到 {{checkInStreak}} 天</text>
+        <text class="streak-tip" wx:if="{{checkInStreak > 0}}">再坚持 {{7 - checkInStreak % 7}} 天获额外奖励</text>
+      </view>
+      <button class="checkin-btn {{hasCheckedIn ? 'checked' : ''}}" bindtap="checkIn">
+        {{hasCheckedIn ? '已签到' : '签到'}}</button>
+    </view>
+
+    <!-- 连续签到进度 -->
+    <view class="checkin-days">
+      <view class="day-item" wx:for="[1,2,3,4,5,6,7]" wx:key="*this">
+        <view class="day-circle {{checkInStreak >= item ? 'active' : ''}}">
+          <text wx:if="{{checkInStreak >= item}}">✓</text>
+          <text wx:else>{{item}}</text>
+        </view>
+        <text class="day-label">{{item === 7 ? '奖' : ''}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 获取积分 -->
+  <view class="section">
+    <view class="section-title">获取积分</view>
+    <view class="task-list">
+      <view class="task-item" wx:for="{{tasks}}" wx:key="id" bindtap="doTask" data-id="{{item.id}}">
+        <view class="task-icon">{{item.icon}}</view>
+        <view class="task-info">
+          <view class="task-name">{{item.name}}</view>
+          <view class="task-desc">{{item.desc}}</view>
+        </view>
+        <view class="task-points">+{{item.points}}</view>
+        <view class="task-action">
+          <text wx:if="{{item.id === 'checkin' && hasCheckedIn}}">已完成</text>
+          <text wx:else>去{{item.id === 'checkin' ? '签到' : '做'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近记录 -->
+  <view class="section" wx:if="{{pointsRecords.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">最近记录</text>
+      <text class="more" bindtap="goToRecords">查看全部 ></text>
+    </view>
+    <view class="record-list">
+      <view class="record-item" wx:for="{{pointsRecords}}" wx:key="index">
+        <view class="record-left">
+          <view class="record-icon {{item.type}}">
+            <text wx:if="{{item.type === 'mistake'}}">📝</text>
+            <text wx:elif="{{item.type === 'ad'}}">🎬</text>
+            <text wx:elif="{{item.type === 'checkin'}}">📅</text>
+            <text wx:else>🎁</text>
+          </view>
+          <view class="record-info">
+            <text class="record-desc">{{item.desc}}</text>
+            <text class="record-time">{{item.time}}</text>
+          </view>
+        </view>
+        <text class="record-points">+{{item.points}}</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -107,11 +107,20 @@ Page({
     
     setTimeout(() => {
       wx.hideLoading()
-      wx.showToast({ title: '记录成功', icon: 'success' })
+      
+      // 积分奖励提示
+      wx.showToast({ 
+        title: '记录成功 +10积分', 
+        icon: 'success',
+        duration: 2000
+      })
+      
+      // TODO: 调用云函数增加积分
+      // addPoints(10, 'mistake', '录入错题奖励', mistakeId)
       
       setTimeout(() => {
         wx.navigateBack()
-      }, 1500)
+      }, 2000)
     }, 1000)
   }
 })
