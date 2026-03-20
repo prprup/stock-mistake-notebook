@@ -35,7 +35,8 @@ cloudfunctions/            # 云函数
 ├── getPointsRecords/      # 获取积分记录
 ├── addMistakeWithPoints/  # 录入错题并加积分
 ├── initPointsDB/          # 初始化积分数据库
-├── searchStocks/          # 搜索A股股票
+├── searchStocks/          # 搜索A股股票(调用Tushare)
+├── syncStockList/         # 同步Tushare股票列表(定时任务)
 ├── donateToStock/         # 打赏股票
 ├── getStockRanking/       # 获取股票打赏排行榜
 └── getUserDonations/      # 获取用户打赏记录
@@ -52,15 +53,32 @@ cloudfunctions/            # 云函数
 ### 部署步骤
 
 ```bash
-# 1. 在微信开发者工具中右键 cloudfunctions/initPointsDB 选择"创建并部署：云端安装依赖"
+# 1. 配置Tushare Token
+# 在云开发控制台 -> 云函数 -> 全局设置 -> 环境变量中设置：
+# TUSHARE_TOKEN=你的token
 
-# 2. 调用 initPointsDB 云函数初始化数据库
-# 在小程序中执行或开发者工具控制台执行：
+# 2. 部署云函数
+# 在微信开发者工具中右键 cloudfunctions/initPointsDB 选择"创建并部署：云端安装依赖"
+
+# 3. 调用 initPointsDB 云函数初始化数据库
 wx.cloud.callFunction({ name: 'initPointsDB' })
 
-# 3. 部署其他云函数（右键每个云函数目录）
+# 4. 同步股票列表（首次需要手动触发）
+wx.cloud.callFunction({ name: 'syncStockList' })
+
+# 5. 部署其他云函数
 # - getPoints, checkIn, addPoints, getPointsRecords, addMistakeWithPoints
-# - searchStocks, donateToStock, getStockRanking, getUserDonations
+# - searchStocks, syncStockList, donateToStock, getStockRanking, getUserDonations
+```
+
+### 配置定时任务（可选）
+```javascript
+// 每天凌晨2点同步股票列表
+{
+  "name": "syncStockList",
+  "schedule": "0 2 * * *",
+  "payload": {}
+}
 ```
 
 ## 云开发配置
@@ -74,56 +92,22 @@ wx.cloud.callFunction({ name: 'initPointsDB' })
 | `mistakes` | 错题记录 | stockCode, stockName, mistakeTypes, reflection |
 | `stock_donations` | 股票打赏记录 | stockCode, stockName, points, message |
 | `stock_donation_stats` | 股票打赏统计 | stockCode, stockName, totalPoints, donorCount |
+| `stock_basic` | 股票基础信息 | ts_code, code, name, area, industry, exchange |
+| `cache_config` | 缓存配置 | lastUpdate, count |
 
-### user_points 字段说明
-
-```javascript
-{
-  _openid: string,        // 用户openid
-  points: number,         // 当前可用积分
-  totalPoints: number,    // 累计获得积分
-  checkInStreak: number,  // 连续签到天数
-  lastCheckIn: Date,      // 最后签到时间
-  createTime: Date,
-  updateTime: Date
-}
-```
-
-### points_records 字段说明
+### stock_basic 字段说明
 
 ```javascript
 {
-  _openid: string,        // 用户openid
-  type: string,           // 类型: mistake/ad/checkin/bonus/donate/invite/share
-  points: number,         // 变动积分（正数获得，负数消耗）
-  description: string,    // 描述
-  relatedId: string,      // 关联ID（如错题ID）
-  createTime: Date
-}
-```
-
-### stock_donations 字段说明
-
-```javascript
-{
-  _openid: string,        // 用户openid
-  stockCode: string,      // 股票代码
-  stockName: string,      // 股票名称
-  points: number,         // 打赏积分
-  message: string,        // 留言（可选）
-  createTime: Date
-}
-```
-
-### stock_donation_stats 字段说明
-
-```javascript
-{
-  stockCode: string,      // 股票代码
-  stockName: string,      // 股票名称
-  totalPoints: number,    // 总打赏积分
-  donorCount: number,     // 打赏人数
-  createTime: Date,
+  ts_code: string,       // 股票代码(带后缀) 如：000001.SZ
+  code: string,          // 纯数字代码 如：000001
+  name: string,          // 股票名称
+  area: string,          // 地区
+  industry: string,      // 行业
+  market: string,        // 市场类型
+  is_hs: string,         // 是否沪深港通标的
+  list_date: string,     // 上市日期
+  exchange: string,      // 交易所 SH/SZ/BJ
   updateTime: Date
 }
 ```
@@ -209,6 +193,10 @@ wx.cloud.callFunction({
 
 ## 股票打赏系统
 
+### 数据源
+
+股票数据来源于 **Tushare Pro API**，通过 `syncStockList` 云函数每天同步一次到本地数据库，搜索时直接查询本地数据库，无需实时调用API。
+
 ### 页面路径
 
 | 页面 | 路径 |
@@ -233,6 +221,16 @@ wx.cloud.callFunction({
   data: {
     keyword: '平安',      // 股票代码或名称
     limit: 10             // 返回数量
+  }
+})
+```
+
+#### syncStockList - 同步股票列表
+```javascript
+wx.cloud.callFunction({
+  name: 'syncStockList',
+  data: {
+    forceUpdate: false    // 是否强制更新
   }
 })
 ```
@@ -289,7 +287,7 @@ wx.cloud.callFunction({
 
 ### pages/stockDonation/donate/
 - 股票打赏页面
-- 搜索A股股票
+- 搜索A股股票（调用Tushare真实数据）
 - 选择打赏金额
 - 提交打赏并扣除积分
 
@@ -321,6 +319,6 @@ wx.cloud.callFunction({
 - [ ] 邀请好友得积分
 - [ ] 分享得积分
 - [ ] 广告单元ID配置（替换 adunit-xxxxxxxxxxxx）
-- [ ] 接入真实股票行情API（替换 searchStocks 模拟数据）
 - [ ] 排行榜周榜/月榜数据聚合
 - [ ] 打赏留言展示在排行榜
+- [ ] 股票实时行情显示

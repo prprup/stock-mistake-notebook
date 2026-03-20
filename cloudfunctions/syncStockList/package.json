@@ -1,7 +1,7 @@
 {
-  "name": "searchStocks",
+  "name": "syncStockList",
   "version": "1.0.0",
-  "description": "搜索A股股票(调用Tushare)",
+  "description": "同步Tushare股票基础列表",
   "main": "index.js",
   "dependencies": {
     "wx-server-sdk": "latest",

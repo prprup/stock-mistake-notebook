@@ -17,7 +17,9 @@ exports.main = async (event, context) => {
       'points_records',        // 积分变动记录
       'mistakes',              // 错题记录
       'stock_donations',       // 股票打赏记录
-      'stock_donation_stats'   // 股票打赏统计
+      'stock_donation_stats',  // 股票打赏统计
+      'stock_basic',           // 股票基础信息
+      'cache_config'           // 缓存配置
     ]
     
     const results = []
@@ -48,6 +50,25 @@ exports.main = async (event, context) => {
           })
         }
       }
+    }
+
+    // 创建索引
+    try {
+      await db.collection('stock_basic').createIndex({
+        name: 'code_index',
+        unique: false
+      })
+      results.push({
+        collection: 'stock_basic',
+        status: 'index_created',
+        message: 'code字段索引创建成功'
+      })
+    } catch (err) {
+      results.push({
+        collection: 'stock_basic',
+        status: 'index_exists',
+        message: '索引已存在或创建失败'
+      })
     }
 
     return {
