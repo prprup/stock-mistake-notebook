@@ -22,39 +22,51 @@ Page({
     this.setData({ loading: true })
 
     try {
-      // 获取用户信息
-      const userRes = await new Promise((resolve, reject) => {
-        wx.getUserProfile ? 
-          wx.getUserProfile({
-            desc: '用于完善用户资料',
-            success: resolve,
-            fail: reject
-          }) :
-          wx.getUserInfo({
-            success: resolve,
-            fail: reject
-          })
-      })
+      // 获取用户信息（使用 wx.getUserProfile 或 wx.getUserInfo）
+      let userInfo = null
+      try {
+        const userRes = await new Promise((resolve, reject) => {
+          wx.getUserProfile ? 
+            wx.getUserProfile({
+              desc: '用于完善用户资料',
+              success: resolve,
+              fail: reject
+            }) :
+            wx.getUserInfo({
+              success: resolve,
+              fail: reject
+            })
+        })
+        userInfo = userRes.userInfo
+      } catch (e) {
+        console.log('获取用户信息失败，可能未授权')
+      }
 
-      // 获取积分信息
-      const pointsRes = await new Promise((resolve, reject) => {
+      // 获取用户统计信息（积分、错题数等）
+      const statsRes = await new Promise((resolve, reject) => {
         wx.cloud.callFunction({
-          name: 'getPoints',
+          name: 'getUserStats',
           success: (res) => resolve(res.result),
           fail: reject
         })
       })
 
-      this.setData({
-        userInfo: userRes.userInfo,
-        stats: {
-          totalMistakes: 0, // TODO: 从云函数获取
-          totalPoints: pointsRes.code === 0 ? pointsRes.data.totalPoints : 0,
-          checkInStreak: pointsRes.code === 0 ? pointsRes.data.checkInStreak : 0
-        }
-      })
+      if (statsRes.code === 0) {
+        this.setData({
+          userInfo: userInfo,
+          stats: {
+            totalMistakes: statsRes.data.totalMistakes,
+            totalPoints: statsRes.data.totalPoints,
+            checkInStreak: statsRes.data.checkInStreak
+          }
+        })
+      } else {
+        this.setData({ userInfo })
+        wx.showToast({ title: statsRes.message, icon: 'none' })
+      }
     } catch (err) {
       console.error('获取用户信息失败:', err)
+      wx.showToast({ title: '加载失败', icon: 'none' })
     } finally {
       this.setData({ loading: false })
     }

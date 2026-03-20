@@ -1,0 +1,9 @@
+{
+  "name": "getMistakes",
+  "version": "1.0.0",
+  "description": "获取用户错题列表",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}
