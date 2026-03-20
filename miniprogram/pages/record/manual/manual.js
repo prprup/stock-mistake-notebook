@@ -2,6 +2,7 @@
 Page({
   data: {
     stockCode: '',
+    stockName: '',
     action: 'buy',
     price: '',
     quantity: '',
@@ -21,7 +22,8 @@ Page({
     emotions: ['恐慌', '贪婪', '犹豫', '冲动', '自信', '后悔', '平静'],
     emotion: '',
     reflection: '',
-    isPublic: false
+    isPublic: false,
+    submitting: false
   },
 
   onLoad() {
@@ -33,6 +35,10 @@ Page({
 
   onStockCodeInput(e) {
     this.setData({ stockCode: e.detail.value })
+  },
+
+  onStockNameInput(e) {
+    this.setData({ stockName: e.detail.value })
   },
 
   selectAction(e) {
@@ -70,10 +76,16 @@ Page({
     this.setData({ isPublic: e.detail.value })
   },
 
-  submit() {
+  async submit() {
+    if (this.data.submitting) return
+
     // 表单验证
     if (!this.data.stockCode) {
       wx.showToast({ title: '请输入股票代码', icon: 'none' })
+      return
+    }
+    if (!this.data.stockName) {
+      wx.showToast({ title: '请输入股票名称', icon: 'none' })
       return
     }
     if (!this.data.price || !this.data.quantity) {
@@ -87,40 +99,52 @@ Page({
       return
     }
 
-    // 构造提交数据
-    const data = {
-      stockCode: this.data.stockCode,
-      action: this.data.action,
-      price: parseFloat(this.data.price),
-      quantity: parseInt(this.data.quantity),
-      tradeDate: this.data.tradeDate,
-      mistakeTypes: selectedTypes.map(t => t.name),
-      emotion: this.data.emotion,
-      reflection: this.data.reflection,
-      isPublic: this.data.isPublic
-    }
-
-    console.log('提交数据:', data)
-
-    // TODO: 调用云函数保存数据
+    this.setData({ submitting: true })
     wx.showLoading({ title: '保存中...' })
-    
-    setTimeout(() => {
-      wx.hideLoading()
-      
-      // 积分奖励提示
-      wx.showToast({ 
-        title: '记录成功 +10积分', 
-        icon: 'success',
-        duration: 2000
+
+    try {
+      // 调用云函数保存错题并增加积分
+      const res = await new Promise((resolve, reject) => {
+        wx.cloud.callFunction({
+          name: 'addMistakeWithPoints',
+          data: {
+            stockCode: this.data.stockCode,
+            stockName: this.data.stockName,
+            action: this.data.action,
+            price: parseFloat(this.data.price),
+            quantity: parseInt(this.data.quantity),
+            tradeDate: this.data.tradeDate,
+            mistakeTypes: selectedTypes.map(t => t.name),
+            emotion: this.data.emotion,
+            reflection: this.data.reflection,
+            isPublic: this.data.isPublic
+          },
+          success: (res) => resolve(res.result),
+          fail: reject
+        })
       })
-      
-      // TODO: 调用云函数增加积分
-      // addPoints(10, 'mistake', '录入错题奖励', mistakeId)
-      
-      setTimeout(() => {
-        wx.navigateBack()
-      }, 2000)
-    }, 1000)
+
+      wx.hideLoading()
+
+      if (res.code === 0) {
+        wx.showToast({ 
+          title: `记录成功 +${res.data.pointsAdded}积分`, 
+          icon: 'success',
+          duration: 2000
+        })
+        
+        setTimeout(() => {
+          wx.navigateBack()
+        }, 1500)
+      } else {
+        wx.showToast({ title: res.message, icon: 'none' })
+        this.setData({ submitting: false })
+      }
+    } catch (err) {
+      wx.hideLoading()
+      console.error('保存失败:', err)
+      wx.showToast({ title: '保存失败', icon: 'none' })
+      this.setData({ submitting: false })
+    }
   }
 })

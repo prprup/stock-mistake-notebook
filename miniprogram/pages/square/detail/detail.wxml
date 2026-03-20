@@ -1,0 +1,55 @@
+<!-- 广场详情页面 -->
+<view class="container">
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <block wx:if="{{!loading && mistake}}">
+    <!-- 作者信息 -->
+    <view class="author-bar">
+      <view class="author-info">
+        <image class="author-avatar" src="/images/default-avatar.png" />
+        <text class="author-name">匿名用户</text>
+      </view>
+      <text class="post-time">{{mistake.formattedDate}}</text>
+    </view>
+
+    <!-- 内容 -->
+    <view class="content-card">
+      <view class="tags">
+        <text 
+          class="tag"
+          wx:for="{{mistake.mistakeTypes}}"
+          wx:key="*this"
+        >{{item}}</text>
+      </view>
+      
+      <view class="reflection" wx:if="{{mistake.reflection}}">
+        {{mistake.reflection}}
+      </view>
+      
+      <view class="emotion" wx:if="{{mistake.emotion}}">
+        <text class="emotion-label">当时情绪：</text>
+        <text class="emotion-value">{{mistake.emotion}}</text>
+      </view>
+    </view>
+
+    <!-- 操作栏 -->
+    <view class="action-bar">
+      <view class="action-item" bindtap="like">
+        <text class="action-icon">👍</text>
+        <text class="action-text">点赞</text>
+      </view>
+      
+      <view class="action-item" bindtap="comment">
+        <text class="action-icon">💬</text>
+        <text class="action-text">评论</text>
+      </view>
+      
+      <view class="action-item">
+        <text class="action-icon">📤</text>
+        <text class="action-text">分享</text>
+      </view>
+    </view>
+  </block>
+</view>

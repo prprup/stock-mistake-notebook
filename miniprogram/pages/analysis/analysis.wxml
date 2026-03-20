@@ -1,0 +1,68 @@
+<!-- 统计分析页面 -->
+<view class="container">
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <block wx:if="{{!loading && stats}}">
+    <!-- 概览卡片 -->
+    <view class="overview-card">
+      <view class="stat-row">
+        <view class="stat-item">
+          <text class="stat-value">{{stats.totalMistakes}}</text>
+          <text class="stat-label">总错题</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{stats.monthMistakes}}</text>
+          <text class="stat-label">本月错题</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{stats.improvementRate}}%</text>
+          <text class="stat-label">改进率</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 错误类型分布 -->
+    <view class="section">
+      <view class="section-title">错误类型分布</view>
+      
+      <view class="type-list" wx:if="{{stats.typeDistribution.length > 0}}">
+        <view 
+          class="type-item"
+          wx:for="{{stats.typeDistribution}}"
+          wx:key="name"
+        >
+          <text class="type-name">{{item.name}}</text>
+          <view class="type-bar">
+            <view 
+              class="type-progress"
+              style="width: {{item.percentage}}%"
+            ></view>
+          </view>
+          <text class="type-count">{{item.count}}次</text>
+        </view>
+      </view>
+      
+      <view class="empty-tip" wx:else>
+        <text>暂无数据，快去记录错题吧~</text>
+      </view>
+    </view>
+
+    <!-- 情绪与错误关联 -->
+    <view class="section" wx:if="{{stats.emotionStats.length > 0}}">
+      <view class="section-title">情绪与错误关联</view>
+      
+      <view class="emotion-list">
+        <view 
+          class="emotion-item"
+          wx:for="{{stats.emotionStats}}"
+          wx:key="emotion"
+        >
+          <text class="emotion-name">{{item.emotion}}</text>
+          <text class="emotion-count">{{item.count}}次</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

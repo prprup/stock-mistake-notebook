@@ -1,0 +1,70 @@
+/* 记录入口页面样式 */
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding: 30rpx;
+}
+
+.tip-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+}
+
+.tip-icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+}
+
+.tip-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #fff;
+}
+
+.record-types {
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.type-item {
+  display: flex;
+  align-items: center;
+  padding: 40rpx 30rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.type-item:last-child {
+  border-bottom: none;
+}
+
+.type-icon {
+  font-size: 60rpx;
+  margin-right: 30rpx;
+}
+
+.type-info {
+  flex: 1;
+}
+
+.type-name {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.type-desc {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.type-arrow {
+  font-size: 36rpx;
+  color: #ccc;
+}

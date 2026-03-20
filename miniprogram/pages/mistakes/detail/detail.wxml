@@ -1,0 +1,70 @@
+<!-- 错题详情页面 -->
+<view class="container">
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <block wx:if="{{!loading && mistake}}">
+    <!-- 股票信息 -->
+    <view class="stock-card">
+      <view class="stock-header">
+        <text class="stock-name">{{mistake.stockName}}</text>
+        <text class="stock-code">{{mistake.stockCode}}</text>
+      </view>
+      
+      <view class="trade-info">
+        <view class="trade-item">
+          <text class="label">操作</text>
+          <text class="value {{mistake.action === 'buy' ? 'buy' : 'sell'}}">{{mistake.action === 'buy' ? '买入' : '卖出'}}</text>
+        </view>
+        <view class="trade-item">
+          <text class="label">价格</text>
+          <text class="value">{{mistake.price}}</text>
+        </view>
+        <view class="trade-item">
+          <text class="label">数量</text>
+          <text class="value">{{mistake.quantity}}</text>
+        </view>
+        <view class="trade-item">
+          <text class="label">日期</text>
+          <text class="value">{{mistake.tradeDate}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 错误类型 -->
+    <view class="section">
+      <view class="section-title">错误类型</view>
+      <view class="tags">
+        <text 
+          class="tag"
+          wx:for="{{mistake.mistakeTypes}}"
+          wx:key="*this"
+        >{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 情绪 -->
+    <view class="section" wx:if="{{mistake.emotion}}">
+      <view class="section-title">当时情绪</view>
+      <view class="emotion">{{mistake.emotion}}</view>
+    </view>
+
+    <!-- 反思 -->
+    <view class="section" wx:if="{{mistake.reflection}}">
+      <view class="section-title">反思</view>
+      <view class="reflection">{{mistake.reflection}}</view>
+    </view>
+
+    <!-- 截图 -->
+    <view class="section" wx:if="{{mistake.screenshot}}">
+      <view class="section-title">截图</view>
+      <image 
+        class="screenshot"
+        src="{{mistake.screenshot}}"
+        mode="widthFix"
+        bindtap="previewImage"
+      />
+    </view>
+  </block>
+</view>

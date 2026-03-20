@@ -1,21 +1,12 @@
-// 错题广场逻辑
+// 错题列表页面
 Page({
   data: {
-    currentFilter: 'all',
-    mistakeTypes: [
-      { code: 'chase_high', name: '追高' },
-      { code: 'panic_sell', name: '割肉' },
-      { code: 'no_stop_loss', name: '不止损' },
-      { code: 'heavy_position', name: '重仓' },
-      { code: 'frequent_trade', name: '频繁交易' },
-      { code: 'revenge_trade', name: '报复交易' }
-    ],
-    hotMistake: null,
     mistakes: [],
+    filterType: 'all',
+    loading: false,
     hasMore: true,
     page: 1,
-    pageSize: 20,
-    loading: false
+    pageSize: 20
   },
 
   onLoad() {
@@ -43,11 +34,11 @@ Page({
     try {
       const res = await new Promise((resolve, reject) => {
         wx.cloud.callFunction({
-          name: 'getSquarePosts',
+          name: 'getMistakes',
           data: {
             page: this.data.page,
             pageSize: this.data.pageSize,
-            filter: this.data.currentFilter
+            type: this.data.filterType === 'all' ? null : this.data.filterType
           },
           success: (res) => resolve(res.result),
           fail: reject
@@ -55,24 +46,20 @@ Page({
       })
 
       if (res.code === 0) {
-        const data = res.data
-        
-        // 合并数据
         const newMistakes = this.data.page === 1 
-          ? data.list 
-          : [...this.data.mistakes, ...data.list]
+          ? res.data.list 
+          : [...this.data.mistakes, ...res.data.list]
 
         this.setData({
           mistakes: newMistakes,
-          hotMistake: data.hotMistake,
-          hasMore: data.hasMore,
+          hasMore: res.data.hasMore,
           page: this.data.page + 1
         })
       } else {
         wx.showToast({ title: res.message, icon: 'none' })
       }
     } catch (err) {
-      console.error('加载广场数据失败:', err)
+      console.error('加载错题失败:', err)
       wx.showToast({ title: '加载失败', icon: 'none' })
     } finally {
       this.setData({ loading: false })
@@ -80,9 +67,9 @@ Page({
   },
 
   setFilter(e) {
-    const filter = e.currentTarget.dataset.filter
-    this.setData({ 
-      currentFilter: filter,
+    const type = e.currentTarget.dataset.type
+    this.setData({
+      filterType: type,
       page: 1,
       mistakes: [],
       hasMore: true
@@ -90,32 +77,11 @@ Page({
     this.loadMistakes()
   },
 
-  async likeMistake(e) {
-    const id = e.currentTarget.dataset.id
-    const mistakes = this.data.mistakes.map(item => {
-      if (item._id === id) {
-        return {
-          ...item,
-          isLiked: !item.isLiked,
-          likes: item.isLiked ? item.likes - 1 : item.likes + 1
-        }
-      }
-      return item
-    })
-    this.setData({ mistakes })
-
-    // TODO: 调用云函数更新点赞数
-  },
-
   goToDetail(e) {
     const id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: `/pages/square/detail/detail?id=${id}`
+      url: `/pages/mistakes/detail/detail?id=${id}`
     })
-  },
-
-  loadMore() {
-    this.loadMistakes()
   },
 
   // 上拉加载更多

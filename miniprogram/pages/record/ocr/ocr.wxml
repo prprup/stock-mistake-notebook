@@ -1,0 +1,51 @@
+<!-- OCR识别页面 -->
+<view class="container">
+  <!-- 上传区域 -->
+  <view class="upload-area" wx:if="{{!imagePath}}">
+    <view class="upload-btn" bindtap="chooseImage">
+      <text class="upload-icon">📷</text>
+      <text class="upload-text">点击上传交割单截图</text>
+      <text class="upload-tip">支持拍照或从相册选择</text>
+    </view>
+  </view>
+
+  <!-- 预览区域 -->
+  <view class="preview-area" wx:if="{{imagePath}}">
+    <image class="preview-image" src="{{imagePath}}" mode="widthFix" />
+    
+    <view class="recognizing" wx:if="{{recognizing}}">
+      <text class="loading-icon">⏳</text>
+      <text>识别中...</text>
+    </view>
+  </view>
+
+  <!-- 识别结果 -->
+  <view class="result-area" wx:if="{{recognizedData}}">
+    <view class="section-title">识别结果</view>
+    
+    <view class="result-item">
+      <text class="label">股票名称</text>
+      <text class="value">{{recognizedData.stockName}}</text>
+    </view>
+    
+    <view class="result-item">
+      <text class="label">股票代码</text>
+      <text class="value">{{recognizedData.stockCode}}</text>
+    </view>
+    
+    <view class="result-item">
+      <text class="label">成交价格</text>
+      <text class="value">{{recognizedData.price}}</text>
+    </view>
+    
+    <view class="result-item">
+      <text class="label">成交数量</text>
+      <text class="value">{{recognizedData.quantity}}</text>
+    </view>
+
+    <view class="btn-group">
+      <view class="btn btn-primary" bindtap="confirmAndGo">确认并继续</view>
+      <view class="btn btn-secondary" bindtap="rechoose">重新选择</view>
+    </view>
+  </view>
+</view>

@@ -52,25 +52,6 @@ exports.main = async (event, context) => {
       }
     }
 
-    // 创建索引
-    try {
-      await db.collection('stock_basic').createIndex({
-        name: 'code_index',
-        unique: false
-      })
-      results.push({
-        collection: 'stock_basic',
-        status: 'index_created',
-        message: 'code字段索引创建成功'
-      })
-    } catch (err) {
-      results.push({
-        collection: 'stock_basic',
-        status: 'index_exists',
-        message: '索引已存在或创建失败'
-      })
-    }
-
     return {
       code: 0,
       message: '数据库初始化完成',

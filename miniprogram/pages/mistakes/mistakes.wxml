@@ -1,0 +1,71 @@
+<!-- 错题列表页面 -->
+<view class="container">
+  <!-- 筛选器 -->
+  <view class="filter-bar">
+    <view 
+      class="filter-item {{filterType === 'all' ? 'active' : ''}}"
+      bindtap="setFilter"
+      data-type="all"
+    >全部</view>
+    <view 
+      class="filter-item {{filterType === 'chase_high' ? 'active' : ''}}"
+      bindtap="setFilter"
+      data-type="chase_high"
+    >追高</view>
+    <view 
+      class="filter-item {{filterType === 'panic_sell' ? 'active' : ''}}"
+      bindtap="setFilter"
+      data-type="panic_sell"
+    >割肉</view>
+    <view 
+      class="filter-item {{filterType === 'no_stop_loss' ? 'active' : ''}}"
+      bindtap="setFilter"
+      data-type="no_stop_loss"
+    >不止损</view>
+  </view>
+
+  <!-- 错题列表 -->
+  <view class="mistake-list">
+    <view 
+      class="mistake-item"
+      wx:for="{{mistakes}}"
+      wx:key="_id"
+      bindtap="goToDetail"
+      data-id="{{item._id}}"
+    >
+      <view class="mistake-header">
+        <text class="stock-name">{{item.stockName || '未知股票'}}</text>
+        <text class="mistake-date">{{item.formattedDate}}</text>
+      </view>
+      
+      <view class="mistake-tags">
+        <text 
+          class="tag"
+          wx:for="{{item.mistakeTypes}}"
+          wx:for-item="type"
+          wx:key="*this"
+        >{{type}}</text>
+      </view>
+      
+      <view class="mistake-reflection" wx:if="{{item.reflection}}">
+        {{item.reflection}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-more" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="no-more" wx:if="{{!hasMore && mistakes.length > 0}}">
+    <text>没有更多记录了</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && mistakes.length === 0}}">
+    <text class="empty-icon">📖</text>
+    <text class="empty-text">还没有错题记录</text>
+    <text class="empty-sub">快去记录你的第一笔错题吧~</text>
+  </view>
+</view>
