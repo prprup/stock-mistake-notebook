@@ -1,0 +1,80 @@
+<!-- 积分明细页面 -->
+<view class="container">
+  <!-- 统计卡片 -->
+  <view class="stats-card">
+    <view class="stat-item">
+      <text class="stat-value">{{total}}</text>
+      <text class="stat-label">总记录</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-value">{{records.length}}</text>
+      <text class="stat-label">已显示</text>
+    </view>
+  </view>
+
+  <!-- 筛选标签 -->
+  <view class="filter-bar">
+    <view 
+      class="filter-item {{typeFilter === '' ? 'active' : ''}}"
+      bindtap="filterByType"
+      data-type=""
+    >
+      全部
+    </view>
+    <view 
+      class="filter-item {{typeFilter === 'mistake' ? 'active' : ''}}"
+      bindtap="filterByType"
+      data-type="mistake"
+    >
+      错题
+    </view>
+    <view 
+      class="filter-item {{typeFilter === 'checkin' ? 'active' : ''}}"
+      bindtap="filterByType"
+      data-type="checkin"
+    >
+      签到
+    </view>
+    <view 
+      class="filter-item {{typeFilter === 'ad' ? 'active' : ''}}"
+      bindtap="filterByType"
+      data-type="ad"
+    >
+      广告
+    </view>
+  </view>
+
+  <!-- 积分记录列表 -->
+  <view class="records-list">
+    <block wx:for="{{records}}" wx:key="_id">
+      <view class="record-item">
+        <view class="record-icon">{{getTypeIcon(item.type)}}</view>
+        
+        <view class="record-info">
+          <text class="record-title">{{item.description}}</text>
+          <text class="record-time">{{item.formattedTime}}</text>
+        </view>
+        
+        <view class="record-points">
+          <text class="points-value">+{{item.points}}</text>
+          <text class="points-type">{{getTypeName(item.type)}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-more" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="no-more" wx:if="{{!hasMore && records.length > 0}}">
+    <text>没有更多记录了</text>
+  </view>
+
+  <view class="empty-state" wx:if="{{!loading && records.length === 0}}">
+    <text class="empty-icon">📊</text>
+    <text class="empty-text">暂无积分记录</text>
+    <text class="empty-sub">快去完成任务赚取积分吧~</text>
+  </view>
+</view>

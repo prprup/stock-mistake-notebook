@@ -1,0 +1,99 @@
+<!-- 股票打赏排行榜页面 -->
+<view class="container">
+  <!-- 我的统计 -->
+  <view class="my-stats" wx:if="{{myStats}}">
+    <view class="stat-row">
+      <view class="stat-item">
+        <text class="stat-value">{{myStats.totalDonated}}</text>
+        <text class="stat-label">累计打赏</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{myStats.stockCount}}</text>
+        <text class="stat-label">打赏股票</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value text-small">{{myStats.topStockName}}</text>
+        <text class="stat-label">最爱股票</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="my-stats empty" wx:else
+003e
+    <text class="empty-text">还没有打赏记录</text>
+    <view class="donate-btn-small" bindtap="goToDonate">去打赏</view>
+  </view>
+
+  <!-- 周期筛选 -->
+  <view class="period-tabs">
+    <view
+      class="tab-item {{period === item.key ? 'active' : ''}}"
+      wx:for="{{periods}}"
+      wx:key="key"
+      bindtap="switchPeriod"
+      data-period="{{item.key}}"
+    >
+      {{item.name}}
+    </view>
+  </view>
+
+  <!-- 排行榜列表 -->
+  <view class="ranking-list">
+    <view
+      class="rank-item {{item.isMyDonation ? 'my-donation' : ''}} {{getRankStyle(item.rank)}}"
+      wx:for="{{ranking}}"
+      wx:key="stockCode"
+    >
+      <!-- 排名 -->
+      <view class="rank-num">
+        <block wx:if="{{item.rank <= 3}}">
+          <text class="rank-icon">{{item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : '🥉'}}</text>
+        </block>
+        <block wx:else>
+          <text>{{item.rank}}</text>
+        </block>
+      </view>
+      
+      <!-- 股票信息 -->
+      <view class="stock-info">
+        <text class="stock-name">{{item.stockName}}</text>
+        <text class="stock-code">{{item.stockCode}}</text>
+      </view>
+      
+      <!-- 打赏信息 -->
+      <view class="donation-info">
+        <text class="donation-points">{{item.totalPoints}}积分</text>
+        <text class="donor-count">{{item.donorCount}}人打赏</text>
+      </view>
+      
+      <!-- 我的标识 -->
+      <view class="my-badge" wx:if="{{item.isMyDonation}}">我的</view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-more" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="no-more" wx:if="{{!hasMore && ranking.length > 0}}">
+    <text>没有更多了</text>
+  </view>
+
+  <view class="empty-state" wx:if="{{!loading && ranking.length === 0}}">
+    <text class="empty-icon">🏆</text>
+    <text class="empty-text">暂无排行榜数据</text>
+    <text class="empty-sub">成为第一个打赏的人吧~</text>
+    <view class="donate-btn" bindtap="goToDonate">去打赏</view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="footer" wx:if="{{ranking.length > 0}}">
+    <view class="footer-btn" bindtap="goToDonate">
+      <text>💰 去打赏</text>
+    </view>
+    <view class="footer-btn secondary" bindtap="goToMyDonations">
+      <text>📜 我的打赏</text>
+    </view>
+  </view>
+</view>

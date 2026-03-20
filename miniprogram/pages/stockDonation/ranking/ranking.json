@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "打赏排行榜",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {}
+}

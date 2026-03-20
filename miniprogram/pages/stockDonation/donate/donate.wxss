@@ -1,0 +1,264 @@
+/* 股票打赏页面样式 */
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+/* 头部 */
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.points-display {
+  display: flex;
+  flex-direction: column;
+}
+
+.points-label {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 10rpx;
+}
+
+.points-value {
+  font-size: 56rpx;
+  font-weight: bold;
+  color: #fff;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 20rpx;
+}
+
+.nav-btn {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 20rpx 30rpx;
+  border-radius: 16rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav-icon {
+  font-size: 40rpx;
+  margin-bottom: 8rpx;
+}
+
+.nav-text {
+  font-size: 24rpx;
+  color: #fff;
+}
+
+/* 搜索区域 */
+.search-section {
+  padding: 30rpx;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 40rpx;
+  padding: 20rpx 30rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333;
+}
+
+.search-icon {
+  font-size: 36rpx;
+  margin-left: 20rpx;
+}
+
+.search-results {
+  margin-top: 20rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+  max-height: 400rpx;
+  overflow-y: auto;
+}
+
+.stock-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.stock-item:last-child {
+  border-bottom: none;
+}
+
+.stock-code {
+  font-size: 28rpx;
+  color: #667eea;
+  font-weight: bold;
+  width: 140rpx;
+}
+
+.stock-name {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.search-loading {
+  text-align: center;
+  padding: 30rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 选中的股票 */
+.selected-stock {
+  margin: 20rpx 30rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20rpx;
+  padding: 40rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stock-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-stock .stock-name {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 10rpx;
+}
+
+.selected-stock .stock-code {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.clear-btn {
+  width: 60rpx;
+  height: 60rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 32rpx;
+}
+
+/* 打赏区域 */
+.donation-section {
+  padding: 30rpx;
+  background: #fff;
+  margin: 0 30rpx 30rpx;
+  border-radius: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+}
+
+.quick-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.amount-item {
+  padding: 20rpx 40rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  color: #333;
+  border: 2rpx solid transparent;
+}
+
+.amount-item.active {
+  background: #667eea;
+  color: #fff;
+  border-color: #667eea;
+}
+
+.custom-amount {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-top: 1rpx solid #f0f0f0;
+  margin-bottom: 30rpx;
+}
+
+.amount-label {
+  font-size: 30rpx;
+  color: #666;
+}
+
+.amount-input {
+  flex: 1;
+  margin-left: 20rpx;
+  padding: 16rpx 24rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+}
+
+.message-input {
+  width: 100%;
+  padding: 20rpx 24rpx;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  box-sizing: border-box;
+  margin-bottom: 40rpx;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  text-align: center;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.submit-btn.disabled {
+  background: #ccc;
+}
+
+/* 提示 */
+.tips {
+  padding: 60rpx 40rpx;
+}
+
+.tip-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.tip-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+}
+
+.tip-text {
+  font-size: 28rpx;
+  color: #666;
+}

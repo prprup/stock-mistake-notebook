@@ -1,0 +1,9 @@
+{
+  "name": "getUserDonations",
+  "version": "1.0.0",
+  "description": "获取用户打赏记录",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

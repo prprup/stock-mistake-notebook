@@ -10,7 +10,8 @@ Page({
       { id: 'mistake', name: '录入错题', desc: '每记录1条错题', points: 10, icon: '📝', status: 'ongoing' },
       { id: 'ad', name: '观看广告', desc: '完整观看激励视频', points: 20, icon: '🎬', status: 'available' },
       { id: 'checkin', name: '每日签到', desc: '连续签到7天额外奖励', points: 5, icon: '📅', status: 'available' }
-    ]
+    ],
+    loading: false
   },
 
   onLoad() {
@@ -21,53 +22,125 @@ Page({
     this.loadPointsData()
   },
 
+  // 加载积分数据
   async loadPointsData() {
-    // 模拟数据，实际从云数据库获取
-    const today = new Date()
-    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+    this.setData({ loading: true })
     
-    this.setData({
-      points: 1250,
-      totalPoints: 1580,
-      checkInStreak: 3,
-      hasCheckedIn: false, // 今天是否已签到
-      pointsRecords: [
-        { type: 'mistake', desc: '录入错题奖励', points: 10, time: '10:30' },
-        { type: 'checkin', desc: '每日签到', points: 5, time: '昨天' },
-        { type: 'ad', desc: '观看广告奖励', points: 20, time: '昨天' },
-        { type: 'mistake', desc: '录入错题奖励', points: 10, time: '前天' }
-      ]
+    try {
+      // 并行获取积分信息和积分记录
+      const [pointsRes, recordsRes] = await Promise.all([
+        this.getPointsInfo(),
+        this.getPointsRecords()
+      ])
+
+      if (pointsRes.code === 0) {
+        const data = pointsRes.data
+        
+        // 检查今天是否已签到
+        let hasCheckedIn = false
+        if (data.lastCheckIn) {
+          const lastCheckIn = new Date(data.lastCheckIn)
+          const today = new Date()
+          hasCheckedIn = lastCheckIn.toDateString() === today.toDateString()
+        }
+
+        this.setData({
+          points: data.points || 0,
+          totalPoints: data.totalPoints || 0,
+          checkInStreak: data.checkInStreak || 0,
+          hasCheckedIn: hasCheckedIn
+        })
+      }
+
+      if (recordsRes.code === 0) {
+        this.setData({
+          pointsRecords: recordsRes.data.list || []
+        })
+      }
+    } catch (err) {
+      console.error('加载积分数据失败:', err)
+      wx.showToast({ title: '加载失败', icon: 'none' })
+    } finally {
+      this.setData({ loading: false })
+    }
+  },
+
+  // 获取用户积分信息
+  getPointsInfo() {
+    return new Promise((resolve, reject) => {
+      wx.cloud.callFunction({
+        name: 'getPoints',
+        success: (res) => {
+          resolve(res.result)
+        },
+        fail: (err) => {
+          reject(err)
+        }
+      })
+    })
+  },
+
+  // 获取积分记录
+  getPointsRecords() {
+    return new Promise((resolve, reject) => {
+      wx.cloud.callFunction({
+        name: 'getPointsRecords',
+        data: { page: 1, pageSize: 20 },
+        success: (res) => {
+          resolve(res.result)
+        },
+        fail: (err) => {
+          reject(err)
+        }
+      })
     })
   },
 
   // 签到
-  checkIn() {
+  async checkIn() {
     if (this.data.hasCheckedIn) {
       wx.showToast({ title: '今日已签到', icon: 'none' })
       return
     }
 
     wx.showLoading({ title: '签到中...' })
-    
-    // TODO: 调用云函数进行签到
-    setTimeout(() => {
-      const newStreak = this.data.checkInStreak + 1
-      const bonusPoints = newStreak % 7 === 0 ? 10 : 0 // 连续7天额外奖励
-      const totalAdd = 5 + bonusPoints
 
-      this.setData({
-        points: this.data.points + totalAdd,
-        totalPoints: this.data.totalPoints + totalAdd,
-        checkInStreak: newStreak,
-        hasCheckedIn: true
+    try {
+      const res = await new Promise((resolve, reject) => {
+        wx.cloud.callFunction({
+          name: 'checkIn',
+          success: (res) => resolve(res.result),
+          fail: reject
+        })
       })
 
       wx.hideLoading()
-      wx.showToast({ 
-        title: bonusPoints > 0 ? `签到成功！连续${newStreak}天，额外+${bonusPoints}` : '签到成功 +5',
-        icon: 'none'
-      })
-    }, 500)
+
+      if (res.code === 0) {
+        const data = res.data
+        this.setData({
+          points: data.points,
+          totalPoints: data.totalPoints,
+          checkInStreak: data.checkInStreak,
+          hasCheckedIn: true
+        })
+
+        // 刷新积分记录
+        this.loadPointsData()
+
+        wx.showToast({
+          title: res.message,
+          icon: 'none',
+          duration: 2000
+        })
+      } else {
+        wx.showToast({ title: res.message, icon: 'none' })
+      }
+    } catch (err) {
+      wx.hideLoading()
+      console.error('签到失败:', err)
+      wx.showToast({ title: '签到失败', icon: 'none' })
+    }
   },
 
   // 观看广告
@@ -87,10 +160,10 @@ Page({
         wx.showToast({ title: '广告加载失败', icon: 'none' })
       })
 
-      rewardedVideoAd.onClose((res) => {
+      rewardedVideoAd.onClose(async (res) => {
         if (res && res.isEnded) {
           // 完整观看，发放奖励
-          this.addPoints(20, 'ad', '观看广告奖励')
+          await this.addPoints(20, 'ad', '观看广告奖励')
         } else {
           wx.showToast({ title: '需要完整观看才能获得奖励', icon: 'none' })
         }
@@ -105,19 +178,39 @@ Page({
   },
 
   // 增加积分
-  addPoints(points, type, desc) {
-    // TODO: 调用云函数增加积分
-    this.setData({
-      points: this.data.points + points,
-      totalPoints: this.data.totalPoints + points
-    })
-    
-    const newRecord = { type, desc, points, time: '刚刚' }
-    this.setData({
-      pointsRecords: [newRecord, ...this.data.pointsRecords]
-    })
+  async addPoints(points, type, desc) {
+    wx.showLoading({ title: '发放奖励...' })
 
-    wx.showToast({ title: `+${points}积分`, icon: 'success' })
+    try {
+      const res = await new Promise((resolve, reject) => {
+        wx.cloud.callFunction({
+          name: 'addPoints',
+          data: { points, type, description: desc },
+          success: (res) => resolve(res.result),
+          fail: reject
+        })
+      })
+
+      wx.hideLoading()
+
+      if (res.code === 0) {
+        this.setData({
+          points: res.data.points,
+          totalPoints: res.data.totalPoints
+        })
+
+        // 刷新积分记录
+        this.loadPointsData()
+
+        wx.showToast({ title: res.message, icon: 'success' })
+      } else {
+        wx.showToast({ title: res.message, icon: 'none' })
+      }
+    } catch (err) {
+      wx.hideLoading()
+      console.error('增加积分失败:', err)
+      wx.showToast({ title: '奖励发放失败', icon: 'none' })
+    }
   },
 
   // 查看积分明细
@@ -130,8 +223,8 @@ Page({
   // 做任务
   doTask(e) {
     const taskId = e.currentTarget.dataset.id
-    
-    switch(taskId) {
+
+    switch (taskId) {
       case 'mistake':
         wx.switchTab({
           url: '/pages/record/record'
@@ -144,5 +237,12 @@ Page({
         this.checkIn()
         break
     }
+  },
+
+  // 下拉刷新
+  onPullDownRefresh() {
+    this.loadPointsData().then(() => {
+      wx.stopPullDownRefresh()
+    })
   }
 })

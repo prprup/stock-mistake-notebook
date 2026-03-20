@@ -10,7 +10,10 @@
     "pages/square/square",
     "pages/square/detail/detail",
     "pages/profile/profile",
-    "pages/points/points"
+    "pages/points/points",
+    "pages/stockDonation/donate/donate",
+    "pages/stockDonation/ranking/ranking",
+    "pages/stockDonation/myDonations/myDonations"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,0 +1,9 @@
+{
+  "name": "addPoints",
+  "version": "1.0.0",
+  "description": "增加积分",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}
