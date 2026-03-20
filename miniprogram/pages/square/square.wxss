@@ -122,23 +122,11 @@
 }
 
 .card-footer {
-  display: flex;
-  gap: 40rpx;
   padding-top: 20rpx;
   border-top: 1rpx solid #f0f0f0;
 }
 
-.action {
-  display: flex;
-  align-items: center;
-  gap: 8rpx;
-}
-
-.action .icon {
-  font-size: 32rpx;
-}
-
-.action .count {
+.share-hint {
   font-size: 24rpx;
   color: #999;
 }

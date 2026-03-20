@@ -90,30 +90,6 @@ Page({
     this.loadMistakes()
   },
 
-  async likeMistake(e) {
-    const id = e.currentTarget.dataset.id
-    const mistakes = this.data.mistakes.map(item => {
-      if (item._id === id) {
-        return {
-          ...item,
-          isLiked: !item.isLiked,
-          likes: item.isLiked ? item.likes - 1 : item.likes + 1
-        }
-      }
-      return item
-    })
-    this.setData({ mistakes })
-
-    // TODO: 调用云函数更新点赞数
-  },
-
-  goToDetail(e) {
-    const id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: `/pages/square/detail/detail?id=${id}`
-    })
-  },
-
   loadMore() {
     this.loadMistakes()
   },
