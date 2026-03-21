@@ -1,0 +1,9 @@
+{
+  "name": "getStockRanking",
+  "version": "1.0.0",
+  "description": "获取股票打赏排行榜",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

@@ -71,6 +71,58 @@
       </view>
     </view>
 
+    <!-- 功能列表 - 积分与互动组 -->
+    <view class="menu-section">
+      <view class="section-title-wrap">
+        <view class="section-accent"></view>
+        <text class="menu-section-title">积分与互动</text>
+      </view>
+      <view class="menu-list">
+        <view class="menu-item" @click="goToPoints">
+          <view class="menu-icon-wrap">
+            <text class="menu-icon gray">💰</text>
+          </view>
+          <text class="menu-text">积分中心</text>
+          <view class="menu-badge" v-if="userPoints > 0">
+            <text class="badge-text">{{userPoints}}</text>
+          </view>
+          <text class="arrow">›</text>
+        </view>
+
+        <view class="menu-item" @click="goToSquare">
+          <view class="menu-icon-wrap">
+            <text class="menu-icon gray">🌍</text>
+          </view>
+          <text class="menu-text">错题广场</text>
+          <text class="arrow">›</text>
+        </view>
+
+        <view class="menu-item" @click="goToDonate">
+          <view class="menu-icon-wrap">
+            <text class="menu-icon gray">💝</text>
+          </view>
+          <text class="menu-text">股票打赏</text>
+          <text class="arrow">›</text>
+        </view>
+
+        <view class="menu-item" @click="goToRanking">
+          <view class="menu-icon-wrap">
+            <text class="menu-icon gray">🏆</text>
+          </view>
+          <text class="menu-text">打赏排行榜</text>
+          <text class="arrow">›</text>
+        </view>
+
+        <view class="menu-item" @click="goToMyDonations">
+          <view class="menu-icon-wrap">
+            <text class="menu-icon gray">📋</text>
+          </view>
+          <text class="menu-text">我的打赏</text>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+    </view>
+
     <!-- 功能列表 - 系统设置组 -->
     <view class="menu-section">
       <view class="section-title-wrap">
@@ -117,16 +169,19 @@ export default {
       stats: {
         mistakes: 0,
         streak: 0
-      }
+      },
+      userPoints: 0
     }
   },
   onLoad() {
     this.checkLoginStatus()
     this.loadUserData()
+    this.loadUserPoints()
   },
   onShow() {
     this.checkLoginStatus()
     this.loadUserData()
+    this.loadUserPoints()
   },
   methods: {
     checkLoginStatus() {
@@ -233,6 +288,32 @@ export default {
         content: 'A股投资者的错题本，记录错误，避免重复犯错。',
         showCancel: false
       })
+    },
+    async loadUserPoints() {
+      try {
+        const { getPoints } = await import('@/utils/pointsApi.js')
+        const res = await getPoints()
+        if (res.code === 0) {
+          this.userPoints = res.data.points || 0
+        }
+      } catch (err) {
+        // 积分功能不可用时静默失败
+      }
+    },
+    goToPoints() {
+      uni.navigateTo({ url: '/pages/points/index' })
+    },
+    goToSquare() {
+      uni.navigateTo({ url: '/pages/square/square' })
+    },
+    goToDonate() {
+      uni.navigateTo({ url: '/pages/stockDonation/donate/donate' })
+    },
+    goToRanking() {
+      uni.navigateTo({ url: '/pages/stockDonation/ranking/ranking' })
+    },
+    goToMyDonations() {
+      uni.navigateTo({ url: '/pages/stockDonation/myDonations/myDonations' })
     }
   }
 }
@@ -461,6 +542,19 @@ export default {
   font-size: 32rpx; 
   color: #D1D5DB;
   font-weight: 300;
+}
+
+/* 积分徽章 */
+.menu-badge {
+  background: #e94560;
+  border-radius: 20rpx;
+  padding: 2rpx 14rpx;
+  margin-right: 12rpx;
+}
+.badge-text {
+  font-size: 22rpx;
+  color: #fff;
+  font-weight: 500;
 }
 
 /* 版本信息 */

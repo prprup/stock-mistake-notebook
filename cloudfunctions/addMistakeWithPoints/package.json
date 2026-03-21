@@ -1,0 +1,9 @@
+{
+  "name": "addMistakeWithPoints",
+  "version": "1.0.0",
+  "description": "录入错题并增加积分",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

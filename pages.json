@@ -77,6 +77,52 @@
       "style": {
         "navigationBarTitleText": "我的"
       }
+    },
+    {
+      "path": "pages/points/index",
+      "style": {
+        "navigationBarTitleText": "积分中心"
+      }
+    },
+    {
+      "path": "pages/points/records/records",
+      "style": {
+        "navigationBarTitleText": "积分明细",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/stockDonation/donate/donate",
+      "style": {
+        "navigationBarTitleText": "股票打赏"
+      }
+    },
+    {
+      "path": "pages/stockDonation/ranking/ranking",
+      "style": {
+        "navigationBarTitleText": "打赏排行榜",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/stockDonation/myDonations/myDonations",
+      "style": {
+        "navigationBarTitleText": "我的打赏",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/square/square",
+      "style": {
+        "navigationBarTitleText": "错题广场",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/record/ocr/ocr",
+      "style": {
+        "navigationBarTitleText": "截图识别"
+      }
     }
   ],
   "globalStyle": {

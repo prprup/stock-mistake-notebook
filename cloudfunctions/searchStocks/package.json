@@ -1,0 +1,10 @@
+{
+  "name": "searchStocks",
+  "version": "1.0.0",
+  "description": "搜索A股股票(调用Tushare)",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest",
+    "axios": "^1.6.0"
+  }
+}
