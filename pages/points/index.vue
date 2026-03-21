@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { getPoints, checkIn as checkInApi, getPointsRecords } from '@/utils/pointsApi.js'
+import { getPoints, checkIn as checkInApi, getPointsRecords, addPoints } from '@/utils/pointsApi.js'
 
 export default {
   data() {
@@ -187,7 +187,6 @@ export default {
     async claimPoints(points, type, desc) {
       uni.showLoading({ title: '发放奖励...' })
       try {
-        const { addPoints } = await import('@/utils/pointsApi.js')
         const res = await addPoints(points, type, desc)
         uni.hideLoading()
 

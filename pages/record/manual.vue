@@ -133,6 +133,28 @@ export default {
       this.action = options.action || 'buy'
       this.price = options.planPrice || ''
     }
+
+    // 从 OCR 识别跳转过来的预填充
+    if (options.ocrData) {
+      try {
+        const ocrData = JSON.parse(decodeURIComponent(options.ocrData))
+        if (ocrData.stockName) {
+          this.selectedStock = {
+            name: ocrData.stockName,
+            tsCode: ocrData.stockCode || '',
+            symbol: ''
+          }
+          this.stockSearchKey = ocrData.stockName
+        }
+        if (ocrData.direction) {
+          this.action = ocrData.direction
+        }
+        if (ocrData.price) this.price = String(ocrData.price)
+        if (ocrData.quantity) this.quantity = String(ocrData.quantity)
+      } catch (e) {
+        console.error('解析OCR数据失败:', e)
+      }
+    }
   },
   onUnload() {
     // 清除搜索定时器，防止内存泄漏

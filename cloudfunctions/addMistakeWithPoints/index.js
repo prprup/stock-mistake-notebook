@@ -19,11 +19,14 @@ exports.main = async (event, context) => {
     price, 
     quantity, 
     amount,
+    lossAmount,
     tradeDate,
+    date,
     mistakeTypes,
     emotion,
     reflection,
-    screenshot
+    screenshot,
+    planId
   } = event
   
   const wxContext = cloud.getWXContext()
