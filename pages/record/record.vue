@@ -25,7 +25,8 @@
         <text class="arrow">›</text>
       </view>
 
-      <view class="option-card" @click="goToOcr">
+      <!-- 截图识别功能待 OCR 云函数实现后开放 -->
+      <!-- <view class="option-card" @click="goToOcr">
         <view class="option-icon-wrap ocr-icon">
           <text class="option-icon">📸</text>
         </view>
@@ -34,7 +35,7 @@
           <view class="option-desc">上传交割单截图，自动识别录入</view>
         </view>
         <text class="arrow">›</text>
-      </view>
+      </view> -->
     </view>
   </view>
 </template>
