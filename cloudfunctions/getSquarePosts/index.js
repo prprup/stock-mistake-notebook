@@ -16,7 +16,7 @@ const _ = db.command
 exports.main = async (event, context) => {
   const { page = 1, pageSize = 20, filter = 'all' } = event
   const wxContext = cloud.getWXContext()
-  const openid = wxContext.OPENID
+  const openid = wxContext.OPENID || ''
 
   try {
     let query = db.collection('mistakes').where({
@@ -52,9 +52,14 @@ exports.main = async (event, context) => {
       .limit(pageSize)
       .get()
 
-    // 获取本周热错统计
+    // 获取本周热错统计（使用北京时间）
     const now = new Date()
-    const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay())
+    const utcOffset = 8 * 60
+    const beijingTime = new Date(now.getTime() + (utcOffset + now.getTimezoneOffset()) * 60000)
+    const dayOfWeek = beijingTime.getDay() || 7
+    const weekStart = new Date(beijingTime)
+    weekStart.setDate(beijingTime.getDate() - dayOfWeek + 1)
+    weekStart.setHours(0, 0, 0, 0)
     const weekMistakes = await db.collection('mistakes')
       .where({
         isPublic: true,

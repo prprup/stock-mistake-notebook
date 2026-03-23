@@ -42,24 +42,50 @@ export default {
   data() {
     return {
       currentFilter: 'all',
-      mistakes: []
+      mistakes: [],
+      page: 1,
+      pageSize: 20,
+      hasMore: true,
+      loading: false
     }
   },
   onLoad() {
     this.loadMistakes()
   },
   onShow() {
+    this.page = 1
+    this.hasMore = true
     this.loadMistakes()
+  },
+  onPullDownRefresh() {
+    this.page = 1
+    this.hasMore = true
+    this.loadMistakes().then(() => {
+      uni.stopPullDownRefresh()
+    })
+  },
+  onReachBottom() {
+    if (this.hasMore && !this.loading) {
+      this.loadMistakes()
+    }
   },
   methods: {
     async loadMistakes(params = {}) {
+      if (this.loading) return
+      this.loading = true
+
+      const isFirstPage = this.page === 1
+      if (isFirstPage) {
+        this.mistakes = []
+      }
+
       uni.showLoading({ title: '加载中...' })
-      const res = await getMistakes(params)
+      const res = await getMistakes({ ...params, page: this.page, pageSize: this.pageSize })
       uni.hideLoading()
 
       if (res.success) {
         const list = res.data.list || res.data || []
-        this.mistakes = list.map(item => ({
+        const newItems = list.map(item => ({
           _id: item._id,
           stockName: item.stockName,
           stockCode: item.stockCode,
@@ -70,12 +96,26 @@ export default {
           mistakeTypes: item.mistakeTypes || [],
           reflection: item.reflection || ''
         }))
+
+        if (isFirstPage) {
+          this.mistakes = newItems
+        } else {
+          this.mistakes = [...this.mistakes, ...newItems]
+        }
+
+        this.hasMore = newItems.length >= this.pageSize
+        if (newItems.length > 0) {
+          this.page++
+        }
       } else {
         uni.showToast({ title: res.error || '加载失败', icon: 'none' })
       }
+      this.loading = false
     },
     setFilter(filter) {
       this.currentFilter = filter
+      this.page = 1
+      this.hasMore = true
       const params = this.getDateParams(filter)
       this.loadMistakes(params)
     },

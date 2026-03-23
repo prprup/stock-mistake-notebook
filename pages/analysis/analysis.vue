@@ -39,7 +39,10 @@
     <!-- 错误趋势 -->
     <view class="section">
       <view class="section-title">错误趋势（近6个月）</view>
-      <view class="chart-placeholder">
+      <view class="chart-placeholder" v-if="stats.totalMistakes === 0">
+        <text>暂无数据，记录错题后查看趋势</text>
+      </view>
+      <view class="chart-placeholder" v-else>
         <text>图表区域（需接入图表库）</text>
       </view>
     </view>

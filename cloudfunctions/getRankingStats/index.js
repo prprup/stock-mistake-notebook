@@ -7,13 +7,15 @@ exports.main = async (event, context) => {
   const _ = db.command
 
   try {
-    // 获取本周的起始时间（周一）
+    // 获取本周的起始时间（周一），使用北京时间
     const now = new Date()
-    const dayOfWeek = now.getDay() || 7 // 周日是0，转为7
-    const weekStart = new Date(now)
-    weekStart.setDate(now.getDate() - dayOfWeek + 1)
+    const utcOffset = 8 * 60 // 北京时间 UTC+8
+    const beijingTime = new Date(now.getTime() + (utcOffset + now.getTimezoneOffset()) * 60000)
+    const dayOfWeek = beijingTime.getDay() || 7 // 周日是0，转为7
+    const weekStart = new Date(beijingTime)
+    weekStart.setDate(beijingTime.getDate() - dayOfWeek + 1)
     weekStart.setHours(0, 0, 0, 0)
-    
+
     // 本周结束时间（周日23:59:59）
     const weekEnd = new Date(weekStart)
     weekEnd.setDate(weekStart.getDate() + 6)

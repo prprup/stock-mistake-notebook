@@ -51,14 +51,18 @@ exports.main = async (event, context) => {
       docId = userData._id
     }
 
-    // 检查今天是否已签到
+    // 检查今天是否已签到（使用北京时间）
     const now = new Date()
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    
+    const utcOffset = 8 * 60 // 北京时间 UTC+8
+    const beijingTime = new Date(now.getTime() + (utcOffset + now.getTimezoneOffset()) * 60000)
+    const today = new Date(beijingTime.getFullYear(), beijingTime.getMonth(), beijingTime.getDate())
+
     if (userData.lastCheckIn) {
       const lastCheckIn = new Date(userData.lastCheckIn)
-      const lastCheckInDate = new Date(lastCheckIn.getFullYear(), lastCheckIn.getMonth(), lastCheckIn.getDate())
-      
+      // 将 lastCheckIn 也转换为北京时间再比较日期
+      const lastBeijingTime = new Date(lastCheckIn.getTime() + (utcOffset + lastCheckIn.getTimezoneOffset()) * 60000)
+      const lastCheckInDate = new Date(lastBeijingTime.getFullYear(), lastBeijingTime.getMonth(), lastBeijingTime.getDate())
+
       if (lastCheckInDate.getTime() === today.getTime()) {
         return {
           code: -1,
@@ -73,9 +77,10 @@ exports.main = async (event, context) => {
 
     if (userData.lastCheckIn) {
       const lastCheckIn = new Date(userData.lastCheckIn)
-      const lastCheckInDate = new Date(lastCheckIn.getFullYear(), lastCheckIn.getMonth(), lastCheckIn.getDate())
+      const lastBeijingTime = new Date(lastCheckIn.getTime() + (utcOffset + lastCheckIn.getTimezoneOffset()) * 60000)
+      const lastCheckInDate = new Date(lastBeijingTime.getFullYear(), lastBeijingTime.getMonth(), lastBeijingTime.getDate())
       const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000)
-      
+
       if (lastCheckInDate.getTime() === yesterday.getTime()) {
         // 连续签到
         newStreak = userData.checkInStreak + 1

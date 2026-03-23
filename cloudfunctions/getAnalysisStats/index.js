@@ -14,9 +14,11 @@ exports.main = async (event, context) => {
       .count()
     const totalMistakes = totalResult.total
 
-    // 2. 获取本月错题数
+    // 2. 获取本月错题数（使用北京时间）
     const now = new Date()
-    const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1)
+    const utcOffset = 8 * 60
+    const beijingTime = new Date(now.getTime() + (utcOffset + now.getTimezoneOffset()) * 60000)
+    const thisMonthStart = new Date(beijingTime.getFullYear(), beijingTime.getMonth(), 1)
     const thisMonthResult = await db.collection('mistakes')
       .where({
         _openid: OPENID,
@@ -26,8 +28,8 @@ exports.main = async (event, context) => {
     const thisMonth = thisMonthResult.total
 
     // 3. 计算改进率（本月 vs 上月）
-    const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-    const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0)
+    const lastMonthStart = new Date(beijingTime.getFullYear(), beijingTime.getMonth() - 1, 1)
+    const lastMonthEnd = new Date(beijingTime.getFullYear(), beijingTime.getMonth(), 0)
     const lastMonthResult = await db.collection('mistakes')
       .where({
         _openid: OPENID,

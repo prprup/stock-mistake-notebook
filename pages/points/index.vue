@@ -116,8 +116,12 @@ export default {
           let hasCheckedIn = false
           if (data.lastCheckIn) {
             const lastCheckIn = new Date(data.lastCheckIn)
-            const today = new Date()
-            hasCheckedIn = lastCheckIn.toDateString() === today.toDateString()
+            // 使用北京时间判断是否今日已签到
+            const utcOffset = 8 * 60
+            const now = new Date()
+            const beijingNow = new Date(now.getTime() + (utcOffset + now.getTimezoneOffset()) * 60000)
+            const beijingLast = new Date(lastCheckIn.getTime() + (utcOffset + lastCheckIn.getTimezoneOffset()) * 60000)
+            hasCheckedIn = beijingLast.toDateString() === beijingNow.toDateString()
           }
           this.points = data.points || 0
           this.totalPoints = data.totalPoints || 0

@@ -8,7 +8,9 @@ exports.main = async (event, context) => {
 
   try {
     const now = new Date()
-    const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1)
+    const utcOffset = 8 * 60 // 北京时间 UTC+8
+    const beijingTime = new Date(now.getTime() + (utcOffset + now.getTimezoneOffset()) * 60000)
+    const thisMonthStart = new Date(beijingTime.getFullYear(), beijingTime.getMonth(), 1)
 
     // 1. 本月错题数
     const monthResult = await db.collection('mistakes')
@@ -92,20 +94,27 @@ async function calculateStreak(db, openid) {
       return 0
     }
 
+    // 使用北京时间
+    const utcOffset = 8 * 60
+    const toBeijingDateStr = (date) => {
+      const d = new Date(date.getTime() + (utcOffset + date.getTimezoneOffset()) * 60000)
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+    }
+
     // 提取有记录的日期（去重）
     const recordDates = new Set()
     mistakes.forEach(item => {
       const date = new Date(item.date || item.createTime)
-      const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
-      recordDates.add(dateStr)
+      recordDates.add(toBeijingDateStr(date))
     })
 
     // 计算连续天数
-    const today = new Date()
+    const now = new Date()
+    const beijingNow = new Date(now.getTime() + (utcOffset + now.getTimezoneOffset()) * 60000)
     let streak = 0
-    let checkDate = new Date(today)
+    let checkDate = new Date(beijingNow)
 
-    const todayStr = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`
+    const todayStr = toBeijingDateStr(checkDate)
 
     // 如果今天没有记录，从昨天开始算
     if (!recordDates.has(todayStr)) {

@@ -50,96 +50,106 @@ exports.main = async (event, context) => {
   }
 
   try {
-    // 1. 检查用户积分是否足够
-    let userPoints = await db.collection('user_points').where({
-      _openid: openid
-    }).get()
+    // 1. 使用事务确保积分扣除的原子性，防止并发透支
+    const transaction = await db.startTransaction()
 
-    if (userPoints.data.length === 0) {
-      return {
-        code: -1,
-        message: '积分不足'
+    try {
+      // 事务内再次检查积分余额
+      let userPoints = await transaction.collection('user_points').where({
+        _openid: openid
+      }).get()
+
+      if (userPoints.data.length === 0) {
+        await transaction.rollback()
+        return {
+          code: -1,
+          message: '积分不足'
+        }
       }
-    }
 
-    const userData = userPoints.data[0]
-    if (userData.points < points) {
-      return {
-        code: -1,
-        message: `积分不足，当前${userData.points}积分，需要${points}积分`
+      const userData = userPoints.data[0]
+      if (userData.points < points) {
+        await transaction.rollback()
+        return {
+          code: -1,
+          message: `积分不足，当前${userData.points}积分，需要${points}积分`
+        }
       }
-    }
 
-    // 2. 扣除用户积分
-    await db.collection('user_points').doc(userData._id).update({
-      data: {
-        points: _.inc(-points),
-        updateTime: db.serverDate()
-      }
-    })
-
-    // 3. 记录打赏
-    const donationResult = await db.collection('stock_donations').add({
-      data: {
-        _openid: openid,
-        stockCode: stockCode,
-        stockName: stockName,
-        points: points,
-        message: message,
-        createTime: db.serverDate()
-      }
-    })
-
-    // 4. 更新股票打赏统计
-    const statsResult = await db.collection('stock_donation_stats').where({
-      stockCode: stockCode
-    }).get()
-
-    if (statsResult.data.length === 0) {
-      // 创建新的统计记录
-      await db.collection('stock_donation_stats').add({
+      // 2. 事务内扣除用户积分
+      await transaction.collection('user_points').doc(userData._id).update({
         data: {
+          points: _.inc(-points),
+          updateTime: db.serverDate()
+        }
+      })
+
+      // 3. 事务内记录打赏
+      const donationResult = await transaction.collection('stock_donations').add({
+        data: {
+          _openid: openid,
           stockCode: stockCode,
           stockName: stockName,
-          totalPoints: points,
-          donorCount: 1,
-          createTime: db.serverDate(),
-          updateTime: db.serverDate()
+          points: points,
+          message: message,
+          createTime: db.serverDate()
         }
       })
-    } else {
-      // 更新统计记录
-      const statsDoc = statsResult.data[0]
-      await db.collection('stock_donation_stats').doc(statsDoc._id).update({
+
+      // 4. 事务内更新股票打赏统计
+      const statsResult = await transaction.collection('stock_donation_stats').where({
+        stockCode: stockCode
+      }).get()
+
+      if (statsResult.data.length === 0) {
+        await transaction.collection('stock_donation_stats').add({
+          data: {
+            stockCode: stockCode,
+            stockName: stockName,
+            totalPoints: points,
+            donorCount: 1,
+            createTime: db.serverDate(),
+            updateTime: db.serverDate()
+          }
+        })
+      } else {
+        const statsDoc = statsResult.data[0]
+        await transaction.collection('stock_donation_stats').doc(statsDoc._id).update({
+          data: {
+            totalPoints: _.inc(points),
+            updateTime: db.serverDate()
+          }
+        })
+      }
+
+      // 5. 事务内添加积分消费记录
+      await transaction.collection('points_records').add({
         data: {
-          totalPoints: _.inc(points),
-          updateTime: db.serverDate()
+          _openid: openid,
+          type: 'donate',
+          points: -points,
+          description: `打赏 ${stockName}(${stockCode})`,
+          relatedId: donationResult._id,
+          createTime: db.serverDate()
         }
       })
-    }
 
-    // 5. 添加积分消费记录
-    await db.collection('points_records').add({
-      data: {
-        _openid: openid,
-        type: 'donate',
-        points: -points,
-        description: `打赏 ${stockName}(${stockCode})`,
-        relatedId: donationResult._id,
-        createTime: db.serverDate()
-      }
-    })
+      await transaction.commit()
 
-    return {
-      code: 0,
-      message: '打赏成功',
-      data: {
-        donationId: donationResult._id,
-        stockCode: stockCode,
-        stockName: stockName,
-        points: points,
-        remainingPoints: userData.points - points
+      return {
+        code: 0,
+        message: '打赏成功',
+        data: {
+          donationId: donationResult._id,
+          stockCode: stockCode,
+          stockName: stockName,
+          points: points,
+          remainingPoints: userData.points - points
+        }
       }
+    } catch (txErr) {
+      await transaction.rollback()
+      throw txErr
     }
   } catch (err) {
     console.error('打赏失败:', err)
