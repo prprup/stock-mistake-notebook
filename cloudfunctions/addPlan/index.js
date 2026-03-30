@@ -158,7 +158,7 @@ exports.main = async (event, context) => {
       data: {
         _openid: OPENID,
         stockName: String(stockName).trim(),
-        stockCode: String(stockCode).trim(),
+        stockCode: String(stockCode).trim().toUpperCase(),
         action: action === 'sell' ? 'sell' : 'buy',
         date: planDate,
         targetPrice: validatedNumbers.targetPrice,

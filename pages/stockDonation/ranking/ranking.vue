@@ -22,7 +22,7 @@
         </view>
         <view class="rank-right">
           <text class="rank-points">{{item.totalPoints}}</text>
-          <text class="rank-count">{{item.donateCount}}次打赏</text>
+          <text class="rank-count">{{item.donorCount || item.donateCount || 0}}次打赏</text>
         </view>
       </view>
     </view>

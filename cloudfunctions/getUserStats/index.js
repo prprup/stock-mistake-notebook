@@ -15,14 +15,6 @@ exports.main = async (event, context) => {
       })
       .count()
     
-    // 获取公开分享的错题数量
-    const publicCount = await db.collection('mistakes')
-      .where({
-        _openid: OPENID,
-        isPublic: true
-      })
-      .count()
-    
     // 获取用户信息
     const { data: userData } = await db.collection('users')
       .where({
@@ -45,7 +37,6 @@ exports.main = async (event, context) => {
         },
         stats: {
           mistakes: mistakeCount.total || 0,
-          public: publicCount.total || 0,
           streak: streak  // 连续打卡天数
         }
       }

@@ -55,6 +55,25 @@
           <text class="meta-value">{{formatTime(plan.executeTime)}}</text>
         </view>
       </view>
+
+      <view class="linked-mistake" v-if="plan.linkedMistake">
+        <view class="section-title">关联错题</view>
+        <view class="content-row">
+          <text class="row-label">错误类型</text>
+          <text class="row-value">{{(plan.linkedMistake.mistakeTypes || []).join('、') || '未填写'}}</text>
+        </view>
+        <view class="content-row" v-if="plan.linkedMistake.emotion">
+          <text class="row-label">当时情绪</text>
+          <text class="row-value">{{plan.linkedMistake.emotion}}</text>
+        </view>
+        <view class="content-row" v-if="plan.linkedMistake.reflection">
+          <text class="row-label">反思</text>
+          <text class="row-value linked-reflection">{{plan.linkedMistake.reflection}}</text>
+        </view>
+        <view class="linked-actions">
+          <view class="linked-btn" @click="goToMistake(plan.linkedMistake._id)">查看关联错题</view>
+        </view>
+      </view>
     </view>
 
     <view class="action-bar" v-if="plan && plan.status === 'pending'">
@@ -125,6 +144,10 @@ export default {
     },
     editPlan() {
       uni.navigateTo({ url: `/pages/plan/edit?id=${this.planId}` })
+    },
+    goToMistake(id) {
+      if (!id) return
+      uni.navigateTo({ url: `/pages/mistakes/detail?id=${id}` })
     },
     cancelPlan() {
       uni.showModal({
@@ -243,6 +266,32 @@ export default {
 .meta-item { display: flex; justify-content: space-between; padding: 12rpx 0; }
 .meta-label { font-size: 26rpx; color: #9CA3AF; }
 .meta-value { font-size: 26rpx; color: #6B7280; }
+.linked-mistake {
+  background: #F8FAFC;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-top: 28rpx;
+  border: 1rpx solid #E5E7EB;
+}
+.linked-reflection {
+  max-width: 70%;
+  text-align: right;
+  line-height: 1.6;
+}
+.linked-actions {
+  margin-top: 24rpx;
+}
+.linked-btn {
+  height: 76rpx;
+  border-radius: 38rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #EFF6FF;
+  color: #1E3A8A;
+  font-size: 28rpx;
+  font-weight: 500;
+}
 .action-bar { 
   position: fixed; 
   bottom: 0; 

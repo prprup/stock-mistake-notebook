@@ -71,6 +71,8 @@ exports.main = async (event, context) => {
 
       return {
         ...item,
+        desc: item.description || '',
+        time: timeStr,
         formattedTime: timeStr
       }
     })

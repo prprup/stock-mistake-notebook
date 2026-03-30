@@ -1,4 +1,5 @@
 // 积分相关 API
+import { AD_REWARD_POINTS } from './adConfig.js'
 
 // 获取用户积分信息
 export const getPoints = async () => {
@@ -24,12 +25,62 @@ export const checkIn = async () => {
   }
 }
 
-// 增加积分
-export const addPoints = async (points, type, description) => {
+// 增加积分（通用）
+export const addPoints = async (points, type, description, extra = {}) => {
   try {
     const { result } = await uniCloud.callFunction({
       name: 'addPoints',
-      data: { points, type, description }
+      data: { points, type, description, ...extra }
+    })
+    return result
+  } catch (err) {
+    return { code: -1, message: err.message }
+  }
+}
+
+// 申请广告奖励票据
+export const prepareAdRewardTicket = async (extra = {}) => {
+  try {
+    const { result } = await uniCloud.callFunction({
+      name: 'adRewardTicket',
+      data: {
+        action: 'prepare',
+        ...extra
+      }
+    })
+    return result
+  } catch (err) {
+    return { code: -1, message: err.message }
+  }
+}
+
+// 取消广告奖励票据
+export const cancelAdRewardTicket = async (extra = {}) => {
+  try {
+    const { result } = await uniCloud.callFunction({
+      name: 'adRewardTicket',
+      data: {
+        action: 'cancel',
+        ...extra
+      }
+    })
+    return result
+  } catch (err) {
+    return { code: -1, message: err.message }
+  }
+}
+
+// 领取广告奖励
+export const claimAdReward = async (extra = {}) => {
+  try {
+    const { result } = await uniCloud.callFunction({
+      name: 'addPoints',
+      data: {
+        type: 'ad',
+        points: AD_REWARD_POINTS,
+        description: '观看广告奖励',
+        ...extra
+      }
     })
     return result
   } catch (err) {
@@ -50,15 +101,3 @@ export const getPointsRecords = async (params = {}) => {
   }
 }
 
-// 录入错题并加积分
-export const addMistakeWithPoints = async (data) => {
-  try {
-    const { result } = await uniCloud.callFunction({
-      name: 'addMistakeWithPoints',
-      data
-    })
-    return result
-  } catch (err) {
-    return { code: -1, message: err.message }
-  }
-}

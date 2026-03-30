@@ -14,7 +14,8 @@ const ALLOWED_FIELDS = [
   'triggerCondition',
   'reason',
   'status',
-  'mistakeId'
+  'mistakeId',
+  'executeTime'
 ]
 
 exports.main = async (event, context) => {

@@ -30,6 +30,9 @@
         </view>
 
         <view class="reflection" v-if="item.reflection">{{item.reflection}}</view>
+        <view class="card-actions">
+          <view class="action-btn kline" @click.stop="goToKline(item)">K线复盘</view>
+        </view>
       </view>
     </view>
   </view>
@@ -42,6 +45,7 @@ export default {
   data() {
     return {
       currentFilter: 'all',
+      currentFilterParams: {},
       mistakes: [],
       page: 1,
       pageSize: 20,
@@ -50,23 +54,26 @@ export default {
     }
   },
   onLoad() {
-    this.loadMistakes()
+    this.currentFilterParams = this.getDateParams(this.currentFilter)
+    this.loadMistakes(this.currentFilterParams)
   },
   onShow() {
     this.page = 1
     this.hasMore = true
-    this.loadMistakes()
+    this.currentFilterParams = this.getDateParams(this.currentFilter)
+    this.loadMistakes(this.currentFilterParams)
   },
   onPullDownRefresh() {
     this.page = 1
     this.hasMore = true
-    this.loadMistakes().then(() => {
+    this.currentFilterParams = this.getDateParams(this.currentFilter)
+    this.loadMistakes(this.currentFilterParams).then(() => {
       uni.stopPullDownRefresh()
     })
   },
   onReachBottom() {
     if (this.hasMore && !this.loading) {
-      this.loadMistakes()
+      this.loadMistakes(this.currentFilterParams)
     }
   },
   methods: {
@@ -89,7 +96,8 @@ export default {
           _id: item._id,
           stockName: item.stockName,
           stockCode: item.stockCode,
-          tradeDate: item.date || item.createTime,
+          tsCode: item.stockCode,
+          tradeDate: item.tradeDate || item.date || item.createTime,
           action: item.action || 'buy',
           price: item.price || 0,
           quantity: item.quantity || 0,
@@ -116,8 +124,8 @@ export default {
       this.currentFilter = filter
       this.page = 1
       this.hasMore = true
-      const params = this.getDateParams(filter)
-      this.loadMistakes(params)
+      this.currentFilterParams = this.getDateParams(filter)
+      this.loadMistakes(this.currentFilterParams)
     },
     getDateParams(filter) {
       const now = new Date()
@@ -147,6 +155,14 @@ export default {
     },
     goToDetail(id) {
       uni.navigateTo({ url: `/pages/mistakes/detail?id=${id}` })
+    },
+    goToKline(item) {
+      if (!item || !item.stockCode) return
+      const params = new URLSearchParams()
+      params.append('code', item.stockCode)
+      params.append('tsCode', item.tsCode || item.stockCode)
+      params.append('name', item.stockName || '')
+      uni.navigateTo({ url: `/pages/analysis/kline?${params.toString()}` })
     }
   }
 }
@@ -206,4 +222,13 @@ export default {
   font-weight: 500;
 }
 .reflection { font-size: 26rpx; color: #6B7280; line-height: 1.5; }
+.card-actions { margin-top: 20rpx; display: flex; justify-content: flex-end; }
+.action-btn.kline {
+  padding: 14rpx 24rpx;
+  background: #EFF6FF;
+  color: #1E3A8A;
+  border-radius: 28rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+}
 </style>

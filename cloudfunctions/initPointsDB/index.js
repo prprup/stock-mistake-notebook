@@ -15,6 +15,8 @@ exports.main = async (event, context) => {
     const collections = [
       'user_points',           // 用户积分表
       'points_records',        // 积分变动记录
+      'ad_reward_logs',        // 广告奖励领取记录
+      'ad_reward_tickets',     // 广告奖励票据
       'mistakes',              // 错题记录
       'stock_donations',       // 股票打赏记录
       'stock_donation_stats',  // 股票打赏统计

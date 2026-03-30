@@ -133,28 +133,6 @@ export default {
       this.action = options.action || 'buy'
       this.price = options.planPrice || ''
     }
-
-    // 从 OCR 识别跳转过来的预填充
-    if (options.ocrData) {
-      try {
-        const ocrData = JSON.parse(decodeURIComponent(options.ocrData))
-        if (ocrData.stockName) {
-          this.selectedStock = {
-            name: ocrData.stockName,
-            tsCode: ocrData.stockCode || '',
-            symbol: ''
-          }
-          this.stockSearchKey = ocrData.stockName
-        }
-        if (ocrData.direction) {
-          this.action = ocrData.direction
-        }
-        if (ocrData.price) this.price = String(ocrData.price)
-        if (ocrData.quantity) this.quantity = String(ocrData.quantity)
-      } catch (e) {
-        console.error('解析OCR数据失败:', e)
-      }
-    }
   },
   onUnload() {
     // 清除搜索定时器，防止内存泄漏
@@ -242,15 +220,8 @@ export default {
       uni.hideLoading()
       
       if (result.success) {
-        // 如果来自预案，更新预案状态为已执行
-        if (this.planId) {
-          const { updatePlan } = require('@/utils/planApi.js')
-          await updatePlan(this.planId, { 
-            status: 'executed',
-            mistakeId: result.data._id
-          })
-        }
-        uni.showToast({ title: '记录成功', icon: 'success' })
+        const pointsAdded = result.data?.pointsAdded || 0
+        uni.showToast({ title: pointsAdded > 0 ? `记录成功 +${pointsAdded}积分` : '记录成功', icon: 'success' })
         setTimeout(() => uni.navigateBack(), 1500)
       } else {
         uni.showToast({ title: result.error || '保存失败', icon: 'none' })

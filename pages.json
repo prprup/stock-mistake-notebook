@@ -111,19 +111,6 @@
         "enablePullDownRefresh": true
       }
     },
-    {
-      "path": "pages/square/square",
-      "style": {
-        "navigationBarTitleText": "错题广场",
-        "enablePullDownRefresh": true
-      }
-    },
-    {
-      "path": "pages/record/ocr/ocr",
-      "style": {
-        "navigationBarTitleText": "截图识别"
-      }
-    }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "white",

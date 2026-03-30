@@ -24,18 +24,6 @@
         </view>
         <text class="arrow">›</text>
       </view>
-
-      <!-- 截图识别功能待 OCR 云函数实现后开放 -->
-      <!-- <view class="option-card" @click="goToOcr">
-        <view class="option-icon-wrap ocr-icon">
-          <text class="option-icon">📸</text>
-        </view>
-        <view class="option-content">
-          <view class="option-title">截图识别</view>
-          <view class="option-desc">上传交割单截图，自动识别录入</view>
-        </view>
-        <text class="arrow">›</text>
-      </view> -->
     </view>
   </view>
 </template>
@@ -48,9 +36,6 @@ export default {
     },
     goToPlan() {
       uni.navigateTo({ url: '/pages/plan/plan' })
-    },
-    goToOcr() {
-      uni.navigateTo({ url: '/pages/record/ocr/ocr' })
     }
   }
 }
@@ -90,9 +75,6 @@ export default {
   align-items: center;
   justify-content: center;
   margin-right: 24rpx;
-}
-.ocr-icon {
-  background: linear-gradient(135deg, #e94560, #c73e54);
 }
 .option-icon { 
   font-size: 36rpx; 

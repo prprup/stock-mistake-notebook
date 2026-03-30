@@ -44,9 +44,29 @@
         <view class="section-title">反思</view>
         <view class="reflection-text">{{mistake.reflection}}</view>
       </view>
+
+      <view class="section" v-if="mistake.linkedPlan">
+        <view class="section-title">关联预案</view>
+        <view class="trade-row">
+          <text class="label">预案股票</text>
+          <text class="value">{{mistake.linkedPlan.stockName}} {{mistake.linkedPlan.stockCode}}</text>
+        </view>
+        <view class="trade-row">
+          <text class="label">预案状态</text>
+          <text class="value">{{mistake.linkedPlan.status === 'executed' ? '已执行' : (mistake.linkedPlan.status === 'pending' ? '待执行' : '已取消')}}</text>
+        </view>
+        <view class="trade-row" v-if="mistake.linkedPlan.targetPrice">
+          <text class="label">预案目标价</text>
+          <text class="value">￥{{mistake.linkedPlan.targetPrice}}</text>
+        </view>
+        <view class="linked-actions">
+          <button class="btn-plan" @click="goToPlan(mistake.linkedPlan._id)">查看关联预案</button>
+        </view>
+      </view>
     </view>
 
     <view class="actions">
+      <button class="btn-kline" @click="goToKline">K线复盘</button>
       <button class="btn-edit" @click="editMistake">编辑</button>
       <button class="btn-delete" @click="deleteMistake">删除</button>
     </view>
@@ -85,7 +105,8 @@ export default {
           quantity: data.quantity || 0,
           mistakeTypes: data.mistakeTypes || [],
           emotion: data.emotion || '',
-          reflection: data.reflection || ''
+          reflection: data.reflection || '',
+          linkedPlan: data.linkedPlan || null
         }
       } else {
         uni.showToast({ title: res.error || '加载失败', icon: 'none' })
@@ -93,6 +114,18 @@ export default {
     },
     editMistake() {
       uni.navigateTo({ url: `/pages/mistakes/edit?id=${this.mistakeId}` })
+    },
+    goToPlan(id) {
+      if (!id) return
+      uni.navigateTo({ url: `/pages/plan/detail?id=${id}` })
+    },
+    goToKline() {
+      if (!this.mistake.stockCode) return
+      const params = new URLSearchParams()
+      params.append('code', this.mistake.stockCode)
+      params.append('tsCode', this.mistake.stockCode)
+      params.append('name', this.mistake.stockName || '')
+      uni.navigateTo({ url: `/pages/analysis/kline?${params.toString()}` })
     },
     async deleteMistake() {
       uni.showModal({
@@ -176,8 +209,19 @@ export default {
   border-radius: 12rpx; 
 }
 .reflection-text { font-size: 30rpx; color: #374151; line-height: 1.8; }
+.linked-actions { margin-top: 24rpx; }
+.btn-plan {
+  width: 100%;
+  height: 84rpx;
+  border-radius: 42rpx;
+  background: #EFF6FF;
+  color: #1E3A8A;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+}
 .actions { display: flex; gap: 24rpx; margin-top: 40rpx; }
-.btn-edit, .btn-delete { 
+.btn-kline, .btn-edit, .btn-delete { 
   flex: 1; 
   height: 96rpx; 
   border-radius: 48rpx; 
@@ -187,6 +231,7 @@ export default {
   justify-content: center;
   font-weight: 500;
 }
+.btn-kline { background: #EFF6FF; color: #1E3A8A; }
 .btn-edit { background: #F3F4F6; color: #374151; }
 .btn-delete { background: #FEE2E2; color: #DC2626; }
 </style>

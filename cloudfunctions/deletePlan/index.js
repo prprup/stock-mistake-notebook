@@ -11,19 +11,27 @@ exports.main = async (event, context) => {
   
   try {
     const db = cloud.database()
-    
-    // 检查权限
-    const plan = await db.collection('plans').doc(id).get()
-    if (!plan.data) {
-      return { success: false, error: '预案不存在' }
+    const transaction = await db.startTransaction()
+
+    try {
+      const plan = await transaction.collection('plans').doc(id).get()
+      if (!plan.data) {
+        await transaction.rollback()
+        return { success: false, error: '预案不存在' }
+      }
+      if (plan.data._openid !== OPENID) {
+        await transaction.rollback()
+        return { success: false, error: '无权删除' }
+      }
+      
+      await transaction.collection('plans').doc(id).remove()
+      await transaction.commit()
+      
+      return { success: true }
+    } catch (innerErr) {
+      await transaction.rollback()
+      throw innerErr
     }
-    if (plan.data._openid !== OPENID) {
-      return { success: false, error: '无权删除' }
-    }
-    
-    await db.collection('plans').doc(id).remove()
-    
-    return { success: true }
   } catch (err) {
     console.error('Delete plan error:', err)
     return { success: false, error: err.message }

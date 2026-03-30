@@ -64,15 +64,21 @@ exports.main = async (event, context) => {
   const { 
     stockName, 
     stockCode, 
+    action,
     mistakeTypes, 
     emotion, 
     reflection, 
     lossAmount, 
     date,
+    tradeDate,
     price,
     quantity,
+    screenshot,
+    planId,
     images = []
   } = event
+
+  const POINTS_AWARD = 10
   
   // ========== 基础必填校验 ==========
   if (!stockName || !stockName.trim()) {
@@ -146,9 +152,10 @@ exports.main = async (event, context) => {
   }
   
   // ========== 日期校验 ==========
-  let validatedDate = date
-  if (date) {
-    const dateObj = new Date(date)
+  const rawDate = tradeDate || date
+  let validatedDate = rawDate
+  if (rawDate) {
+    const dateObj = new Date(rawDate)
     if (isNaN(dateObj.getTime())) {
       return { success: false, error: '无效的日期格式' }
     }
@@ -165,35 +172,116 @@ exports.main = async (event, context) => {
     const db = cloud.database()
     const now = new Date()
     
-    // 使用数据库事务包裹添加错题和更新用户计数
+    // 使用数据库事务包裹：添加错题 + 更新用户计数 + 发放积分 + 写积分记录
     const transaction = await db.startTransaction()
     
     try {
-      // 添加错题记录
+      const trimmedStockName = stockName.trim()
+      const trimmedStockCode = stockCode.trim()
+      const tradeAction = action && ['buy', 'sell'].includes(action) ? action : 'buy'
+      const normalizedTypes = mistakeTypes.map(t => String(t).trim()).filter(t => t)
+      const screenshotList = screenshot ? [String(screenshot)] : []
+      const imageList = Array.isArray(images) ? images.slice(0, 9) : []
+      const mergedImages = [...imageList, ...screenshotList].slice(0, 9)
+
+      // 1. 添加错题记录
       const result = await transaction.collection('mistakes').add({
         data: {
           _openid: OPENID,
-          stockName: stockName.trim(),
-          stockCode: stockCode.trim(),
-          mistakeTypes: mistakeTypes.map(t => String(t).trim()).filter(t => t),
+          stockName: trimmedStockName,
+          stockCode: trimmedStockCode.toUpperCase(),
+          action: tradeAction,
+          tradeDate: validatedDate || now,
+          date: validatedDate || now,
+          planId: planId || '',
+          mistakeTypes: normalizedTypes,
           emotion: emotion ? String(emotion).trim() : '',
           reflection: reflection ? String(reflection).trim() : '',
           lossAmount: validatedLossAmount,
+          pointsAwarded: POINTS_AWARD,
           ...validatedNumbers,
-          date: validatedDate || now,
-          images: Array.isArray(images) ? images.slice(0, 9) : [], // 最多9张图片
+          images: mergedImages,
           createTime: now,
           updateTime: now
         }
       })
-      
-      // 更新用户错题计数
+
+      // 2. 如果来自预案，自动回写预案执行状态，形成后端闭环
+      if (planId) {
+        try {
+          const planDoc = await transaction.collection('plans').doc(planId).get()
+          if (planDoc.data && planDoc.data._openid === OPENID) {
+            await transaction.collection('plans').doc(planId).update({
+              data: {
+                status: 'executed',
+                mistakeId: result._id,
+                executeTime: planDoc.data.executeTime || now,
+                updateTime: now
+              }
+            })
+          }
+        } catch (e) {
+          // 预案关联失败不阻断主链，避免影响错题录入
+          console.error('Link plan failed:', e)
+        }
+      }
+
+      // 3. 更新用户错题计数
       await transaction.collection('users').where({
         _openid: OPENID
       }).update({
         data: {
           mistakeCount: db.command.inc(1),
           updateTime: now
+        }
+      })
+
+      // 4. 获取或创建用户积分记录
+      let userPoints = await transaction.collection('user_points').where({
+        _openid: OPENID
+      }).get()
+
+      let pointsDocId = ''
+      let currentPoints = 0
+      let currentTotalPoints = 0
+
+      if (userPoints.data.length === 0) {
+        const pointsResult = await transaction.collection('user_points').add({
+          data: {
+            _openid: OPENID,
+            points: 0,
+            totalPoints: 0,
+            checkInStreak: 0,
+            lastCheckIn: null,
+            createTime: now,
+            updateTime: now
+          }
+        })
+        pointsDocId = pointsResult._id
+      } else {
+        pointsDocId = userPoints.data[0]._id
+        currentPoints = userPoints.data[0].points || 0
+        currentTotalPoints = userPoints.data[0].totalPoints || 0
+      }
+
+      // 4. 发放录入错题积分
+      await transaction.collection('user_points').doc(pointsDocId).update({
+        data: {
+          points: db.command.inc(POINTS_AWARD),
+          totalPoints: db.command.inc(POINTS_AWARD),
+          updateTime: now
+        }
+      })
+
+      // 5. 添加积分记录
+      await transaction.collection('points_records').add({
+        data: {
+          _openid: OPENID,
+          type: 'mistake',
+          points: POINTS_AWARD,
+          description: '录入错题奖励',
+          relatedId: result._id,
+          createTime: now
         }
       })
       
@@ -203,7 +291,10 @@ exports.main = async (event, context) => {
       return {
         success: true,
         data: {
-          _id: result._id
+          _id: result._id,
+          pointsAdded: POINTS_AWARD,
+          currentPoints: currentPoints + POINTS_AWARD,
+          totalPoints: currentTotalPoints + POINTS_AWARD
         }
       }
     } catch (err) {

@@ -19,7 +19,6 @@
 - `home.png` / `home-active.png`
 - `book.png` / `book-active.png`
 - `plus.png` / `plus-active.png`
-- `square.png` / `square-active.png`
 - `profile.png` / `profile-active.png`
 
 可以用简单的占位图，或从 iconfont 下载。

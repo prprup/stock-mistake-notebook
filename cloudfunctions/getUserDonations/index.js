@@ -71,6 +71,7 @@ exports.main = async (event, context) => {
         stockName: item.stockName,
         points: item.points,
         message: item.message,
+        time: timeStr,
         formattedTime: timeStr,
         createTime: item.createTime
       }

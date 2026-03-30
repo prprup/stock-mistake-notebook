@@ -83,7 +83,7 @@
     </view>
 
     <view class="footer">
-      <button class="submit-btn" @click="submit">{{isEdit ? '保存修改' : '创建预案'}}</button>
+      <button class="submit-btn" @click="submit" :disabled="isExecutedLocked">{{isEdit ? (isExecutedLocked ? '已执行预案不可修改核心字段' : '保存修改') : '创建预案'}}</button>
     </view>
   </view>
 </template>
@@ -109,7 +109,8 @@ export default {
       position: 0,
       triggerCondition: '',
       reason: '',
-      searchTimer: null
+      searchTimer: null,
+      isExecutedLocked: false
     }
   },
   onLoad(options) {
@@ -141,6 +142,7 @@ export default {
         this.selectedStock = { name: data.stockName, tsCode: data.stockCode, symbol: '' }
         this.stockSearchKey = data.stockName
         this.action = data.action
+        this.isExecutedLocked = data.status === 'executed'
         // 处理日期格式 - 支持 Date 对象或字符串
         if (data.date) {
           const dateObj = new Date(data.date)
@@ -201,6 +203,10 @@ export default {
       this.position = e.detail.value
     },
     async submit() {
+      if (this.isExecutedLocked) {
+        uni.showToast({ title: '已执行预案不可修改核心字段', icon: 'none' })
+        return
+      }
       // 校验股票选择 - 如果修改了搜索框但没有选择，提示用户
       if (!this.selectedStock.tsCode) {
         uni.showToast({ title: '请选择股票', icon: 'none' })

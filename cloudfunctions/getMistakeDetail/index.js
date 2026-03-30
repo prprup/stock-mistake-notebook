@@ -30,9 +30,24 @@ exports.main = async (event, context) => {
       }
     }
     
+    let linkedPlan = null
+    if (data[0].planId) {
+      try {
+        const planResult = await db.collection('plans').doc(data[0].planId).get()
+        if (planResult.data && planResult.data._openid === OPENID) {
+          linkedPlan = planResult.data
+        }
+      } catch (e) {
+        console.error('Load linked plan failed:', e)
+      }
+    }
+
     return {
       success: true,
-      data: data[0]
+      data: {
+        ...data[0],
+        linkedPlan
+      }
     }
   } catch (err) {
     return {

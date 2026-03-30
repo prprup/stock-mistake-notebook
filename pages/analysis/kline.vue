@@ -1,8 +1,11 @@
 <template>
   <view class="container">
     <view class="stock-header">
-      <text class="stock-name">{{stockName}}</text>
-      <text class="stock-code">{{stockCode}}</text>
+      <view class="stock-title-wrap">
+        <text class="stock-name">{{stockName}}</text>
+        <text class="stock-code">{{stockCode}}</text>
+      </view>
+      <text class="stock-subtitle">最近90天K线 + 错题挂点复盘</text>
     </view>
     
     <!-- K线图表 -->
@@ -15,6 +18,10 @@
       />
     </view>
     
+    <view class="page-tip">
+      蓝色“错”点表示该交易日有错题记录，下方列表用于快速回看当日反思。
+    </view>
+
     <!-- 错题标记列表 -->
     <view class="mistake-list" v-if="mistakeList.length > 0">
       <view class="section-title">该股票错题记录 ({{mistakeList.length}})</view>
@@ -122,7 +129,7 @@ export default {
       uni.hideLoading()
       
       if (result.success) {
-        this.mistakeList = result.data.klineData.filter(k => k.hasMistake)
+        this.mistakeList = result.data.mistakeList || []
         this.renderChart(result.data.klineData)
       } else {
         uni.showToast({ title: result.error || '加载失败', icon: 'none' })
@@ -143,7 +150,7 @@ export default {
         .map(k => ({
           x: k.index,
           y: k.high,
-          value: '错',
+          value: k.mistakeCount > 1 ? `错${k.mistakeCount}` : '错',
           label: {
             show: true,
             color: '#fff',
@@ -164,7 +171,11 @@ export default {
     
     formatDate(dateStr) {
       if (!dateStr) return ''
+      if (typeof dateStr === 'string' && /^\d{8}$/.test(dateStr)) {
+        return `${dateStr.slice(4, 6)}月${dateStr.slice(6, 8)}日`
+      }
       const d = new Date(dateStr)
+      if (isNaN(d.getTime())) return ''
       return `${d.getMonth() + 1}月${d.getDate()}日`
     },
     
@@ -189,9 +200,12 @@ export default {
 .stock-header {
   background: #1E3A8A;
   padding: 32rpx;
+}
+.stock-title-wrap {
   display: flex;
   align-items: center;
   gap: 20rpx;
+  margin-bottom: 10rpx;
 }
 .stock-name {
   font-size: 40rpx;
@@ -203,6 +217,10 @@ export default {
   color: rgba(255,255,255,0.7);
   font-family: "DIN Alternate", "Roboto Mono", monospace;
 }
+.stock-subtitle {
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.75);
+}
 .chart-container {
   background: #FFFFFF;
   padding: 20rpx;
@@ -210,6 +228,15 @@ export default {
   border-radius: 20rpx;
   height: 600rpx;
   box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.06);
+}
+.page-tip {
+  margin: 0 24rpx 24rpx;
+  padding: 20rpx 24rpx;
+  background: #EFF6FF;
+  color: #1E3A8A;
+  border-radius: 16rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
 }
 .mistake-list {
   padding: 24rpx;

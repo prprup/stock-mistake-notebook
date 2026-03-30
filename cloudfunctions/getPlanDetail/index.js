@@ -22,9 +22,24 @@ exports.main = async (event, context) => {
       return { success: false, error: '无权访问' }
     }
     
+    let mistake = null
+    if (result.data.mistakeId) {
+      try {
+        const mistakeResult = await db.collection('mistakes').doc(result.data.mistakeId).get()
+        if (mistakeResult.data && mistakeResult.data._openid === OPENID) {
+          mistake = mistakeResult.data
+        }
+      } catch (e) {
+        console.error('Load linked mistake failed:', e)
+      }
+    }
+
     return {
       success: true,
-      data: result.data
+      data: {
+        ...result.data,
+        linkedMistake: mistake
+      }
     }
   } catch (err) {
     console.error('Get plan detail error:', err)

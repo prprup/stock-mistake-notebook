@@ -21,16 +21,13 @@
 
 - [x] `pages/index/index.vue` - 首页
 - [x] `pages/record/manual.vue` - 手动录入
-- [x] `pages/square/square.vue` - 错题广场
 
 ### 待转换页面
 
 - [ ] `pages/record/record.vue` - 记录入口
-- [ ] `pages/record/ocr.vue` - OCR识别
 - [ ] `pages/mistakes/mistakes.vue` - 错题列表
 - [ ] `pages/mistakes/detail.vue` - 错题详情
 - [ ] `pages/analysis/analysis.vue` - 统计分析
-- [ ] `pages/square/detail.vue` - 广场详情
 - [ ] `pages/profile/profile.vue` - 个人中心
 
 ## 使用方式

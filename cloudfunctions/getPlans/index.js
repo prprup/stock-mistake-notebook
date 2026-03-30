@@ -42,10 +42,17 @@ exports.main = async (event, context) => {
       .orderBy('createTime', 'desc')
       .limit(limit)
       .get()
+
+    const plans = (result.data || []).map(item => ({
+      ...item,
+      reviewStatus: item.status === 'executed'
+        ? (item.mistakeId ? 'reviewed' : 'executed_only')
+        : item.status
+    }))
     
     return {
       success: true,
-      data: result.data
+      data: plans
     }
   } catch (err) {
     console.error('Get plans error:', err)

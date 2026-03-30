@@ -137,7 +137,7 @@ export default {
 
         if (res.code === 0) {
           uni.showToast({ title: '打赏成功', icon: 'success' })
-          this.userPoints = res.data.points
+          this.userPoints = res.data.remainingPoints ?? res.data.points ?? this.userPoints
           setTimeout(() => {
             uni.navigateBack()
           }, 1500)

@@ -5,7 +5,6 @@
       <view class="filter-item" :class="{ active: typeFilter === '' }" @click="filterByType('')">全部</view>
       <view class="filter-item" :class="{ active: typeFilter === 'checkin' }" @click="filterByType('checkin')">签到</view>
       <view class="filter-item" :class="{ active: typeFilter === 'mistake' }" @click="filterByType('mistake')">录入</view>
-      <view class="filter-item" :class="{ active: typeFilter === 'ad' }" @click="filterByType('ad')">广告</view>
       <view class="filter-item" :class="{ active: typeFilter === 'bonus' }" @click="filterByType('bonus')">奖励</view>
     </view>
 

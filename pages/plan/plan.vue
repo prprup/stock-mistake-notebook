@@ -52,6 +52,12 @@
           <text class="reason-label">理由</text>
           <text class="reason-text">{{item.reason}}</text>
         </view>
+        <view class="relation-tip success" v-if="item.reviewStatus === 'reviewed'">
+          已执行并完成错题复盘，点击卡片可查看详情
+        </view>
+        <view class="relation-tip warn" v-else-if="item.reviewStatus === 'executed_only'">
+          已执行但未关联复盘记录，建议补录错题
+        </view>
         <view class="card-footer" v-if="item.status === 'pending'">
           <view class="btn execute" @click.stop="executePlan(item)">执行</view>
           <view class="btn edit" @click.stop="editPlan(item._id)">编辑</view>
@@ -240,6 +246,20 @@ export default {
 }
 .reason-label { font-size: 24rpx; color: #9CA3AF; margin-bottom: 8rpx; display: block; }
 .reason-text { font-size: 26rpx; color: #374151; line-height: 1.5; }
+.relation-tip {
+  margin-bottom: 20rpx;
+  padding: 18rpx 24rpx;
+  border-radius: 12rpx;
+  font-size: 24rpx;
+}
+.relation-tip.success {
+  background: #ECFDF5;
+  color: #059669;
+}
+.relation-tip.warn {
+  background: #FEF3C7;
+  color: #D97706;
+}
 .card-footer { display: flex; gap: 20rpx; }
 .btn { 
   flex: 1; 

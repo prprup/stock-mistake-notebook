@@ -35,9 +35,10 @@ export const searchStock = async (keyword) => {
 // 获取带错题标记的K线数据
 export const getKlineWithMistakes = async (tsCode, startDate, endDate) => {
   try {
+    const normalizedTsCode = String(tsCode || '').trim().toUpperCase()
     const { result } = await uniCloud.callFunction({
       name: 'getKlineWithMistakes',
-      data: { tsCode, startDate, endDate }
+      data: { tsCode: normalizedTsCode, stockCode: normalizedTsCode, startDate, endDate }
     })
     return result
   } catch (err) {

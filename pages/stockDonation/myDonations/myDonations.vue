@@ -102,7 +102,12 @@ export default {
 
         if (res.code === 0) {
           const data = res.data
-          this.stats = data.stats || {}
+          const rawStats = data.stats || {}
+          this.stats = {
+            totalDonations: rawStats.donationCount || rawStats.totalDonations || 0,
+            totalPoints: rawStats.totalDonated || rawStats.totalPoints || 0,
+            stockCount: rawStats.stockCount || 0
+          }
           const newRecords = this.page === 1 ? data.list : [...this.records, ...data.list]
           this.records = newRecords
           this.hasMore = data.hasMore

@@ -9,6 +9,10 @@ const FIELD_LIMITS = {
   reflection: { max: 500, label: '反思' }
 }
 
+function normalizeTsCode(value = '') {
+  return String(value || '').trim().toUpperCase()
+}
+
 // 数值范围限制
 const NUMBER_LIMITS = {
   price: { min: 0.01, max: 100000, label: '价格' },
@@ -109,7 +113,7 @@ exports.main = async (event, context) => {
       }
       const result = validateStringLength(stockCode, FIELD_LIMITS.stockCode.label, FIELD_LIMITS.stockCode.max)
       if (!result.valid) return { success: false, error: result.error }
-      updateData.stockCode = stockCode.trim()
+      updateData.stockCode = normalizeTsCode(stockCode)
     }
     
     // 错误类型校验
@@ -171,8 +175,9 @@ exports.main = async (event, context) => {
         return { success: false, error: '交易日期不能是未来日期' }
       }
       updateData.date = dateObj
+      updateData.tradeDate = dateObj
     }
-    
+
     // 执行更新
     await db.collection('mistakes').doc(id).update({
       data: {

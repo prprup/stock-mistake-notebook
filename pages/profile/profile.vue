@@ -89,14 +89,6 @@
           <text class="arrow">›</text>
         </view>
 
-        <view class="menu-item" @click="goToSquare">
-          <view class="menu-icon-wrap">
-            <text class="menu-icon gray">🌍</text>
-          </view>
-          <text class="menu-text">错题广场</text>
-          <text class="arrow">›</text>
-        </view>
-
         <view class="menu-item" @click="goToDonate">
           <view class="menu-icon-wrap">
             <text class="menu-icon gray">💝</text>
@@ -302,9 +294,6 @@ export default {
     },
     goToPoints() {
       uni.navigateTo({ url: '/pages/points/index' })
-    },
-    goToSquare() {
-      uni.navigateTo({ url: '/pages/square/square' })
     },
     goToDonate() {
       uni.navigateTo({ url: '/pages/stockDonation/donate/donate' })
