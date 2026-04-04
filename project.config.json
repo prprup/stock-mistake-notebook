@@ -60,8 +60,4 @@
         "tabSize": 4
     },
     "testRoot": "minitest/"
-}orSetting": {
-        "tabIndent": "insertSpaces",
-        "tabSize": 4
-    }
 }
